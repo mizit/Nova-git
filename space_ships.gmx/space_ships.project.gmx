@@ -16,15 +16,26 @@
     <background>background\back_test</background>
   </backgrounds>
   <paths name="paths"/>
+  <scripts name="scripts">
+    <scripts name="net">
+      <script>scripts\buffer_write_size.gml</script>
+    </scripts>
+  </scripts>
   <objects name="objects">
     <object>objects\obj_ship</object>
     <object>objects\obj_gui</object>
     <object>objects\obj_great_ship</object>
     <object>objects\obj_asteroid</object>
+    <object>objects\obj_net</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
   </rooms>
+  <constants number="3">
+    <constant name="NET_GOOD_DAY">1</constant>
+    <constant name="NET_POSITION">2</constant>
+    <constant name="PT_SPACE_SHIP">1</constant>
+  </constants>
   <help>
     <rtf>help.rtf</rtf>
   </help>

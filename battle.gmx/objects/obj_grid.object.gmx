@@ -32,6 +32,7 @@ ds_grid_set_region(ship_grid, 0, 0, grid_size - 1, grid_size - 1, 0);
 active = 1;
 alarm[0] = 1;
 name = "ship_grid";
+my_ship = 0;
 </string>
           </argument>
         </arguments>

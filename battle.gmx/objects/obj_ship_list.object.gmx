@@ -31,6 +31,7 @@ basey = 160;
 shiftx = 1024;
 selector = 0;
 var first = ship_add("ship_grid1");
+first[| SHIP_GRID].my_ship = 1;
 ship_add("ship_grid2");
 ship_add("ship_grid3");
 

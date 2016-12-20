@@ -54,22 +54,26 @@ if (ds_exists(my_grid, ds_type_grid) &amp;&amp; point_in_rectangle(mouse_x, mous
 crnt_grid.x, crnt_grid.y, crnt_grid.x + crnt_grid.cell_size * crnt_grid.grid_size, 
 crnt_grid.y + crnt_grid.cell_size * crnt_grid.grid_size))
 {
-    if (obj_function_list.gadget[| GADGET_TYPE] == GT_WEAPON)
+    if (((obj_function_list.gadget[| GADGET_TYPE] == GT_WEAPON) || (obj_function_list.gadget[| GADGET_TYPE] == GT_RADAR)) &amp;&amp;!(crnt_grid.my_ship)) ||
+    (((obj_function_list.gadget[| GADGET_TYPE] == GT_ARMOR) || (obj_function_list.gadget[| GADGET_TYPE] == GT_JAMMER)) &amp;&amp;(crnt_grid.my_ship))
     {
-        for (var i = 0; i &lt; ds_list_size(obj_function_list.gadget[| GADGET_FUNC]); i++)
+        if (obj_function_list.gadget[| GADGET_TYPE] == GT_WEAPON)
         {
-            var pos = ds_list_find_value(ds_list_find_value(ds_list_find_value(obj_function_list.gadget, 
-            GADGET_FUNC), i), FUNC_POS);
-            pos[| POS_POINT] = noone;
+            for (var i = 0; i &lt; ds_list_size(obj_function_list.gadget[| GADGET_FUNC]); i++)
+            {
+                var pos = ds_list_find_value(ds_list_find_value(ds_list_find_value(obj_function_list.gadget, 
+                GADGET_FUNC), i), FUNC_POS);
+                pos[| POS_POINT] = noone;
+            }
         }
+        var pos = ds_list_find_value(ds_list_find_value(ds_list_find_value(obj_function_list.gadget, 
+        GADGET_FUNC), obj_function_list.selected), FUNC_POS);
+        pos[| POS_POINT] = get_active_grid();
+        var cell_size = pos[| POS_POINT].cell_size;
+        var grid_size = pos[| POS_POINT].grid_size;
+        pos[| POS_X] = min(max(0, floor((mouse_x - pos[| POS_POINT].x) / cell_size)), grid_size - 1);
+        pos[| POS_Y] = min(max(0, floor((mouse_y - pos[| POS_POINT].y) / cell_size)), grid_size - 1);
     }
-    var pos = ds_list_find_value(ds_list_find_value(ds_list_find_value(obj_function_list.gadget, 
-    GADGET_FUNC), obj_function_list.selected), FUNC_POS);
-    pos[| POS_POINT] = get_active_grid();
-    var cell_size = pos[| POS_POINT].cell_size;
-    var grid_size = pos[| POS_POINT].grid_size;
-    pos[| POS_X] = min(max(0, floor((mouse_x - pos[| POS_POINT].x) / cell_size)), grid_size - 1);
-    pos[| POS_Y] = min(max(0, floor((mouse_y - pos[| POS_POINT].y) / cell_size)), grid_size - 1);
 }
 </string>
           </argument>
@@ -102,23 +106,27 @@ crnt_grid.y + crnt_grid.cell_size * crnt_grid.grid_size))
     var crnt_y = min(max(0, floor((mouse_y - crnt_grid.y) / cell_size)), grid_size - 1);
     var grid_w = ds_grid_width(my_grid);
     var grid_h = ds_grid_height(my_grid);
-    draw_set_alpha(0.5);
-    for (var i = 0; i &lt; grid_w; i++)
+    if (((obj_function_list.gadget[| GADGET_TYPE] == GT_WEAPON) || (obj_function_list.gadget[| GADGET_TYPE] == GT_RADAR)) &amp;&amp;!(crnt_grid.my_ship)) ||
+    (((obj_function_list.gadget[| GADGET_TYPE] == GT_ARMOR) || (obj_function_list.gadget[| GADGET_TYPE] == GT_JAMMER)) &amp;&amp;(crnt_grid.my_ship))
     {
-        for (var j = 0; j &lt; grid_h; j++)
+        draw_set_alpha(0.5);
+        for (var i = 0; i &lt; grid_w; i++)
         {
-            if ((crnt_x + i &lt; grid_size) &amp;&amp; (crnt_y + j &lt; grid_size) &amp;&amp; 
-            (crnt_grid.ship_grid[# (crnt_x + i), (crnt_y + j)] &amp; CELL_EXISTS) &amp;&amp;
-            (my_grid[# i, j] &amp; CELL_EXISTS))
+            for (var j = 0; j &lt; grid_h; j++)
             {
-                draw_sprite(my_sprite, -1, crnt_grid.x + (crnt_x + i) * cell_size,
-                crnt_grid.y + (crnt_y + j) * cell_size);
-                draw_sprite(s_crs_sel, -1, crnt_grid.x + (crnt_x + i) * cell_size,
-                crnt_grid.y + (crnt_y + j) * cell_size);
+                if ((crnt_x + i &lt; grid_size) &amp;&amp; (crnt_y + j &lt; grid_size) &amp;&amp; 
+                (crnt_grid.ship_grid[# (crnt_x + i), (crnt_y + j)] &amp; CELL_EXISTS) &amp;&amp;
+                (my_grid[# i, j] &amp; CELL_EXISTS))
+                {
+                    draw_sprite(my_sprite, -1, crnt_grid.x + (crnt_x + i) * cell_size,
+                    crnt_grid.y + (crnt_y + j) * cell_size);
+                    draw_sprite(s_crs_sel, -1, crnt_grid.x + (crnt_x + i) * cell_size,
+                    crnt_grid.y + (crnt_y + j) * cell_size);
+                }
             }
         }
+        draw_set_alpha(1);
     }
-    draw_set_alpha(1);
 }
 </string>
           </argument>
