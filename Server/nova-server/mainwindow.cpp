@@ -2,6 +2,41 @@
 #include "ui_mainwindow.h"
 
 
+QString GetString(char *str, int pos)
+{
+    QString ans = QString("");
+    while (str[pos] != 0)
+    {
+        ans += QString("%1").arg(str[pos]);
+        pos++;
+    }
+    return ans;
+}
+
+qint32 GetInt32(unsigned char *str, int pos)
+{
+    qint32 ans = 0;
+    /*for (int i = 3; i >= 0; i--)
+    {
+        char tmp = 0;
+        if (str[pos + i] >= 0)
+        {
+            tmp = str[pos + i];
+        }
+        else
+        {
+            tmp = ~str[pos + i];
+        }
+        ans = (ans << 8) + tmp;
+    }
+    if (str[pos + 3] < 0)
+    {
+        ans = -ans;
+    }*/
+    ans = (str[pos + 3] << 24) + (str[pos + 2] << 16) + (str[pos + 1] << 8) + str[pos];
+    return ans;
+}
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -16,26 +51,91 @@ MainWindow::MainWindow(QWidget *parent) :
     server->listen(QHostAddress::Any, 63258);  
 
     //table_model = new QAbstractTableModel;
-    MyTableModel *table_model = new MyTableModel();
+    table_model = new MyTableModel();
     ui->tableView->setModel(table_model);
-    table_model->add_ship(Ship());
 
+    connect(ui->buttonUsrCrt, SIGNAL(clicked()), this, SLOT(UserCreate()));
 
+    QSettings sett("users.ini", QSettings::IniFormat);
+    int num = 0;
+    sett.beginGroup("General");
+    num = sett.value("NUM", 0).toInt();
+    sett.endGroup();
+    for (int i = 0; i < num; i++)
+    {
+        CShip *ship;
+        ship = new CShip();
+        sett.beginGroup("General");
+        ship->login = sett.value(QString("User%1").arg(i)).toString();
+        sett.endGroup();
+        sett.beginGroup(ship->login);
+        ship->password = sett.value("password").toString();
+        sett.endGroup();
+        table_model->add_ship(ship);
+        ui->combo_userpos->addItem(ship->login);
+    }
+    timer_update = new QTimer();
+    connect(timer_update, SIGNAL(timeout()), this, SLOT(DataUpdate()));
+    timer_update->start(500);
+}
+
+void MainWindow::UserCreate()
+{
+    int num = 0;
+    QSettings sett("users.ini", QSettings::IniFormat);
+    sett.beginGroup("General");
+    num = sett.value("NUM", 0).toInt();
+    for (int i = 0; i < num; i++)
+    {
+        if (ui->editLogin->text() == sett.value(QString("User%1").arg(i)))
+        {
+            return;
+        }
+    }
+    sett.setValue(QString("User%1").arg(num), ui->editLogin->text());
+    num++;
+    sett.setValue("NUM", num);
+    sett.endGroup();
+    sett.beginGroup(ui->editLogin->text());
+    sett.setValue("Password", ui->editPass->text());
+    sett.endGroup();
+    CShip *ship;
+    ship = new CShip();
+    ship->login = ui->editLogin->text();
+    ship->password = ui->editPass->text();
+    table_model->add_ship(ship);
 }
 
 void MainWindow::newUser()
 {
-    QTcpSocket* clientSocket;
-    clientSocket = server->nextPendingConnection();
+    MySocket* clientSocket;
+    clientSocket = (MySocket*)(server->nextPendingConnection());
     int idusersocs = clientSocket->socketDescriptor();
-    SClients[idusersocs]=clientSocket;
+    SClients[idusersocs] = clientSocket;
     connect(clientSocket, SIGNAL(readyRead()), this, SLOT(slotReadClient()));
 
 }
 
+void MainWindow::DataUpdate()
+{
+    QString name = ui->combo_userpos->currentText();
+    for (int i = 0; i < SHIPS.size(); i++)
+    {
+        if (SHIPS[i]->login == name)
+        {
+            ui->edit_x->setText(QString("%1").arg(SHIPS[i]->shell->pos->pos->rx()));
+            ui->edit_y->setText(QString("%1").arg(SHIPS[i]->shell->pos->pos->ry()));
+            ui->edit_ia->setText(QString("%1").arg(SHIPS[i]->shell->pos->image_angle));
+            ui->edit_dir->setText(QString("%1").arg(SHIPS[i]->shell->pos->direction));
+            ui->edit_speed->setText(QString("%1").arg(SHIPS[i]->shell->pos->speed));
+            ui->edit_rspeed->setText(QString("%1").arg(SHIPS[i]->shell->pos->rot_speed));
+        }
+    }
+}
+
 void MainWindow::slotReadClient()
 {
-    QTcpSocket* clientSocket = (QTcpSocket*)sender();
+    MySocket* clientSocket = (MySocket*)sender();
     char *data;
     char tmp_len[2];
     int len;
@@ -44,12 +144,70 @@ void MainWindow::slotReadClient()
     len = (tmp_len[1] << 8) + tmp_len[0];
     data = new char[len];
     net_data.readRawData(data, len);
-    //LogAddString(RawDataToString(data, len));
+    LogAddString(RawDataToString(data, len));
     switch (data[0])
     {
         case NET_GOOD_DAY:
-
-        break;
+        {
+            int member_type = data[1];
+            QString login = GetString(data, 2);
+            QString password = GetString(data, 3 + login.length());
+            for (int i = 0; i < SHIPS.size(); i++)
+            {
+                if (SHIPS[i]->login == login)
+                {
+                    if (SHIPS[i]->password == password)
+                    {
+                        int idusersoc = SClients.key(clientSocket, -1);
+                        if (idusersoc >= 0)
+                        {
+                            if (*(SHIPS[i]->sockets[member_type]) == -1)
+                            {
+                                table_model->StartChange();
+                                *(SHIPS[i]->sockets[member_type]) = idusersoc;
+                                table_model->EndChange();
+                                clientSocket->parentShip = SHIPS[i];
+                                clientSocket->pt_type = PT_PILOT;
+                                net_send_gd_answer(clientSocket, YES);
+                            }
+                            else
+                            {
+                                net_send_gd_answer(clientSocket, BUSY);
+                            }
+                        }
+                        else
+                        {
+                            net_send_gd_answer(clientSocket, ERROR);
+                        }
+                    }
+                    else
+                    {
+                        LogAddString(SHIPS[i]->password);
+                        LogAddString(password);
+                        net_send_gd_answer(clientSocket, NO);
+                    }
+                    break;
+                }
+                net_send_gd_answer(clientSocket, ERROR);
+            }
+            break;
+        }
+        case NET_POSITION:
+        {
+            qint32 x = GetInt32((unsigned char*)data, 1);
+            qint32 y = GetInt32((unsigned char*)data, 5);
+            qint32 image_angle = GetInt32((unsigned char*)data, 9);
+            qint32 speed = GetInt32((unsigned char*)data, 13);
+            qint32 rot_speed = GetInt32((unsigned char*)data, 17);
+            qint32 direction = GetInt32((unsigned char*)data, 21);
+            clientSocket->parentShip->shell->pos->pos->setX(x);
+            clientSocket->parentShip->shell->pos->pos->setY(y);
+            clientSocket->parentShip->shell->pos->image_angle = image_angle;
+            clientSocket->parentShip->shell->pos->speed = speed;
+            clientSocket->parentShip->shell->pos->rot_speed = rot_speed;
+            clientSocket->parentShip->shell->pos->direction = direction;
+            break;
+        }
     }
 }
 

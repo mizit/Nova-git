@@ -2,9 +2,9 @@
 <object>
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
-  <persistent>0</persistent>
+  <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
@@ -26,43 +26,9 @@
           <argument>
             <kind>1</kind>
             <string>ip=get_string("Айпи: ","127.0.0.1");
-Socket = network_create_socket( network_socket_tcp );
-isConnected = network_connect_raw( Socket , ip , 63258 );
-Buffer = buffer_create( 1024 , buffer_fixed , 1 );
-global.myid=0;
-alarm[0]=2;
-Result=0;
-login = "Hello,";
-password = " world!";
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="2" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>buffer_seek(Buffer, buffer_seek_start, 2 );
-buffer_write(Buffer, buffer_u8, NET_GOOD_DAY );
-buffer_write(Buffer, buffer_u8, PT_SPACE_SHIP);
-buffer_write(Buffer, buffer_string, login);
-buffer_write(Buffer, buffer_string, password);
-buffer_write_size(Buffer);
-Result = network_send_raw( Socket , Buffer , buffer_tell( Buffer ) );
+socket = network_create_socket(network_socket_tcp);
+isConnected = network_connect_raw(socket, ip, 63258);
+net_buf = buffer_create(1024, buffer_fixed, 1);
 </string>
           </argument>
         </arguments>
@@ -118,14 +84,16 @@ Result = network_send_raw( Socket , Buffer , buffer_tell( Buffer ) );
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/*var type_event = ds_map_find_value( async_load , "type" );
-   switch( type_event ) {
-      case network_type_data:
-         var buffer = ds_map_find_value( async_load , "buffer" );
-         buffer_seek( buffer , buffer_seek_start , 0 );
-         ReceivedPacket( buffer );
-      break;
-   }*/
+            <string>var type_event = ds_map_find_value(async_load, "type");
+switch(type_event) 
+{
+    case network_type_data:
+    {
+        var buffer = ds_map_find_value(async_load, "buffer");
+        net_data_parsing(buffer);
+        break;
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -148,8 +116,8 @@ Result = network_send_raw( Socket , Buffer , buffer_tell( Buffer ) );
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>network_destroy( Socket );
-buffer_delete( Buffer );
+            <string>network_destroy(socket);
+buffer_delete(net_buf);
 </string>
           </argument>
         </arguments>

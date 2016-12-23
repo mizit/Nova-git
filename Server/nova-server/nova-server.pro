@@ -16,10 +16,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     mytablemodel.cpp \
-    ship.cpp
+    ship.cpp \
+    network.cpp
 
 HEADERS  += mainwindow.h \
     mytablemodel.h \
-    ship.h
+    ship.h \
+    network.h
 
 FORMS    += mainwindow.ui

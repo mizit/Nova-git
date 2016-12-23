@@ -24,17 +24,13 @@ QVariant MyTableModel::data(const QModelIndex &index, int role) const
         //QString unswer = QString("row = ") + QString::number(index.row()) + "  col = " + QString::number(index.column());
         // строкой выше мы формируем ответ. QString::number преобразует число в текст
         QString answer = QString("");
-        Ship ship = ship_list[(int)(index.column() / shipSocketNum)];
-        if (((index.column() % shipSocketNum) == 0) && (index.row() == 0))
-        {
-            answer = ship.login;
-        }
+        CShip *ship = ship_list[(int)(index.row() / shipSocketNum)];
         switch ((index.row() % shipSocketNum))
         {
         case 0:
             if (index.column() == 0)
             {
-                answer = ship.login;
+                answer = ship->login;
             }
             if (index.column() == 1)
             {
@@ -42,7 +38,7 @@ QVariant MyTableModel::data(const QModelIndex &index, int role) const
             }
             if (index.column() == 2)
             {
-                if (ship.pilotSocket >= 0)
+                if (ship->pilotSocket >= 0)
                 {
                     answer = QString("Connect");
                 }
@@ -59,7 +55,7 @@ QVariant MyTableModel::data(const QModelIndex &index, int role) const
             }
             if (index.column() == 2)
             {
-                if (ship.navSocket >= 0)
+                if (ship->navSocket >= 0)
                 {
                     answer = QString("Connect");
                 }
@@ -76,7 +72,7 @@ QVariant MyTableModel::data(const QModelIndex &index, int role) const
             }
             if (index.column() == 2)
             {
-                if (ship.engSocket >= 0)
+                if (ship->engSocket >= 0)
                 {
                     answer = QString("Connect");
                 }
@@ -93,7 +89,7 @@ QVariant MyTableModel::data(const QModelIndex &index, int role) const
             }
             if (index.column() == 2)
             {
-                if (ship.batSocket >= 0)
+                if (ship->batSocket >= 0)
                 {
                     answer = QString("Connect");
                 }
@@ -110,10 +106,21 @@ QVariant MyTableModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void MyTableModel::add_ship(Ship ship)
+void MyTableModel::add_ship(CShip* ship)
 {
     beginResetModel();
     ship_list << ship;
     row_num += shipSocketNum;
+    endResetModel();
+}
+
+
+void MyTableModel::StartChange()
+{
+    beginResetModel();
+}
+
+void MyTableModel::EndChange()
+{
     endResetModel();
 }

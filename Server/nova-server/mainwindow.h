@@ -7,15 +7,11 @@
 #include <QDebug>
 #include <QStandardItem>
 #include <mytablemodel.h>
+#include <QSettings>
+#include <network.h>
+#include <QTimer>
 
-#define NET_GOOD_DAY    1
-#define NET_POSITION    2
-
-#define PT_PILOT        1
-#define PT_NAVIGATION   2
-#define PT_ENGINEERING  3
-#define PT_BATTLE       4
-
+#define SHIPS   table_model->ship_list
 
 namespace Ui {
 class MainWindow;
@@ -34,12 +30,20 @@ public:
 private slots:
     void newUser();
     void slotReadClient();
+    void UserCreate();
+    void DataUpdate();
 
 private:
     Ui::MainWindow *ui;
     QTcpServer *server;
     QMap<int,QTcpSocket *> SClients;
     QStandardItemModel *log_model;
+    MyTableModel *table_model;
+    QTimer *timer_update;
 };
+
+QString GetString(char *, int pos);
+qint32 GetInt32(unsigned char *str, int pos);
+
 
 #endif // MAINWINDOW_H
