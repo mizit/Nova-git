@@ -42,8 +42,6 @@ private:
     QTimer *timer_update;
 };
 
-QString GetString(char *, int pos);
-qint32 GetInt32(unsigned char *str, int pos);
 
 
 #endif // MAINWINDOW_H

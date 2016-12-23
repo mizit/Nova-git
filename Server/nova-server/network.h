@@ -32,8 +32,12 @@ public:
     MySocket();
 };
 
+QString GetString(char *, int pos);
+qint32 GetInt32(unsigned char *str, int pos);
+qint32 SetToRawData(unsigned char *str, int pos, qint32 data);
+qint32 SetToRawData(unsigned char *str, int pos, QString data);
+
 void net_send_gd_answer(QTcpSocket*, char);
-
-
+void net_send_set_position(QTcpSocket* socket, CShip* ship);
 
 #endif // NETWORK_H

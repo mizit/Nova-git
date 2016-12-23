@@ -31,4 +31,18 @@ switch (l_command)
         }
         break;
     }
+    case NET_POSITION:
+    {
+        var ship_name = buffer_read(l_buf, buffer_string);
+        if (ship_name == login)
+        {
+            obj_ship.x = buffer_read(l_buf, buffer_u32) / 1000;
+            obj_ship.y = buffer_read(l_buf, buffer_u32) / 1000;
+            obj_ship.image_angle = buffer_read(l_buf, buffer_u32) / 1000;
+            obj_ship.speed = buffer_read(l_buf, buffer_u32) / 1000;
+            obj_ship.rot_speed = buffer_read(l_buf, buffer_u32) / 1000;
+            //obj_ship.direction = buffer_read(l_buf, buffer_u32) / 1000;
+        }
+        break;
+    }
 }

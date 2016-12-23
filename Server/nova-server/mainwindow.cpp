@@ -2,41 +2,6 @@
 #include "ui_mainwindow.h"
 
 
-QString GetString(char *str, int pos)
-{
-    QString ans = QString("");
-    while (str[pos] != 0)
-    {
-        ans += QString("%1").arg(str[pos]);
-        pos++;
-    }
-    return ans;
-}
-
-qint32 GetInt32(unsigned char *str, int pos)
-{
-    qint32 ans = 0;
-    /*for (int i = 3; i >= 0; i--)
-    {
-        char tmp = 0;
-        if (str[pos + i] >= 0)
-        {
-            tmp = str[pos + i];
-        }
-        else
-        {
-            tmp = ~str[pos + i];
-        }
-        ans = (ans << 8) + tmp;
-    }
-    if (str[pos + 3] < 0)
-    {
-        ans = -ans;
-    }*/
-    ans = (str[pos + 3] << 24) + (str[pos + 2] << 16) + (str[pos + 1] << 8) + str[pos];
-    return ans;
-}
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -73,7 +38,15 @@ MainWindow::MainWindow(QWidget *parent) :
         sett.endGroup();
         table_model->add_ship(ship);
         ui->combo_userpos->addItem(ship->login);
+        QSettings settPos(QString("save/%1/position.ini").arg(ship->login), QSettings::IniFormat);
+        ship->shell->pos->pos->setX(settPos.value("x").toInt());
+        ship->shell->pos->pos->setY(settPos.value("y").toInt());
+        ship->shell->pos->direction = settPos.value("direction").toInt();
+        ship->shell->pos->image_angle = settPos.value("image_angle").toInt();
+        ship->shell->pos->rot_speed = settPos.value("rot_speed").toInt();
+        ship->shell->pos->speed = settPos.value("speed").toInt();
     }
+
     timer_update = new QTimer();
     connect(timer_update, SIGNAL(timeout()), this, SLOT(DataUpdate()));
     timer_update->start(500);
@@ -169,6 +142,8 @@ void MainWindow::slotReadClient()
                                 clientSocket->parentShip = SHIPS[i];
                                 clientSocket->pt_type = PT_PILOT;
                                 net_send_gd_answer(clientSocket, YES);
+                                for (long int i = 0; i < 100000000; i++);
+                                net_send_set_position(clientSocket, SHIPS[i]);
                             }
                             else
                             {
