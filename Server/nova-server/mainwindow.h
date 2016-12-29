@@ -25,7 +25,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void LogAddString(QString str);
-    QString RawDataToString(char* data, int len);
 
 private slots:
     void newUser();

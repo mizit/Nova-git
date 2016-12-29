@@ -1,48 +1,61 @@
-///net_data_parsing(buffer);
-var l_buf = argument0;
-buffer_seek(l_buf, buffer_seek_start, 0);
-var l_command = buffer_read(l_buf, buffer_u8);
-switch (l_command)
+///net_data_parsing(fifo);
+var l_fifo = argument0;
+var l_rem = noone;
+var l_com_buf = noone;
+var l_len = 0;
+while (ds_queue_size(l_fifo) > 0)
 {
-    case NET_GOOD_DAY:
+    var l_buf = ds_queue_dequeue(l_fifo);
+    buffer_seek(l_buf, buffer_seek_start, 0);
+    while (true)
     {
-        var l_answer = buffer_read(l_buf, buffer_u8);
-        if (l_answer == YES)
+        if (l_rem == noone)
         {
-            if (room == r_authorization)
+            l_len = buffer_read(l_buf, buffer_u16);
+            show_message("length = " + string(l_len));
+            if (l_len <= (buffer_get_size(l_buf) - buffer_tell(l_buf)))
             {
-                room_goto_next();
+                l_com_buf = buffer_create(l_len, buffer_fixed, 1);
+                buffer_seek(l_com_buf, buffer_seek_start, 0);
+                buffer_copy(l_buf, buffer_tell(l_buf), l_len, l_com_buf, 0);
+                net_data_command_parsing(l_com_buf);
+                buffer_seek(l_buf, buffer_seek_relative, l_len);
+                if (buffer_get_size(l_buf) == buffer_tell(l_buf))
+                {
+                    break;
+                }
+            }
+            else
+            {
+                l_rem = l_len - (buffer_get_size(l_buf) - buffer_tell(l_buf));
+                l_com_buf = buffer_create(l_len, buffer_fixed, 1);
+                buffer_seek(l_com_buf, buffer_seek_start, 0);
+                buffer_copy(l_com_buf, 0, l_len - l_rem, l_buf, buffer_tell(l_buf));
+                break;
             }
         }
-        if (l_answer == NO)
+        else
         {
-            show_message("Неверный логин-пароль!");
-            game_restart();
+            show_message("net carry-on");
+            if (l_rem <= (buffer_get_size(l_buf) - buffer_tell(l_buf)))
+            {
+                buffer_copy(l_com_buf, l_len - l_rem, l_rem, l_buf, buffer_tell(l_buf));
+                net_data_command_parsing(l_com_buf);
+                buffer_seek(l_buf, buffer_seek_relative, l_rem);
+                if (buffer_get_size(l_buf) == buffer_tell(l_buf))
+                {
+                    break;
+                }
+            }
+            else
+            {
+                show_message("net strange carry-on");
+                var tmp_rem = l_len - l_rem - (buffer_get_size(l_buf) - buffer_tell(l_buf));
+                buffer_copy(l_com_buf, l_len - l_rem, l_rem - tmp_rem, l_buf, buffer_tell(l_buf));
+                break;
+            }
         }
-        if (l_answer == ERROR)
-        {
-            show_message("Неизвестная ошибка со стороны сервера!");
-            game_restart();
-        }
-        if (l_answer == BUSY)
-        {
-            show_message("Данная позиция занята!");
-            game_restart();
-        }
-        break;
-    }
-    case NET_POSITION:
-    {
-        var ship_name = buffer_read(l_buf, buffer_string);
-        if (ship_name == login)
-        {
-            obj_ship.x = buffer_read(l_buf, buffer_u32) / 1000;
-            obj_ship.y = buffer_read(l_buf, buffer_u32) / 1000;
-            obj_ship.image_angle = buffer_read(l_buf, buffer_u32) / 1000;
-            obj_ship.speed = buffer_read(l_buf, buffer_u32) / 1000;
-            obj_ship.rot_speed = buffer_read(l_buf, buffer_u32) / 1000;
-            //obj_ship.direction = buffer_read(l_buf, buffer_u32) / 1000;
-        }
-        break;
     }
 }
+
+

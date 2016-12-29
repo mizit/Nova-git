@@ -83,6 +83,8 @@ void MainWindow::newUser()
 {
     MySocket* clientSocket;
     clientSocket = (MySocket*)(server->nextPendingConnection());
+    clientSocket->log = ui->log;
+    clientSocket->log_model = log_model;
     int idusersocs = clientSocket->socketDescriptor();
     SClients[idusersocs] = clientSocket;
     connect(clientSocket, SIGNAL(readyRead()), this, SLOT(slotReadClient()));
@@ -142,7 +144,7 @@ void MainWindow::slotReadClient()
                                 clientSocket->parentShip = SHIPS[i];
                                 clientSocket->pt_type = PT_PILOT;
                                 net_send_gd_answer(clientSocket, YES);
-                                for (long int i = 0; i < 100000000; i++);
+                                //for (long int i = 0; i < 100000000; i++);
                                 net_send_set_position(clientSocket, SHIPS[i]);
                             }
                             else
@@ -198,16 +200,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-QString MainWindow::RawDataToString(char* data, int len)
-{
-    QString str;
-    str = QString("NET << ");
-    for (int i = 0; i < len; i++)
-    {
-        str += QString("0x%1 ").arg(int(data[i]), 2, 16, QChar('0'));
-    }
-    return str;
-}
 
 void MainWindow::LogAddString(QString str)
 {

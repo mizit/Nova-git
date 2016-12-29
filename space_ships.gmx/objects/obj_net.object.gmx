@@ -29,6 +29,7 @@
 socket = network_create_socket(network_socket_tcp);
 isConnected = network_connect_raw(socket, ip, 63258);
 net_buf = buffer_create(1024, buffer_fixed, 1);
+fifo = ds_queue_create();
 </string>
           </argument>
         </arguments>
@@ -62,6 +63,7 @@ net_buf = buffer_create(1024, buffer_fixed, 1);
     buffer_write(Buffer , buffer_f32 , obj_ship.y);
     network_send_packet(Socket , Buffer , buffer_tell(Buffer));*/
 //}
+net_data_parsing(fifo);
 </string>
           </argument>
         </arguments>
@@ -89,8 +91,13 @@ switch(type_event)
 {
     case network_type_data:
     {
-        var buffer = ds_map_find_value(async_load, "buffer");
-        net_data_parsing(buffer);
+        //var buffer = ds_map_find_value(async_load, "buffer");
+        //net_data_parsing(buffer);
+        //show_message(ds_map_find_value(async_load, "size"));
+        var buffer = buffer_create(ds_map_find_value(async_load, "size"), buffer_fixed, 1);
+        buffer_copy(async_load[? "buffer"], 0, async_load[? "size"], buffer, 0);
+        //show_message(buffer_get_size(buffer));
+        ds_queue_enqueue(fifo, buffer);
         break;
     }
 }

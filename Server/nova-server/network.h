@@ -6,8 +6,10 @@
 #include <QVariant>
 #include <ship.h>
 #include <QList>
+#include <QListView>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include <QStandardItem>
 
 #define NO      0
 #define YES     1
@@ -30,14 +32,19 @@ public:
     int pt_type;
 public:
     MySocket();
+    qint64 MyWrite(char* data, quint64 maxSize);
+    void LogAddString(QString str);
+    QListView *log;
+    QStandardItemModel *log_model;
 };
 
 QString GetString(char *, int pos);
 qint32 GetInt32(unsigned char *str, int pos);
 qint32 SetToRawData(unsigned char *str, int pos, qint32 data);
 qint32 SetToRawData(unsigned char *str, int pos, QString data);
+QString RawDataToString(char* data, int len);
 
-void net_send_gd_answer(QTcpSocket*, char);
-void net_send_set_position(QTcpSocket* socket, CShip* ship);
+void net_send_gd_answer(MySocket*, char);
+void net_send_set_position(MySocket* socket, CShip* ship);
 
 #endif // NETWORK_H

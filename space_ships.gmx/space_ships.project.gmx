@@ -24,6 +24,7 @@
         <script>scripts\net_send_position.gml</script>
       </scripts>
       <script>scripts\net_data_parsing.gml</script>
+      <script>scripts\net_data_command_parsing.gml</script>
     </scripts>
   </scripts>
   <fonts name="fonts">
