@@ -123,8 +123,7 @@ switch(type_event)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//net_send_im_out(net_buf, socket);
-network_destroy(socket);
+            <string>network_destroy(socket);
 buffer_delete(net_buf);
 </string>
           </argument>

@@ -84,13 +84,11 @@ void MainWindow::newUser()
     MySocket* clientSocket;
     clientSocket = (MySocket*)(server->nextPendingConnection());
     clientSocket->log = ui->log;
-    clientSocket->log_mod = log_model;
-    clientSocket->pt_type = 0;
+    clientSocket->log_model = log_model;
     int idusersocs = clientSocket->socketDescriptor();
     SClients[idusersocs] = clientSocket;
-    clientSocket->descriptor = idusersocs;
     connect(clientSocket, SIGNAL(readyRead()), this, SLOT(slotReadClient()));
-    connect(clientSocket, SIGNAL(disconnected()), this, SLOT(UserDisconnected()));
+
 }
 
 void MainWindow::DataUpdate()
@@ -110,21 +108,6 @@ void MainWindow::DataUpdate()
     }
 }
 
-void MainWindow::UserDisconnected()
-{
-    MySocket* clientSocket = (MySocket*)sender();
-    if (clientSocket->pt_type != 0)
-    {
-        LogAddString(QString("User disconnected - %1").arg(clientSocket->parentShip->login));
-        table_model->StartChange();
-        *clientSocket->parentShip->sockets[clientSocket->pt_type] = -1;
-        table_model->EndChange();
-    }
-    SClients.remove(clientSocket->descriptor);
-    clientSocket->close();
-    clientSocket->deleteLater();
-}
-
 void MainWindow::slotReadClient()
 {
     MySocket* clientSocket = (MySocket*)sender();
@@ -136,7 +119,7 @@ void MainWindow::slotReadClient()
     len = (tmp_len[1] << 8) + tmp_len[0];
     data = new char[len];
     net_data.readRawData(data, len);
-    //LogAddString(RawDataToString(data, len));
+    LogAddString(RawDataToString(data, len));
     switch (data[0])
     {
         case NET_GOOD_DAY:
@@ -144,12 +127,10 @@ void MainWindow::slotReadClient()
             int member_type = data[1];
             QString login = GetString(data, 2);
             QString password = GetString(data, 3 + login.length());
-            bool test = 0;
             for (int i = 0; i < SHIPS.size(); i++)
             {
                 if (SHIPS[i]->login == login)
                 {
-                    test = 1;
                     if (SHIPS[i]->password == password)
                     {
                         int idusersoc = SClients.key(clientSocket, -1);
@@ -160,10 +141,11 @@ void MainWindow::slotReadClient()
                                 table_model->StartChange();
                                 *(SHIPS[i]->sockets[member_type]) = idusersoc;
                                 table_model->EndChange();
-                                LogAddString(QString("User connected - %1").arg(SHIPS[i]->login));
                                 clientSocket->parentShip = SHIPS[i];
-                                clientSocket->pt_type = member_type;
+                                clientSocket->pt_type = PT_PILOT;
                                 net_send_gd_answer(clientSocket, YES);
+                                //for (long int i = 0; i < 100000000; i++);
+                                net_send_set_position(clientSocket, SHIPS[i]);
                             }
                             else
                             {
@@ -183,11 +165,7 @@ void MainWindow::slotReadClient()
                     }
                     break;
                 }
-                //net_send_gd_answer(clientSocket, ERROR);
-            }
-            if (!test)
-            {
-                net_send_gd_answer(clientSocket, NO);
+                net_send_gd_answer(clientSocket, ERROR);
             }
             break;
         }
@@ -205,39 +183,6 @@ void MainWindow::slotReadClient()
             clientSocket->parentShip->shell->pos->speed = speed;
             clientSocket->parentShip->shell->pos->rot_speed = rot_speed;
             clientSocket->parentShip->shell->pos->direction = direction;
-            QSettings settPos(QString("save/%1/position.ini").arg(clientSocket->parentShip->login), QSettings::IniFormat);
-            settPos.setValue("x", x);
-            settPos.setValue("y", y);
-            settPos.setValue("direction", direction);
-            settPos.setValue("image_angle", image_angle);
-            settPos.setValue("rot_speed", rot_speed);
-            settPos.setValue("speed", speed);
-            for (int i = 0; i < SHIPS.size(); i++)
-            {
-                if ((SHIPS[i] != clientSocket->parentShip) && (SHIPS[i]->pilotSocket > 0))
-                {
-                    net_send_set_position(SClients[SHIPS[i]->pilotSocket], clientSocket->parentShip);
-                }
-            }
-            break;
-        }
-        case NET_FIRST_LOAD:
-        {
-            for (int i = 0; i < SHIPS.size(); i++)
-            {
-                net_send_set_position(clientSocket, SHIPS[i]);
-            }
-            //net_send_set_position(clientSocket, clientSocket->parentShip);
-            break;
-        }
-        case NET_IM_OUT:
-        {
-            table_model->StartChange();
-            *clientSocket->parentShip->sockets[clientSocket->pt_type] = -1;
-            table_model->EndChange();
-            int idusersocs = clientSocket->socketDescriptor();
-            SClients.remove(idusersocs);
-            delete clientSocket;
             break;
         }
     }

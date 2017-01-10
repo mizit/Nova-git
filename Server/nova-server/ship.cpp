@@ -8,10 +8,10 @@ CShip::CShip()
     batSocket = -1;
     login = QString("Name");
     password = QString("Password");
-    sockets[1] = &pilotSocket;
-    sockets[2] = &navSocket;
-    sockets[3] = &engSocket;
-    sockets[4] = &batSocket;
+    sockets[0] = &pilotSocket;
+    sockets[1] = &navSocket;
+    sockets[2] = &engSocket;
+    sockets[3] = &batSocket;
     shell = new CShell();
 }
 
