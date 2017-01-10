@@ -33,7 +33,7 @@ public:
     int batSocket;
     QString login;
     QString password;
-    int *sockets[4];
+    int *sockets[5];
     CShell *shell;
 public:
     CShip();

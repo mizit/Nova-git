@@ -3,17 +3,16 @@ var l_fifo = argument0;
 var l_rem = noone;
 var l_com_buf = noone;
 var l_len = 0;
-while (ds_queue_size(l_fifo) > 0)
+while (ds_queue_size(l_fifo) > 0)       //если очередь не нулевая
 {
-    var l_buf = ds_queue_dequeue(l_fifo);
+    var l_buf = ds_queue_dequeue(l_fifo);       //вычленяем первый буфер
     buffer_seek(l_buf, buffer_seek_start, 0);
-    while (true)
+    while (true)                                //бесконечный цикл
     {
-        if (l_rem == noone)
+        if (l_rem == noone)                     //если нам не осталось кусков с предыдущего буфера
         {
-            l_len = buffer_read(l_buf, buffer_u16);
-            show_message("length = " + string(l_len));
-            if (l_len <= (buffer_get_size(l_buf) - buffer_tell(l_buf)))
+            l_len = buffer_read(l_buf, buffer_u16);    //вычитываем длину
+            if (l_len <= (buffer_get_size(l_buf) - buffer_tell(l_buf))) //если длина меньше расстояния до конца буфера, значит получили команду целиком
             {
                 l_com_buf = buffer_create(l_len, buffer_fixed, 1);
                 buffer_seek(l_com_buf, buffer_seek_start, 0);

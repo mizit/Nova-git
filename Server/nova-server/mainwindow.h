@@ -25,18 +25,19 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void LogAddString(QString str);
+    QStandardItemModel *log_model;
 
 private slots:
     void newUser();
     void slotReadClient();
     void UserCreate();
     void DataUpdate();
+    void UserDisconnected();
 
 private:
     Ui::MainWindow *ui;
     QTcpServer *server;
-    QMap<int,QTcpSocket *> SClients;
-    QStandardItemModel *log_model;
+    QMap<int, MySocket*> SClients;
     MyTableModel *table_model;
     QTimer *timer_update;
 };
