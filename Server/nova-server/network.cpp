@@ -3,6 +3,7 @@
 MySocket::MySocket()
 {
     pt_type = 0;
+    descriptor = 0;
 }
 
 qint64 MySocket::MyWrite(char* data, quint64 maxSize)
@@ -17,7 +18,7 @@ void MySocket::LogAddString(QString str)
     QStandardItem *item;
     item = new QStandardItem();
     item->setText(str);
-    log_model->appendRow(item);
+    log_mod->appendRow(item);
     log->scrollToBottom();
 }
 
@@ -102,7 +103,7 @@ void net_send_set_position(MySocket* socket, CShip* ship)
     runner = SetToRawData(data, runner, ship->shell->pos->direction);
     data[0] = (unsigned char)(runner & 0xFF);
     data[1] = (unsigned char)((runner & 0xFF00) << 8);
-    socket->LogAddString(RawDataToString((char*)data, runner));
+    //socket->LogAddString(RawDataToString((char*)data, runner));
     socket->MyWrite((char*)data, runner - 2);
     //net_data.writeRawData((char*)data, runner);
 }

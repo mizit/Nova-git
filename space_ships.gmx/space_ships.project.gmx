@@ -21,6 +21,8 @@
       <script>scripts\buffer_write_size.gml</script>
       <scripts name="send_pack">
         <script>scripts\net_send_hello.gml</script>
+        <script>scripts\net_send_first_load.gml</script>
+        <script>scripts\net_send_im_out.gml</script>
         <script>scripts\net_send_position.gml</script>
       </scripts>
       <script>scripts\net_data_parsing.gml</script>
@@ -41,15 +43,18 @@
       <object>objects\obj_pass</object>
       <object>objects\obj_title</object>
     </objects>
+    <object>objects\obj_enemy_ship</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_authorization</room>
     <room>rooms\room0</room>
   </rooms>
-  <constants number="7">
+  <constants number="9">
     <constant name="NET_GOOD_DAY">1</constant>
     <constant name="NET_POSITION">2</constant>
-    <constant name="PT_PILOT">0</constant>
+    <constant name="NET_FIRST_LOAD">3</constant>
+    <constant name="NET_IM_OUT">4</constant>
+    <constant name="PT_PILOT">1</constant>
     <constant name="YES">1</constant>
     <constant name="NO">0</constant>
     <constant name="BUSY">2</constant>

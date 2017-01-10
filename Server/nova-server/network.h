@@ -18,6 +18,8 @@
 
 #define NET_GOOD_DAY    1
 #define NET_POSITION    2
+#define NET_FIRST_LOAD  3
+#define NET_IM_OUT      4
 
 #define PT_PILOT        1
 #define PT_NAVIGATION   2
@@ -30,12 +32,13 @@ class MySocket : public QTcpSocket
 public:
     CShip *parentShip;
     int pt_type;
+    int descriptor;
+    QListView *log;
+    QStandardItemModel *log_mod;
 public:
     MySocket();
     qint64 MyWrite(char* data, quint64 maxSize);
     void LogAddString(QString str);
-    QListView *log;
-    QStandardItemModel *log_model;
 };
 
 QString GetString(char *, int pos);
