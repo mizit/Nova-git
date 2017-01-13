@@ -25,7 +25,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void LogAddString(QString str);
-    QStandardItemModel *log_model;
 
 private slots:
     void newUser();
@@ -33,12 +32,14 @@ private slots:
     void UserCreate();
     void DataUpdate();
     void UserDisconnected();
+    void pbtn();
 
 private:
     Ui::MainWindow *ui;
     QTcpServer *server;
     QMap<int, MySocket*> SClients;
     MyTableModel *table_model;
+    QStandardItemModel *log_model;
     QTimer *timer_update;
 };
 

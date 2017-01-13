@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    log_model = new QStandardItemModel;
+    log_model = new QStandardItemModel();
     ui->log->setModel(log_model);
 
     server = new QTcpServer(this);
@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableView->setModel(table_model);
 
     connect(ui->buttonUsrCrt, SIGNAL(clicked()), this, SLOT(UserCreate()));
+    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(pbtn()));
 
     QSettings sett("users.ini", QSettings::IniFormat);
     int num = 0;
@@ -52,6 +53,11 @@ MainWindow::MainWindow(QWidget *parent) :
     timer_update->start(500);
 }
 
+void MainWindow::pbtn()
+{
+    LogAddString(QString("length - %1").arg(SHIPS[0]->login.length()));
+}
+
 void MainWindow::UserCreate()
 {
     int num = 0;
@@ -81,10 +87,15 @@ void MainWindow::UserCreate()
 
 void MainWindow::newUser()
 {
+    QTcpSocket* loc_soc;
+    loc_soc = (QTcpSocket*)(server->nextPendingConnection());
     MySocket* clientSocket;
-    clientSocket = (MySocket*)(server->nextPendingConnection());
+    clientSocket = new MySocket();
+    clientSocket->setSocketDescriptor(loc_soc->socketDescriptor());
+    //clientSocket = dynamic_cast<MySocket*>(loc_soc);
+    //clientSocket = static_cast<MySocket*>(server->nextPendingConnection());
     clientSocket->log = ui->log;
-    clientSocket->log_mod = log_model;
+    clientSocket->log_model = log_model;
     clientSocket->pt_type = 0;
     int idusersocs = clientSocket->socketDescriptor();
     SClients[idusersocs] = clientSocket;
@@ -122,7 +133,7 @@ void MainWindow::UserDisconnected()
     }
     SClients.remove(clientSocket->descriptor);
     clientSocket->close();
-    clientSocket->deleteLater();
+    //clientSocket->deleteLater();
 }
 
 void MainWindow::slotReadClient()

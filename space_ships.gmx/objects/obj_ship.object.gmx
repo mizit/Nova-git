@@ -71,7 +71,7 @@ net_send_first_load(obj_net.net_buf, obj_net.socket);
           <argument>
             <kind>1</kind>
             <string>net_send_position(obj_net.net_buf, obj_net.socket);
-alarm[0] = 1;//room_speed;
+alarm[0] = room_speed;
 </string>
           </argument>
         </arguments>

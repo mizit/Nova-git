@@ -38,6 +38,7 @@ public:
     QWidget *tab;
     QListView *log;
     QTableView *tableView;
+    QPushButton *pushButton;
     QWidget *tab_2;
     QGroupBox *groupBox;
     QLineEdit *editLogin;
@@ -82,6 +83,9 @@ public:
         tableView = new QTableView(tab);
         tableView->setObjectName(QStringLiteral("tableView"));
         tableView->setGeometry(QRect(10, 10, 551, 531));
+        pushButton = new QPushButton(tab);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(550, 430, 75, 23));
         tabWidget->addTab(tab, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QStringLiteral("tab_2"));
@@ -173,6 +177,7 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        pushButton->setText(QApplication::translate("MainWindow", "PushButton", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "\320\236\320\261\321\211\320\265\320\265", 0));
         groupBox->setTitle(QApplication::translate("MainWindow", "User creating", 0));
         label->setText(QApplication::translate("MainWindow", "Login", 0));

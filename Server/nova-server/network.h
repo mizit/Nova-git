@@ -34,7 +34,7 @@ public:
     int pt_type;
     int descriptor;
     QListView *log;
-    QStandardItemModel *log_mod;
+    QStandardItemModel *log_model;
 public:
     MySocket();
     qint64 MyWrite(char* data, quint64 maxSize);

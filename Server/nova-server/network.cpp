@@ -18,7 +18,7 @@ void MySocket::LogAddString(QString str)
     QStandardItem *item;
     item = new QStandardItem();
     item->setText(str);
-    log_mod->appendRow(item);
+    log_model->appendRow(item);
     log->scrollToBottom();
 }
 
@@ -57,7 +57,7 @@ qint32 SetToRawData(unsigned char *str, int pos, QString data)
     {
         str[pos + i] = data.at(i).toLatin1();
     }
-    str[pos + i + 1] = 0;
+    str[pos + i] = 0;
     return pos + i + 1;
 }
 
@@ -94,6 +94,7 @@ void net_send_set_position(MySocket* socket, CShip* ship)
     data = new unsigned char[len];
     data[2] = NET_POSITION;
     int runner = 3;
+    //socket->LogAddString(QString("length - %1").arg(ship->login.length()));
     runner = SetToRawData(data, runner, ship->login);
     runner = SetToRawData(data, runner, ship->shell->pos->pos->rx());
     runner = SetToRawData(data, runner, ship->shell->pos->pos->ry());
