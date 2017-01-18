@@ -38,7 +38,6 @@ public:
     QWidget *tab;
     QListView *log;
     QTableView *tableView;
-    QPushButton *pushButton;
     QWidget *tab_2;
     QGroupBox *groupBox;
     QLineEdit *editLogin;
@@ -61,6 +60,7 @@ public:
     QLineEdit *edit_ia;
     QLineEdit *edit_rspeed;
     QLineEdit *edit_dir;
+    QPushButton *pushButton;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -83,9 +83,6 @@ public:
         tableView = new QTableView(tab);
         tableView->setObjectName(QStringLiteral("tableView"));
         tableView->setGeometry(QRect(10, 10, 551, 531));
-        pushButton = new QPushButton(tab);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(550, 430, 75, 23));
         tabWidget->addTab(tab, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QStringLiteral("tab_2"));
@@ -154,6 +151,9 @@ public:
         edit_dir->setObjectName(QStringLiteral("edit_dir"));
         edit_dir->setGeometry(QRect(150, 140, 113, 20));
         tabWidget->addTab(tab_3, QString());
+        pushButton = new QPushButton(centralWidget);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(1090, 0, 75, 23));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -177,7 +177,6 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
-        pushButton->setText(QApplication::translate("MainWindow", "PushButton", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "\320\236\320\261\321\211\320\265\320\265", 0));
         groupBox->setTitle(QApplication::translate("MainWindow", "User creating", 0));
         label->setText(QApplication::translate("MainWindow", "Login", 0));
@@ -192,6 +191,7 @@ public:
         lable_rspeed->setText(QApplication::translate("MainWindow", "rot_speed", 0));
         lable_dir->setText(QApplication::translate("MainWindow", "direction", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MainWindow", "\320\240\320\260\321\201\320\277\320\276\320\273\320\276\320\266\320\265\320\275\320\270\320\265", 0));
+        pushButton->setText(QApplication::translate("MainWindow", "PushButton", 0));
     } // retranslateUi
 
 };

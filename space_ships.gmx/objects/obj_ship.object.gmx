@@ -46,6 +46,9 @@ sonar_ttl = room_speed * 2;
 sonar_alpha = 0;
 sonar_key = ord('X');
 
+hud_rot = 0;
+hud_rot_koeff = 10;
+
 alarm[0] = room_speed;
 net_send_first_load(obj_net.net_buf, obj_net.socket);
 </string>
@@ -71,7 +74,7 @@ net_send_first_load(obj_net.net_buf, obj_net.socket);
           <argument>
             <kind>1</kind>
             <string>net_send_position(obj_net.net_buf, obj_net.socket);
-alarm[0] = room_speed;
+alarm[0] = 1;
 </string>
           </argument>
         </arguments>
@@ -172,6 +175,17 @@ if (object_exists(sonar_point))
     draw_sprite_ext(s_sonar, -1, x, y, 1, 1, point_direction(x, y, sonar_point.x, sonar_point.y), c_white, sonar_alpha);
     sonar_alpha = max(0, sonar_alpha - 1 / sonar_ttl);
 }
+
+//0 - rot
+//1 - base
+//2 - dir
+//3 - speed
+//4 - mark
+hud_rot += (rot_speed * hud_rot_koeff);
+draw_sprite_ext(s_hud, 0, x, y, 1, 1, hud_rot, c_white, 1);
+draw_sprite_ext(s_hud, 1, x, y, 1, 1, image_angle, c_white, 1);
+draw_sprite_ext(s_hud, 2, x, y, 1, 1, direction, c_white, 1);
+draw_sprite_ext(s_hud, 4, x, y, 1, 1, point_direction(x, y, sonar_point.x, sonar_point.y), c_white, 1);
 </string>
           </argument>
         </arguments>

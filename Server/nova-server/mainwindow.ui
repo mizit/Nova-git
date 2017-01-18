@@ -50,19 +50,6 @@
        </rect>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton">
-      <property name="geometry">
-       <rect>
-        <x>550</x>
-        <y>430</y>
-        <width>75</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>PushButton</string>
-      </property>
-     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -310,6 +297,19 @@
       </widget>
      </widget>
     </widget>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>1090</x>
+      <y>0</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

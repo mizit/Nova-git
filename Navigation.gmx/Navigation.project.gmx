@@ -17,17 +17,53 @@
     <background>background\back_test</background>
   </backgrounds>
   <paths name="paths"/>
+  <scripts name="scripts">
+    <scripts name="net">
+      <script>scripts\buffer_write_size.gml</script>
+      <scripts name="send">
+        <script>scripts\net_send_first_load.gml</script>
+        <script>scripts\net_send_hello.gml</script>
+        <script>scripts\net_send_im_out.gml</script>
+        <script>scripts\net_send_position.gml</script>
+      </scripts>
+      <script>scripts\net_data_command_parsing.gml</script>
+      <script>scripts\net_data_parsing.gml</script>
+    </scripts>
+  </scripts>
+  <fonts name="fonts">
+    <font>fonts\f_menu</font>
+  </fonts>
   <objects name="objects">
     <object>objects\obj_ship</object>
+    <object>objects\obj_enemy_ship</object>
     <object>objects\obj_gui</object>
     <object>objects\obj_great_ship</object>
     <object>objects\obj_asteroid</object>
     <object>objects\obj_navigation</object>
     <object>objects\obj_unit_parent</object>
+    <object>objects\obj_net</object>
+    <objects name="autorization">
+      <object>objects\obj_title</object>
+      <object>objects\obj_pass</object>
+      <object>objects\obj_login</object>
+    </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\r_authorization</room>
     <room>rooms\room0</room>
   </rooms>
+  <constants number="10">
+    <constant name="NET_GOOD_DAY">1</constant>
+    <constant name="NET_POSITION">2</constant>
+    <constant name="NET_FIRST_LOAD">3</constant>
+    <constant name="NET_IM_OUT">4</constant>
+    <constant name="PT_PILOT">1</constant>
+    <constant name="PT_NAVIGATION">2</constant>
+    <constant name="YES">1</constant>
+    <constant name="NO">0</constant>
+    <constant name="BUSY">2</constant>
+    <constant name="ERROR">3</constant>
+  </constants>
   <help>
     <rtf>help.rtf</rtf>
   </help>

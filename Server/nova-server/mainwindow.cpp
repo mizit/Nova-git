@@ -51,6 +51,24 @@ MainWindow::MainWindow(QWidget *parent) :
     timer_update = new QTimer();
     connect(timer_update, SIGNAL(timeout()), this, SLOT(DataUpdate()));
     timer_update->start(500);
+
+    timer_save = new QTimer();
+    connect(timer_save, SIGNAL(timeout()), this, SLOT(DataSave()));
+    timer_update->start(5000);
+}
+
+void MainWindow::DataSave()
+{
+    for (int i = 0; i < SHIPS.size(); i++)
+    {
+        QSettings settPos(QString("save/%1/position.ini").arg(SHIPS[i]->login), QSettings::IniFormat);
+        settPos.setValue("x", SHIPS[i]->shell->pos->pos->rx());
+        settPos.setValue("y", SHIPS[i]->shell->pos->pos->ry());
+        settPos.setValue("direction", SHIPS[i]->shell->pos->direction);
+        settPos.setValue("image_angle", SHIPS[i]->shell->pos->image_angle);
+        settPos.setValue("rot_speed", SHIPS[i]->shell->pos->rot_speed);
+        settPos.setValue("speed", SHIPS[i]->shell->pos->speed);
+    }
 }
 
 void MainWindow::pbtn()
@@ -216,18 +234,15 @@ void MainWindow::slotReadClient()
             clientSocket->parentShip->shell->pos->speed = speed;
             clientSocket->parentShip->shell->pos->rot_speed = rot_speed;
             clientSocket->parentShip->shell->pos->direction = direction;
-            QSettings settPos(QString("save/%1/position.ini").arg(clientSocket->parentShip->login), QSettings::IniFormat);
-            settPos.setValue("x", x);
-            settPos.setValue("y", y);
-            settPos.setValue("direction", direction);
-            settPos.setValue("image_angle", image_angle);
-            settPos.setValue("rot_speed", rot_speed);
-            settPos.setValue("speed", speed);
             for (int i = 0; i < SHIPS.size(); i++)
             {
                 if ((SHIPS[i] != clientSocket->parentShip) && (SHIPS[i]->pilotSocket > 0))
                 {
                     net_send_set_position(SClients[SHIPS[i]->pilotSocket], clientSocket->parentShip);
+                }
+                if (SHIPS[i]->navSocket > 0)
+                {
+                    net_send_set_position(SClients[SHIPS[i]->navSocket], clientSocket->parentShip);
                 }
             }
             break;

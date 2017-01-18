@@ -31,6 +31,7 @@ private slots:
     void slotReadClient();
     void UserCreate();
     void DataUpdate();
+    void DataSave();
     void UserDisconnected();
     void pbtn();
 
@@ -41,6 +42,7 @@ private:
     MyTableModel *table_model;
     QStandardItemModel *log_model;
     QTimer *timer_update;
+    QTimer *timer_save;
 };
 
 

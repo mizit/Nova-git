@@ -47,6 +47,7 @@ sonar_point = obj_great_ship;
 sonar_ttl = room_speed * 2;
 sonar_alpha = 0;
 sonar_key = ord('X');
+net_send_first_load(obj_net.net_buf, obj_net.socket);
 </string>
           </argument>
         </arguments>

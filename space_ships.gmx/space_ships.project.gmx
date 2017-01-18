@@ -11,6 +11,7 @@
     <sprite>sprites\s_great_ship</sprite>
     <sprite>sprites\s_asteroids</sprite>
     <sprite>sprites\s_asterod</sprite>
+    <sprite>sprites\s_hud</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\back_test</background>
@@ -49,12 +50,13 @@
     <room>rooms\r_authorization</room>
     <room>rooms\room0</room>
   </rooms>
-  <constants number="9">
+  <constants number="10">
     <constant name="NET_GOOD_DAY">1</constant>
     <constant name="NET_POSITION">2</constant>
     <constant name="NET_FIRST_LOAD">3</constant>
     <constant name="NET_IM_OUT">4</constant>
     <constant name="PT_PILOT">1</constant>
+    <constant name="PT_NAVIGATION">2</constant>
     <constant name="YES">1</constant>
     <constant name="NO">0</constant>
     <constant name="BUSY">2</constant>
