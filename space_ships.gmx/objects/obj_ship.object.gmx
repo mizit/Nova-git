@@ -48,6 +48,7 @@ sonar_key = ord('X');
 
 hud_rot = 0;
 hud_rot_koeff = 10;
+hud_max_speed = 50;
 
 alarm[0] = room_speed;
 net_send_first_load(obj_net.net_buf, obj_net.socket);
@@ -182,6 +183,11 @@ if (object_exists(sonar_point))
 //3 - speed
 //4 - mark
 hud_rot += (rot_speed * hud_rot_koeff);
+var hud_width, hud_height;
+hud_width = sprite_get_width(s_hud);
+hud_height = sprite_get_height(s_hud);
+draw_sprite_part_ext(s_hud, 3, 0, 0, hud_width * min(1, speed / hud_max_speed), hud_height, 
+x - hud_width / 2, y - hud_height / 2, 1, 1, c_white, 1);
 draw_sprite_ext(s_hud, 0, x, y, 1, 1, hud_rot, c_white, 1);
 draw_sprite_ext(s_hud, 1, x, y, 1, 1, image_angle, c_white, 1);
 draw_sprite_ext(s_hud, 2, x, y, 1, 1, direction, c_white, 1);

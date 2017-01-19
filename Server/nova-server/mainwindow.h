@@ -34,6 +34,8 @@ private slots:
     void DataSave();
     void UserDisconnected();
     void pbtn();
+    void LockPos();
+    void SetPos();
 
 private:
     Ui::MainWindow *ui;

@@ -60,6 +60,8 @@ public:
     QLineEdit *edit_ia;
     QLineEdit *edit_rspeed;
     QLineEdit *edit_dir;
+    QPushButton *button_lockpos;
+    QPushButton *button_setpos;
     QPushButton *pushButton;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
@@ -112,7 +114,7 @@ public:
         combo_userpos->setGeometry(QRect(20, 20, 121, 22));
         groupBox_2 = new QGroupBox(tab_3);
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
-        groupBox_2->setGeometry(QRect(180, 40, 281, 191));
+        groupBox_2->setGeometry(QRect(180, 40, 281, 201));
         label_x = new QLabel(groupBox_2);
         label_x->setObjectName(QStringLiteral("label_x"));
         label_x->setGeometry(QRect(20, 20, 47, 13));
@@ -150,6 +152,12 @@ public:
         edit_dir = new QLineEdit(groupBox_2);
         edit_dir->setObjectName(QStringLiteral("edit_dir"));
         edit_dir->setGeometry(QRect(150, 140, 113, 20));
+        button_lockpos = new QPushButton(groupBox_2);
+        button_lockpos->setObjectName(QStringLiteral("button_lockpos"));
+        button_lockpos->setGeometry(QRect(20, 170, 75, 23));
+        button_setpos = new QPushButton(groupBox_2);
+        button_setpos->setObjectName(QStringLiteral("button_setpos"));
+        button_setpos->setGeometry(QRect(150, 170, 75, 23));
         tabWidget->addTab(tab_3, QString());
         pushButton = new QPushButton(centralWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
@@ -168,7 +176,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -190,6 +198,8 @@ public:
         label_4->setText(QApplication::translate("MainWindow", "speed", 0));
         lable_rspeed->setText(QApplication::translate("MainWindow", "rot_speed", 0));
         lable_dir->setText(QApplication::translate("MainWindow", "direction", 0));
+        button_lockpos->setText(QApplication::translate("MainWindow", "\320\227\320\260\320\273\320\276\321\207\320\270\321\202\321\214", 0));
+        button_setpos->setText(QApplication::translate("MainWindow", "\320\243\321\201\321\202\320\260\320\275\320\276\320\262\320\270\321\202\321\214", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MainWindow", "\320\240\320\260\321\201\320\277\320\276\320\273\320\276\320\266\320\265\320\275\320\270\320\265", 0));
         pushButton->setText(QApplication::translate("MainWindow", "PushButton", 0));
     } // retranslateUi

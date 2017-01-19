@@ -54,7 +54,42 @@ MainWindow::MainWindow(QWidget *parent) :
 
     timer_save = new QTimer();
     connect(timer_save, SIGNAL(timeout()), this, SLOT(DataSave()));
-    timer_update->start(5000);
+    timer_save->start(5000);
+
+    connect(ui->button_lockpos, SIGNAL(clicked()), this, SLOT(LockPos()));
+    connect(ui->button_setpos, SIGNAL(clicked()), this, SLOT(SetPos()));
+}
+
+void MainWindow::LockPos()
+{
+    if (timer_update->isActive())
+    {
+        timer_update->stop();
+        ui->button_lockpos->setText("Разлочить");
+    }
+    else
+    {
+        timer_update->start(500);
+        ui->button_lockpos->setText("Залочить");
+    }
+}
+
+void MainWindow::SetPos()
+{
+    QString name = ui->combo_userpos->currentText();
+    for (int i = 0; i < SHIPS.size(); i++)
+    {
+        if (SHIPS[i]->login == name)
+        {
+                SHIPS[i]->shell->pos->pos->setX(ui->edit_x->text().toInt());
+                SHIPS[i]->shell->pos->pos->setY(ui->edit_y->text().toInt());
+                SHIPS[i]->shell->pos->direction = ui->edit_dir->text().toInt();
+                SHIPS[i]->shell->pos->image_angle = ui->edit_ia->text().toInt();
+                SHIPS[i]->shell->pos->rot_speed = ui->edit_rspeed->text().toInt();
+                SHIPS[i]->shell->pos->speed = ui->edit_speed->text().toInt();
+                net_send_set_position(SClients[SHIPS[i]->pilotSocket], SHIPS[i]);
+        }
+    }
 }
 
 void MainWindow::DataSave()
