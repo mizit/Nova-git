@@ -20,6 +20,7 @@
 #define NET_POSITION    2
 #define NET_FIRST_LOAD  3
 #define NET_IM_OUT      4
+#define NET_MARK        5
 
 #define PT_PILOT        1
 #define PT_NAVIGATION   2
@@ -49,5 +50,6 @@ QString RawDataToString(char* data, int len);
 
 void net_send_gd_answer(MySocket*, char);
 void net_send_set_position(MySocket* socket, CShip* ship);
+void net_send_mark(MySocket* socket, qint32 x, qint32 y);
 
 #endif // NETWORK_H

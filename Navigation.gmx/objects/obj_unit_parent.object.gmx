@@ -113,9 +113,12 @@ d_y = (y - view_yview[0]) / obj_navigation.scale;
 if (bubble_alpha &gt; 0)
 {
     draw_sprite_ext(my_bubble, -1, d_x, d_y, 1, 1, bubble_angle, c_white, bubble_alpha);
-    draw_sprite_ext(sprite_index, -1, d_x + lengthdir_x(xoffset, bubble_angle) +
-    lengthdir_x(yoffset, bubble_angle + 90), d_y + lengthdir_y(xoffset, bubble_angle) +
-    lengthdir_y(yoffset, bubble_angle + 90), bubble_scale, bubble_scale, image_angle, c_white, bubble_alpha);
+    if (sprite_exists(sprite_index))
+    {
+        draw_sprite_ext(sprite_index, -1, d_x + lengthdir_x(xoffset, bubble_angle) +
+        lengthdir_x(yoffset, bubble_angle + 90), d_y + lengthdir_y(xoffset, bubble_angle) +
+        lengthdir_y(yoffset, bubble_angle + 90), bubble_scale, bubble_scale, image_angle, c_white, bubble_alpha);
+    }
 }
 
 if (path_show)

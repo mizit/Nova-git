@@ -80,21 +80,17 @@ void net_send_gd_answer(MySocket* socket, char answer)
     char data[2];
     data[2] = NET_GOOD_DAY;
     data[3] = answer;
-    //net_data.writeRawData(data, 2);
     socket->MyWrite(data, 2);
 }
 
 void net_send_set_position(MySocket* socket, CShip* ship)
 {
     QDataStream net_data(socket);
-    //socket->flush();
-    //while (socket->bytesToWrite() > 0);
     int len = 6 * 4 + ship->login.length() + 4;
     unsigned char *data;
     data = new unsigned char[len];
     data[2] = NET_POSITION;
     int runner = 3;
-    //socket->LogAddString(QString("length - %1").arg(ship->login.length()));
     runner = SetToRawData(data, runner, ship->login);
     runner = SetToRawData(data, runner, ship->shell->pos->pos->rx());
     runner = SetToRawData(data, runner, ship->shell->pos->pos->ry());
@@ -104,7 +100,16 @@ void net_send_set_position(MySocket* socket, CShip* ship)
     runner = SetToRawData(data, runner, ship->shell->pos->direction);
     data[0] = (unsigned char)(runner & 0xFF);
     data[1] = (unsigned char)((runner & 0xFF00) << 8);
-    //socket->LogAddString(RawDataToString((char*)data, runner));
     socket->MyWrite((char*)data, runner - 2);
-    //net_data.writeRawData((char*)data, runner);
+}
+
+void net_send_mark(MySocket* socket, qint32 x, qint32 y)
+{
+    QDataStream net_data(socket);
+    unsigned char data[11];
+    data[2] = NET_MARK;
+    int runner = 3;
+    runner = SetToRawData(data, runner, x);
+    runner = SetToRawData(data, runner, y);
+    socket->MyWrite((char*)data, runner - 2);
 }

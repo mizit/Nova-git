@@ -41,7 +41,9 @@ mnvr_up_key = ord('W');
 mnvr_down_key = ord('S');
 thurst_up_key = vk_space;
 
-sonar_point = obj_great_ship;
+instance_create(50000, 50000, obj_mark);
+
+sonar_point = obj_mark;
 sonar_ttl = room_speed * 2;
 sonar_alpha = 0;
 sonar_key = ord('X');

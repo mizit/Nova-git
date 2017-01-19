@@ -79,5 +79,14 @@ switch (l_command)
         }
         break;
     }
+    case NET_MARK:
+    {
+        if (instance_exists(obj_mark))
+        {
+            obj_mark.x = buffer_read(l_buf, buffer_s32) / 1000;
+            obj_mark.y = buffer_read(l_buf, buffer_s32) / 1000;
+        }
+        break;
+    }
 }
 buffer_delete(l_buf);

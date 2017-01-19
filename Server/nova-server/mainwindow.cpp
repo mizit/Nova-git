@@ -288,7 +288,6 @@ void MainWindow::slotReadClient()
             {
                 net_send_set_position(clientSocket, SHIPS[i]);
             }
-            //net_send_set_position(clientSocket, clientSocket->parentShip);
             break;
         }
         case NET_IM_OUT:
@@ -300,6 +299,15 @@ void MainWindow::slotReadClient()
             SClients.remove(idusersocs);
             delete clientSocket;
             break;
+        }
+        case NET_MARK:
+        {
+            qint32 x = GetInt32((unsigned char*)data, 1);
+            qint32 y = GetInt32((unsigned char*)data, 5);
+            if (clientSocket->parentShip->pilotSocket > 0)
+            {
+                net_send_mark(SClients[clientSocket->parentShip->pilotSocket], x, y);
+            }
         }
     }
 }
