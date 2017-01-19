@@ -18,6 +18,7 @@
     <object>objects\obj_ast_high</object>
     <object>objects\obj_ast_mid</object>
     <object>objects\obj_ast_low</object>
+    <object>objects\obj_spot</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
