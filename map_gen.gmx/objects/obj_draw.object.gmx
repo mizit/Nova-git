@@ -146,16 +146,23 @@ surface_reset_target();
           <argument>
             <kind>1</kind>
             <string>var surf;
+var surf_del1, surf_del2;
 switch (active)
 {
     case 1:
     surf = high_surf;
+    surf_del1 = low_surf;
+    surf_del2 = middle_surf;
     break;
     case 2:
     surf = middle_surf;
+    surf_del1 = low_surf;
+    surf_del2 = high_surf;
     break;
     case 3:
     surf = low_surf;
+    surf_del1 = high_surf;
+    surf_del2 = middle_surf;
     break;
     default:
     exit;
@@ -163,6 +170,18 @@ switch (active)
 surface_set_target(surf);
 draw_set_colour(c_white);
 draw_circle(mouse_x, mouse_y, base_size * size, 0);
+surface_reset_target();
+surface_set_target(surf_del1);
+draw_set_blend_mode(bm_subtract);
+draw_set_colour(c_white);
+draw_circle(mouse_x, mouse_y, base_size * size, 0);
+draw_set_blend_mode(bm_normal);
+surface_reset_target();
+surface_set_target(surf_del2);
+draw_set_blend_mode(bm_subtract);
+draw_set_colour(c_white);
+draw_circle(mouse_x, mouse_y, base_size * size, 0);
+draw_set_blend_mode(bm_normal);
 surface_reset_target();
 </string>
           </argument>
@@ -272,6 +291,15 @@ with (obj_spot)
 sprite_delete(sprite_low);
 sprite_delete(sprite_med);
 sprite_delete(sprite_high);
+var file;
+file = file_text_open_write("asteroids.dat");
+file_text_write_real(file, instance_number(obj_ast_parent));
+with(obj_ast_parent)
+{
+    file_text_write_real(file, x);
+    file_text_write_real(file, y);
+}
+file_text_close(file);
 </string>
           </argument>
         </arguments>

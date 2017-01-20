@@ -43,6 +43,17 @@ step = scale / 10;
 right_pressed = 0;
 drag_x = 0;
 drag_y = 0;
+var file;
+file = file_text_open_read("asteroids.dat");
+var num = file_text_read_real(file);
+repeat(num)
+{
+    var tx, ty;
+    tx = file_text_read_real(file) * 100;
+    ty = file_text_read_real(file) * 100;
+    instance_create(tx, ty, obj_asteroid);
+}
+file_text_close(file);
 </string>
           </argument>
         </arguments>
