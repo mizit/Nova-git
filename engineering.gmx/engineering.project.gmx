@@ -14,6 +14,8 @@
     </sprites>
     <sprites name="cells">
       <sprite>sprites\s_inv_cell</sprite>
+      <sprite>sprites\s_inv</sprite>
+      <sprite>sprites\s_tab_label</sprite>
     </sprites>
     <sprites name="power">
       <sprite>sprites\s_power_block</sprite>
@@ -56,7 +58,10 @@
       <script>scripts\cell_destructor.gml</script>
     </scripts>
     <scripts name="inventory">
-      <script>scripts\inv_cell_with_object.gml</script>
+      <scripts name="old">
+        <script>scripts\inv_cell_with_object.gml</script>
+      </scripts>
+      <script>scripts\inv_item_add.gml</script>
     </scripts>
     <script>scripts\grid_delete_object.gml</script>
     <scripts name="power">
@@ -123,6 +128,7 @@
       <object>objects\obj_element4</object>
       <object>objects\obj_element5</object>
     </objects>
+    <object>objects\obj_inv</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

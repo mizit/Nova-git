@@ -3,7 +3,7 @@
   <spriteName>s_power_block</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-2</depth>
   <persistent>0</persistent>
   <parentName>obj_power_parent</parentName>
   <maskName>&lt;undefined&gt;</maskName>

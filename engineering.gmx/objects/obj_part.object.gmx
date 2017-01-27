@@ -29,7 +29,7 @@
 rot_step = 90;
 need_permission = PM_TUBE;
 outputs = LEFT|RIGHT;
-dragging = 1;
+dragging = 0;
 </string>
           </argument>
         </arguments>
@@ -143,9 +143,12 @@ dragging = 1;
         g_y = floor((mouse_y - crnt_grid.y) / crnt_grid.cell_size);
         if (!part_set(crnt_grid, g_x, g_y))
         {
-            instance_destroy();
+            inv_item_add(id);
+            dragging = 0;
+        
+            /*instance_destroy();
             var i_cell = inv_cell_with_object(object_index);
-            i_cell.number ++;
+            i_cell.number ++;*/
         }
         else
         {
@@ -175,10 +178,10 @@ dragging = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>dragging = 1;
-var crnt_grid = grid_find_active();
-if (crnt_grid)
+            <string>var crnt_grid = grid_find_active();
+if (crnt_grid) &amp;&amp; (visible)
 {
+    dragging = 1;
     grid_delete_object(crnt_grid, id);
     power_recalculation(crnt_grid.ship_grid);
 }

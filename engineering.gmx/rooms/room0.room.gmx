@@ -10,7 +10,27 @@
   <persistent>0</persistent>
   <colour>12632256</colour>
   <showcolour>-1</showcolour>
-  <code></code>
+  <code>repeat(5)
+{
+    inv_item_add(instance_create(0, 0, obj_tube_straight));
+    inv_item_add(instance_create(0, 0, obj_tube_corner));
+    inv_item_add(instance_create(0, 0, obj_tube_tee));
+    inv_item_add(instance_create(0, 0, obj_tube_splitter));
+    inv_item_add(instance_create(0, 0, obj_element1));
+    inv_item_add(instance_create(0, 0, obj_element2));
+    inv_item_add(instance_create(0, 0, obj_element3));
+    inv_item_add(instance_create(0, 0, obj_element4));
+    inv_item_add(instance_create(0, 0, obj_element5));
+}
+inv_item_add(instance_create(0, 0, obj_power_block));
+repeat(3)
+{
+    inv_item_add(instance_create(0, 0, obj_engine_s));
+}
+inv_item_add(instance_create(0, 0, obj_life_system));
+inv_item_add(instance_create(0, 0, obj_weapon));
+inv_item_add(instance_create(0, 0, obj_weapon));
+inv_item_add(instance_create(0, 0, obj_navigation));</code>
   <enableViews>0</enableViews>
   <clearViewBackground>-1</clearViewBackground>
   <clearDisplayBuffer>-1</clearDisplayBuffer>
@@ -52,22 +72,9 @@
   </views>
   <instances>
     <instance objName="obj_grid" x="128" y="64" name="inst_C6C3075A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_inv_cell" x="32" y="64" name="inst_7D0019AD" locked="0" code="my_content = obj_tube_straight;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_inv_cell" x="32" y="160" name="inst_82A2A772" locked="0" code="my_content = obj_tube_corner;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_inv_cell" x="32" y="256" name="inst_B9FC7BCF" locked="0" code="my_content = obj_tube_tee;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_inv_cell" x="32" y="352" name="inst_D319F5C5" locked="0" code="my_content = obj_tube_splitter;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_inv_cell" x="608" y="64" name="inst_FA4D9D58" locked="0" code="my_content = obj_power_block;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_inv_cell" x="608" y="160" name="inst_945F5567" locked="0" code="my_content = obj_navigation;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_inv_cell" x="608" y="256" name="inst_3CF40484" locked="0" code="my_content = obj_life_system;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_button" x="32" y="576" name="inst_C9B530C4" locked="0" code="my_text = &quot;Save&quot;;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_button" x="160" y="576" name="inst_7DAF18B7" locked="0" code="my_text = &quot;Load&quot;;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_inv_cell" x="608" y="352" name="inst_6FAA0B02" locked="0" code="my_content = obj_weapon;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_inv_cell" x="608" y="448" name="inst_A0353E81" locked="0" code="my_content = obj_engine_s;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_inv_cell" x="736" y="320" name="inst_17D8283F" locked="0" code="my_content = obj_element1;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_inv_cell" x="800" y="320" name="inst_3ACF9390" locked="0" code="my_content = obj_element2;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_inv_cell" x="864" y="320" name="inst_E0787355" locked="0" code="my_content = obj_element3;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_inv_cell" x="768" y="384" name="inst_6A4192A7" locked="0" code="my_content = obj_element4;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_inv_cell" x="832" y="384" name="inst_75ECE7FC" locked="0" code="my_content = obj_element5;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_inv" x="32" y="544" name="inst_CCAC0BF7" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_inv" x="32" y="544" name="inst_60CDBEA4" locked="0" code="permission = INV_TUBE;&#xA;label_text = &quot;Tubes&quot;;&#xA;tab_num = 1;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_inv" x="32" y="544" name="inst_759D4BFB" locked="0" code="permission = INV_ELEMENTS;&#xA;label_text = &quot;Elements&quot;;&#xA;tab_num = 2;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

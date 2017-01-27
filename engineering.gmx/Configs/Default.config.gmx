@@ -655,7 +655,7 @@
     <option_xbone_title_id>1234ABCD</option_xbone_title_id>
   </Options>
   <ConfigConstants>
-    <constants number="19">
+    <constants number="22">
       <constant name="CELL_OBJECT">0</constant>
       <constant name="CELL_ANGLE">1</constant>
       <constant name="CELL_PERMISSION">2</constant>
@@ -675,6 +675,9 @@
       <constant name="PM_ENGINE">8</constant>
       <constant name="PM_WEAPON">16</constant>
       <constant name="PM_LIFE_SYSTEM">32</constant>
+      <constant name="INV_ELEMENTS">3</constant>
+      <constant name="INV_CONT">1</constant>
+      <constant name="INV_TUBE">2</constant>
     </constants>
   </ConfigConstants>
 </Config>

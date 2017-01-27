@@ -53,8 +53,9 @@ elements_list = ds_list_create();
             <kind>1</kind>
             <string>for (var i = 0; i &lt; ds_list_size(elements_list); i++)
 {
-    var inv_cell = inv_cell_with_object(elements_list[| i]);
-    inv_cell.number++;
+    inv_item_add(elements_list[| i]);
+    //var inv_cell = inv_cell_with_object(elements_list[| i]);
+    //inv_cell.number++;
 }
 ds_list_destroy(elements_list);
 if (selected)

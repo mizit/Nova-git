@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>dragging = 1;
+            <string>dragging = 0;
 depth = -5;
 </string>
           </argument>
@@ -76,19 +76,25 @@ depth = -5;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (instance_place(x, y, obj_part_grid))
+            <string>if (dragging)
 {
-    if (ds_list_size(obj_part_grid.elements_list) &lt; obj_part_grid.elements_max)
+    if (instance_place(x, y, obj_part_grid) &amp;&amp; 
+    (ds_list_size(obj_part_grid.elements_list) &lt; obj_part_grid.elements_max))
     {
-        ds_list_add(obj_part_grid.elements_list, object_index);
-        instance_destroy();
+            ds_list_add(obj_part_grid.elements_list, id);
+            visible = false;
+            dragging = 0;
+            //instance_destroy();
     }
-}
-else
-{
-    var cont = inv_cell_with_object(object_index);
-    cont.number++;
-    instance_destroy();
+    else
+    {
+        inv_item_add(id);
+        dragging = 0;
+        visible = false;
+        /*var cont = inv_cell_with_object(object_index);
+        cont.number++;
+        instance_destroy();*/
+    }
 }
 </string>
           </argument>
