@@ -19,6 +19,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QListView>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
@@ -62,6 +63,10 @@ public:
     QLineEdit *edit_dir;
     QPushButton *button_lockpos;
     QPushButton *button_setpos;
+    QGroupBox *groupBox_3;
+    QPushButton *button_add_item;
+    QListWidget *lview_items;
+    QListWidget *lview_inv;
     QPushButton *pushButton;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
@@ -114,7 +119,7 @@ public:
         combo_userpos->setGeometry(QRect(20, 20, 121, 22));
         groupBox_2 = new QGroupBox(tab_3);
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
-        groupBox_2->setGeometry(QRect(180, 40, 281, 201));
+        groupBox_2->setGeometry(QRect(170, 20, 281, 201));
         label_x = new QLabel(groupBox_2);
         label_x->setObjectName(QStringLiteral("label_x"));
         label_x->setGeometry(QRect(20, 20, 47, 13));
@@ -158,6 +163,18 @@ public:
         button_setpos = new QPushButton(groupBox_2);
         button_setpos->setObjectName(QStringLiteral("button_setpos"));
         button_setpos->setGeometry(QRect(150, 170, 75, 23));
+        groupBox_3 = new QGroupBox(tab_3);
+        groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
+        groupBox_3->setGeometry(QRect(470, 20, 531, 491));
+        button_add_item = new QPushButton(groupBox_3);
+        button_add_item->setObjectName(QStringLiteral("button_add_item"));
+        button_add_item->setGeometry(QRect(320, 450, 75, 23));
+        lview_items = new QListWidget(groupBox_3);
+        lview_items->setObjectName(QStringLiteral("lview_items"));
+        lview_items->setGeometry(QRect(280, 20, 231, 421));
+        lview_inv = new QListWidget(groupBox_3);
+        lview_inv->setObjectName(QStringLiteral("lview_inv"));
+        lview_inv->setGeometry(QRect(10, 20, 256, 451));
         tabWidget->addTab(tab_3, QString());
         pushButton = new QPushButton(centralWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
@@ -200,6 +217,8 @@ public:
         lable_dir->setText(QApplication::translate("MainWindow", "direction", 0));
         button_lockpos->setText(QApplication::translate("MainWindow", "\320\227\320\260\320\273\320\276\321\207\320\270\321\202\321\214", 0));
         button_setpos->setText(QApplication::translate("MainWindow", "\320\243\321\201\321\202\320\260\320\275\320\276\320\262\320\270\321\202\321\214", 0));
+        groupBox_3->setTitle(QApplication::translate("MainWindow", "Inventory", 0));
+        button_add_item->setText(QApplication::translate("MainWindow", "Add Item", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MainWindow", "\320\240\320\260\321\201\320\277\320\276\320\273\320\276\320\266\320\265\320\275\320\270\320\265", 0));
         pushButton->setText(QApplication::translate("MainWindow", "PushButton", 0));
     } // retranslateUi

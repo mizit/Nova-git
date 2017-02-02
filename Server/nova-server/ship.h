@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QPoint>
+#include <citem.h>
 
 class CShellPosition
 {
@@ -35,6 +36,7 @@ public:
     QString password;
     int *sockets[5];
     CShell *shell;
+    QList <CItem*> item_list;
 public:
     CShip();
 };

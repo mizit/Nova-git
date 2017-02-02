@@ -17,11 +17,13 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     mytablemodel.cpp \
     ship.cpp \
-    network.cpp
+    network.cpp \
+    citem.cpp
 
 HEADERS  += mainwindow.h \
     mytablemodel.h \
     ship.h \
-    network.h
+    network.h \
+    citem.h
 
 FORMS    += mainwindow.ui

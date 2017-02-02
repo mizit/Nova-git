@@ -58,6 +58,33 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->button_lockpos, SIGNAL(clicked()), this, SLOT(LockPos()));
     connect(ui->button_setpos, SIGNAL(clicked()), this, SLOT(SetPos()));
+
+    idgen = new CIdGen();
+
+    ui->lview_items->addItem(TUBE_STRAIGHT);
+    ui->lview_items->addItem(TUBE_CORNER);
+    ui->lview_items->addItem(TUBE_TEE);
+    ui->lview_items->addItem(TUBE_SPLITTER);
+
+    connect(ui->button_add_item, SIGNAL(clicked()), this, SLOT(ItemAdd()));
+}
+
+void MainWindow::ItemAdd()
+{
+    //quint8 pos = ui->lview_items->currentRow();
+    QString type = ui->lview_items->currentItem()->text();
+    QString name = ui->combo_userpos->currentText();
+    for (int i = 0; i < SHIPS.size(); i++)
+    {
+        if (SHIPS[i]->login == name)
+        {
+            CItem *item;
+            item = idgen->createItem(type);
+            SHIPS[i]->item_list.append(item);
+            item->small_list_position = SHIPS[i]->item_list.size() - 1;
+            ui->lview_inv->addItem(type + QString(" %1").arg(item->id));
+        }
+    }
 }
 
 void MainWindow::LockPos()
@@ -170,6 +197,12 @@ void MainWindow::DataUpdate()
             ui->edit_dir->setText(QString("%1").arg(SHIPS[i]->shell->pos->direction));
             ui->edit_speed->setText(QString("%1").arg(SHIPS[i]->shell->pos->speed));
             ui->edit_rspeed->setText(QString("%1").arg(SHIPS[i]->shell->pos->rot_speed));
+
+            ui->lview_inv->clear();
+            for (int j = 0; j < SHIPS[i]->item_list.size(); j++)
+            {
+                ui->lview_inv->addItem(SHIPS[i]->item_list[j]->type + QString(" %1").arg(SHIPS[i]->item_list[j]->id));
+            }
         }
     }
 }

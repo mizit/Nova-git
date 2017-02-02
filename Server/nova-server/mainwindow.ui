@@ -145,8 +145,8 @@
      <widget class="QGroupBox" name="groupBox_2">
       <property name="geometry">
        <rect>
-        <x>180</x>
-        <y>40</y>
+        <x>170</x>
+        <y>20</y>
         <width>281</width>
         <height>201</height>
        </rect>
@@ -319,6 +319,52 @@
        </property>
        <property name="text">
         <string>Установить</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="geometry">
+       <rect>
+        <x>470</x>
+        <y>20</y>
+        <width>531</width>
+        <height>491</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Inventory</string>
+      </property>
+      <widget class="QPushButton" name="button_add_item">
+       <property name="geometry">
+        <rect>
+         <x>320</x>
+         <y>450</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Add Item</string>
+       </property>
+      </widget>
+      <widget class="QListWidget" name="lview_items">
+       <property name="geometry">
+        <rect>
+         <x>280</x>
+         <y>20</y>
+         <width>231</width>
+         <height>421</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QListWidget" name="lview_inv">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>256</width>
+         <height>451</height>
+        </rect>
        </property>
       </widget>
      </widget>

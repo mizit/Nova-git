@@ -10,6 +10,8 @@
 #include <QSettings>
 #include <network.h>
 #include <QTimer>
+#include <citem.h>
+#include <QVariant>
 
 #define SHIPS   table_model->ship_list
 
@@ -36,6 +38,7 @@ private slots:
     void pbtn();
     void LockPos();
     void SetPos();
+    void ItemAdd();
 
 private:
     Ui::MainWindow *ui;
@@ -45,6 +48,7 @@ private:
     QStandardItemModel *log_model;
     QTimer *timer_update;
     QTimer *timer_save;
+    CIdGen *idgen;
 };
 
 
