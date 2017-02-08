@@ -4,6 +4,16 @@
 #include <QString>
 #include <QPoint>
 #include <citem.h>
+#include <QSettings>
+
+#define PM_TUBE     0x01
+#define PM_POWER    0x02
+#define PM_NAV      0x04
+#define PM_ENGINE   0x08
+#define PM_WEAPON   0x10
+#define PM_LS       0x20
+
+#define GRID_SIZE   7
 
 class CShellPosition
 {
@@ -17,12 +27,23 @@ public:
     CShellPosition();
 };
 
+class CCell
+{
+public:
+    CCell();
+public:
+    int permissions;
+};
+
 class CShell
 {
 public:
+    QString name;
+    CCell grid[GRID_SIZE][GRID_SIZE];
     CShellPosition* pos;
 public:
     CShell();
+    void loadgrid();
 };
 
 class CShip

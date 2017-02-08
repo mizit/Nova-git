@@ -32,7 +32,11 @@
 #define TUBE_TEE        "obj_tube_tee"
 #define TUBE_SPLITTER   "obj_tube_splitter"
 
-
+#define ITEM_SET    0x01
+#define ITEM_GET    0x02
+#define ITEM_ADD    0x03
+#define ITEM_NUM    0x10
+#define ITEM_ID     0x20
 
 class CItem
 {

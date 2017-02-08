@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-1</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -25,18 +25,20 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>width = 1;
-height = 1;
-selected = 0;
-elements_list = ds_list_create();
-net_id = 0;
-hp = 0;
+            <string>a = -1
+my_string = '';
+keyboard_string = ''
+blink=''
+selected = 1;
+my_font = f_menu;
+x1=1 y1=1 x2=room_width y2=230 
+alarm[0]=15
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="1" enumb="0">
+    <event eventtype="2" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -53,20 +55,15 @@ hp = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>for (var i = 0; i &lt; ds_list_size(elements_list); i++)
+            <string>if(blink='')
 {
-    inv_item_add(elements_list[| i]);
-    //var inv_cell = inv_cell_with_object(elements_list[| i]);
-    //inv_cell.number++;
+blink='|'
 }
-ds_list_destroy(elements_list);
-if (selected)
+else
 {
-    with(obj_part_grid)
-    {
-        instance_destroy();
-    }
+blink=''
 }
+alarm[0]=15
 </string>
           </argument>
         </arguments>
@@ -89,23 +86,56 @@ if (selected)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_self();
-if (selected)
+            <string> draw_set_font(my_font);
+ draw_set_colour(c_black);
+ if (selected)
+ {
+    my_string = keyboard_string;
+ }
+ if (selected)
+ {   
+    draw_text(x, y, my_string + string(blink));
+ }
+ else
+ {
+    draw_text(x, y, my_string);
+ }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="10" enumb="13">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>
+/*switch (keyboard_string)
+    {
+    case "hing":room_goto_next()
+    break;
+    }//end switch
+*/        
+if ((selected) &amp;&amp; (string_length(keyboard_string)))
 {
-    draw_sprite(s_select_corner, -1, x - abs(lengthdir_x(sprite_xoffset, image_angle))
-    - abs(lengthdir_y(sprite_yoffset, image_angle)), y - abs(lengthdir_y(sprite_xoffset, image_angle))
-    - abs(lengthdir_x(sprite_yoffset, image_angle)));
-    draw_sprite_ext(s_select_corner, -1, x + abs(lengthdir_x(sprite_xoffset, image_angle))
-    + abs(lengthdir_y(sprite_yoffset, image_angle)), y - abs(lengthdir_y(sprite_xoffset, image_angle))
-    - abs(lengthdir_x(sprite_yoffset, image_angle)), -1, 1, 0, c_white, 1);
-    draw_sprite_ext(s_select_corner, -1, x - abs(lengthdir_x(sprite_xoffset, image_angle))
-    - abs(lengthdir_y(sprite_yoffset, image_angle)), y + abs(lengthdir_y(sprite_xoffset, image_angle))
-    + abs(lengthdir_x(sprite_yoffset, image_angle)), 1, -1, 0, c_white, 1);
-    draw_sprite_ext(s_select_corner, -1, x + abs(lengthdir_x(sprite_xoffset, image_angle))
-    + abs(lengthdir_y(sprite_yoffset, image_angle)), y + abs(lengthdir_y(sprite_xoffset, image_angle))
-    + abs(lengthdir_x(sprite_yoffset, image_angle)), -1, -1, 0, c_white, 1);
+    login = keyboard_string;
+    keyboard_string = "";
+    obj_pass.selected = 1
+    selected = 0;
 }
-
 </string>
           </argument>
         </arguments>

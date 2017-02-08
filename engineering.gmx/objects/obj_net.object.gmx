@@ -2,9 +2,9 @@
 <object>
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
-  <visible>-1</visible>
+  <visible>0</visible>
   <depth>0</depth>
-  <persistent>0</persistent>
+  <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
@@ -25,18 +25,17 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>width = 1;
-height = 1;
-selected = 0;
-elements_list = ds_list_create();
-net_id = 0;
-hp = 0;
+            <string>ip=get_string("Айпи: ","127.0.0.1");
+socket = network_create_socket(network_socket_tcp);
+isConnected = network_connect_raw(socket, ip, 63258);
+net_buf = buffer_create(1024, buffer_fixed, 1);
+fifo = ds_queue_create();
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="1" enumb="0">
+    <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -53,18 +52,53 @@ hp = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>for (var i = 0; i &lt; ds_list_size(elements_list); i++)
+            <string>//if (Result &amp;&amp; obj_ship.topical_data)
+//{
+    /*buffer_seek(Buffer , buffer_seek_start , 0);
+    buffer_write(Buffer , buffer_u8 , NET_POSITION);
+    buffer_write(Buffer , buffer_s32 , global.myid);
+    buffer_write(Buffer, buffer_string, login);
+    buffer_write(Buffer , buffer_f32 , obj_ship.image_angle);
+    buffer_write(Buffer , buffer_f32 , obj_ship.x);
+    buffer_write(Buffer , buffer_f32 , obj_ship.y);
+    network_send_packet(Socket , Buffer , buffer_tell(Buffer));*/
+//}
+net_data_parsing(fifo);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="68">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>var type_event = ds_map_find_value(async_load, "type");
+switch(type_event) 
 {
-    inv_item_add(elements_list[| i]);
-    //var inv_cell = inv_cell_with_object(elements_list[| i]);
-    //inv_cell.number++;
-}
-ds_list_destroy(elements_list);
-if (selected)
-{
-    with(obj_part_grid)
+    case network_type_data:
     {
-        instance_destroy();
+        //var buffer = ds_map_find_value(async_load, "buffer");
+        //net_data_parsing(buffer);
+        //show_message(ds_map_find_value(async_load, "size"));
+        var buffer = buffer_create(ds_map_find_value(async_load, "size"), buffer_fixed, 1);
+        buffer_copy(async_load[? "buffer"], 0, async_load[? "size"], buffer, 0);
+        //show_message(buffer_get_size(buffer));
+        ds_queue_enqueue(fifo, buffer);
+        break;
     }
 }
 </string>
@@ -72,7 +106,7 @@ if (selected)
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="0">
+    <event eventtype="7" enumb="3">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -89,23 +123,9 @@ if (selected)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_self();
-if (selected)
-{
-    draw_sprite(s_select_corner, -1, x - abs(lengthdir_x(sprite_xoffset, image_angle))
-    - abs(lengthdir_y(sprite_yoffset, image_angle)), y - abs(lengthdir_y(sprite_xoffset, image_angle))
-    - abs(lengthdir_x(sprite_yoffset, image_angle)));
-    draw_sprite_ext(s_select_corner, -1, x + abs(lengthdir_x(sprite_xoffset, image_angle))
-    + abs(lengthdir_y(sprite_yoffset, image_angle)), y - abs(lengthdir_y(sprite_xoffset, image_angle))
-    - abs(lengthdir_x(sprite_yoffset, image_angle)), -1, 1, 0, c_white, 1);
-    draw_sprite_ext(s_select_corner, -1, x - abs(lengthdir_x(sprite_xoffset, image_angle))
-    - abs(lengthdir_y(sprite_yoffset, image_angle)), y + abs(lengthdir_y(sprite_xoffset, image_angle))
-    + abs(lengthdir_x(sprite_yoffset, image_angle)), 1, -1, 0, c_white, 1);
-    draw_sprite_ext(s_select_corner, -1, x + abs(lengthdir_x(sprite_xoffset, image_angle))
-    + abs(lengthdir_y(sprite_yoffset, image_angle)), y + abs(lengthdir_y(sprite_xoffset, image_angle))
-    + abs(lengthdir_x(sprite_yoffset, image_angle)), -1, -1, 0, c_white, 1);
-}
-
+            <string>//net_send_im_out(net_buf, socket);
+network_destroy(socket);
+buffer_delete(net_buf);
 </string>
           </argument>
         </arguments>

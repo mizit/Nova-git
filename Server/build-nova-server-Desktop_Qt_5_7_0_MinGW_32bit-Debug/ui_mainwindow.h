@@ -46,6 +46,8 @@ public:
     QLabel *label_2;
     QLineEdit *editPass;
     QPushButton *buttonUsrCrt;
+    QComboBox *cbox_shelltype;
+    QLabel *label_3;
     QWidget *tab_3;
     QComboBox *combo_userpos;
     QGroupBox *groupBox_2;
@@ -95,7 +97,7 @@ public:
         tab_2->setObjectName(QStringLiteral("tab_2"));
         groupBox = new QGroupBox(tab_2);
         groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setGeometry(QRect(10, 10, 171, 171));
+        groupBox->setGeometry(QRect(10, 20, 171, 241));
         editLogin = new QLineEdit(groupBox);
         editLogin->setObjectName(QStringLiteral("editLogin"));
         editLogin->setGeometry(QRect(30, 40, 113, 20));
@@ -110,7 +112,13 @@ public:
         editPass->setGeometry(QRect(30, 90, 113, 20));
         buttonUsrCrt = new QPushButton(groupBox);
         buttonUsrCrt->setObjectName(QStringLiteral("buttonUsrCrt"));
-        buttonUsrCrt->setGeometry(QRect(70, 130, 75, 23));
+        buttonUsrCrt->setGeometry(QRect(60, 200, 75, 23));
+        cbox_shelltype = new QComboBox(groupBox);
+        cbox_shelltype->setObjectName(QStringLiteral("cbox_shelltype"));
+        cbox_shelltype->setGeometry(QRect(30, 150, 111, 22));
+        label_3 = new QLabel(groupBox);
+        label_3->setObjectName(QStringLiteral("label_3"));
+        label_3->setGeometry(QRect(20, 130, 47, 13));
         tabWidget->addTab(tab_2, QString());
         tab_3 = new QWidget();
         tab_3->setObjectName(QStringLiteral("tab_3"));
@@ -193,7 +201,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(2);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -207,6 +215,7 @@ public:
         label->setText(QApplication::translate("MainWindow", "Login", 0));
         label_2->setText(QApplication::translate("MainWindow", "Password", 0));
         buttonUsrCrt->setText(QApplication::translate("MainWindow", "Create", 0));
+        label_3->setText(QApplication::translate("MainWindow", "Shell type", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "\320\241\320\276\320\267\320\264\320\260\320\275\320\270\320\265", 0));
         groupBox_2->setTitle(QApplication::translate("MainWindow", "GroupBox", 0));
         label_x->setText(QApplication::translate("MainWindow", "x", 0));

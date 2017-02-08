@@ -41,7 +41,17 @@ cell_size = 64;
 active = true;
 
 ps_list = ds_list_create();
-ini_open("ships.ini");
+for (var i = 0; i &lt; 7; i++)
+{
+    for (var j = 0; j &lt; 7; j++)
+    {
+        cell_set_permission(ship_grid, i, j, 0);
+    }
+}
+net_send_shell(obj_net.net_buf, obj_net.socket);
+first_load = 1;
+item_counter = 0;
+/*ini_open("ships.ini");
 for (var i = 0; i &lt; 7; i++)
 {
     for (var j = 0; j &lt; 7; j++)
@@ -49,7 +59,7 @@ for (var i = 0; i &lt; 7; i++)
         cell_set_permission(ship_grid, i, j, ini_read_real("First ship", string(i) + "x" + string(j), 0));
     }
 }
-ini_close();
+ini_close();*/
 
 /*
 cell_set_permission(ship_grid, 5, 0, 0);

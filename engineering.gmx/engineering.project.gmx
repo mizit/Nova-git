@@ -89,9 +89,24 @@
       </scripts>
       <script>scripts\part_set_selected.gml</script>
     </scripts>
+    <scripts name="net">
+      <script>scripts\net_data_command_parsing.gml</script>
+      <script>scripts\net_data_parsing.gml</script>
+      <script>scripts\buffer_write_size.gml</script>
+      <scripts name="send">
+        <script>scripts\net_send_first_load.gml</script>
+        <script>scripts\net_send_shell.gml</script>
+        <script>scripts\net_send_hello.gml</script>
+        <script>scripts\net_send_item_get_num.gml</script>
+        <script>scripts\net_send_im_out.gml</script>
+        <script>scripts\net_send_mark.gml</script>
+        <script>scripts\net_send_position.gml</script>
+      </scripts>
+    </scripts>
   </scripts>
   <fonts name="fonts">
     <font>fonts\f_cell_number</font>
+    <font>fonts\f_menu</font>
   </fonts>
   <objects name="objects">
     <object>objects\obj_grid</object>
@@ -129,8 +144,15 @@
       <object>objects\obj_element5</object>
     </objects>
     <object>objects\obj_inv</object>
+    <object>objects\obj_net</object>
+    <objects name="autorization">
+      <object>objects\obj_login</object>
+      <object>objects\obj_pass</object>
+      <object>objects\obj_title</object>
+    </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\r_authorization</room>
     <room>rooms\room0</room>
   </rooms>
   <help>

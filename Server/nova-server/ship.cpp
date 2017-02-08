@@ -16,6 +16,19 @@ CShip::CShip()
     shell = new CShell();
 }
 
+void CShell::loadgrid()
+{
+    QSettings sett("data/ships.ini", QSettings::IniFormat);
+    sett.beginGroup(name);
+    for (int i = 0; i < GRID_SIZE; i++)
+    {
+        for (int j = 0; j < GRID_SIZE; j++)
+        {
+            grid[i][j].permissions = sett.value(QString("%1x%2").arg(i).arg(j)).toFloat();
+        }
+    }
+}
+
 
 CShellPosition::CShellPosition()
 {
@@ -29,4 +42,9 @@ CShellPosition::CShellPosition()
 CShell::CShell()
 {
     pos = new CShellPosition();
+}
+
+CCell::CCell()
+{
+
 }

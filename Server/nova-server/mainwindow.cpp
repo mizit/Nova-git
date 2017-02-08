@@ -8,6 +8,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    idgen = new CIdGen();
+
     log_model = new QStandardItemModel();
     ui->log->setModel(log_model);
 
@@ -22,8 +24,17 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->buttonUsrCrt, SIGNAL(clicked()), this, SLOT(UserCreate()));
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(pbtn()));
 
-    QSettings sett("users.ini", QSettings::IniFormat);
     int num = 0;
+    QVariant buf;
+    QSettings load_shell("data/ships.ini", QSettings::IniFormat);
+    load_shell.beginGroup("Base");
+    num = load_shell.value("number").toFloat();
+    for (int i = 0; i < num; i++)
+    {
+        ui->cbox_shelltype->addItem(load_shell.value(QString("Ship%1").arg(i)).toString());
+    }
+
+    QSettings sett("users.ini", QSettings::IniFormat);
     sett.beginGroup("General");
     num = sett.value("NUM", 0).toInt();
     sett.endGroup();
@@ -36,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
         sett.endGroup();
         sett.beginGroup(ship->login);
         ship->password = sett.value("password").toString();
+        ship->shell->name = sett.value("Ship type").toString();
         sett.endGroup();
         table_model->add_ship(ship);
         ui->combo_userpos->addItem(ship->login);
@@ -46,6 +58,26 @@ MainWindow::MainWindow(QWidget *parent) :
         ship->shell->pos->image_angle = settPos.value("image_angle").toInt();
         ship->shell->pos->rot_speed = settPos.value("rot_speed").toInt();
         ship->shell->pos->speed = settPos.value("speed").toInt();
+        ship->shell->loadgrid();
+
+        QSettings settInv(QString("save/%1/inventory.ini").arg(ship->login), QSettings::IniFormat);
+        settInv.beginGroup("general");
+        int item_num = settInv.value("num").toInt();
+        settInv.endGroup();
+        for (int j = 0; j < item_num; j++)
+        {
+            settInv.beginGroup(QString("item%1").arg(j));
+            CItem* tmp_item;
+            QString type = settInv.value("type").toString();
+            tmp_item = idgen->createItem(type);
+            tmp_item->pos.setX(settPos.value("x").toInt());
+            tmp_item->pos.setY(settPos.value("y").toInt());
+            tmp_item->hp = settPos.value("hp").toInt();
+            tmp_item->power = settPos.value("x").toInt();
+            settInv.endGroup();
+            ship->item_list.append(tmp_item);
+            tmp_item->small_list_position = ship->item_list.size() - 1;
+        }
     }
 
     timer_update = new QTimer();
@@ -58,8 +90,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->button_lockpos, SIGNAL(clicked()), this, SLOT(LockPos()));
     connect(ui->button_setpos, SIGNAL(clicked()), this, SLOT(SetPos()));
-
-    idgen = new CIdGen();
 
     ui->lview_items->addItem(TUBE_STRAIGHT);
     ui->lview_items->addItem(TUBE_CORNER);
@@ -130,6 +160,21 @@ void MainWindow::DataSave()
         settPos.setValue("image_angle", SHIPS[i]->shell->pos->image_angle);
         settPos.setValue("rot_speed", SHIPS[i]->shell->pos->rot_speed);
         settPos.setValue("speed", SHIPS[i]->shell->pos->speed);
+
+        QSettings settInv(QString("save/%1/inventory.ini").arg(SHIPS[i]->login), QSettings::IniFormat);
+        settInv.beginGroup("general");
+        settInv.setValue("num", SHIPS[i]->item_list.size());
+        settInv.endGroup();
+        for (int j = 0; j < SHIPS[i]->item_list.size(); j++)
+        {
+            settInv.beginGroup(QString("item%1").arg(j));
+            settInv.setValue("type", SHIPS[i]->item_list[j]->type);
+            settInv.setValue("x", SHIPS[i]->item_list[j]->pos.rx());
+            settInv.setValue("y", SHIPS[i]->item_list[j]->pos.ry());
+            settInv.setValue("hp", SHIPS[i]->item_list[j]->hp);
+            settInv.setValue("power", SHIPS[i]->item_list[j]->power);
+            settInv.endGroup();
+        }
     }
 }
 
@@ -157,11 +202,13 @@ void MainWindow::UserCreate()
     sett.endGroup();
     sett.beginGroup(ui->editLogin->text());
     sett.setValue("Password", ui->editPass->text());
+    sett.setValue("Ship type", ui->cbox_shelltype->currentText());
     sett.endGroup();
     CShip *ship;
     ship = new CShip();
     ship->login = ui->editLogin->text();
     ship->password = ui->editPass->text();
+    ship->shell->name = ui->cbox_shelltype->currentText();
     table_model->add_ship(ship);
 }
 
@@ -340,6 +387,87 @@ void MainWindow::slotReadClient()
             if (clientSocket->parentShip->pilotSocket > 0)
             {
                 net_send_mark(SClients[clientSocket->parentShip->pilotSocket], x, y);
+            }
+            break;
+        }
+        case NET_ITEM:
+        {
+            char def_com = data[1];
+            CItem *tmp_item = 0;
+            if ((def_com & 0x0F) == ITEM_SET)
+            {
+                if ((def_com & 0xF0) == ITEM_ID)
+                {
+                    qint64 tmp_id = GetInt64((unsigned char*)data, 2);
+                    for (int i = 0; i < idgen->item_list.size(); i++)
+                    {
+                        if (idgen->item_list[i]->id == tmp_id)
+                        {
+                            tmp_item = idgen->item_list[i];
+                        }
+                    }
+                }
+                if ((def_com & 0xF0) == ITEM_NUM)
+                {
+                    qint64 num = GetInt64((unsigned char*)data, 2);
+                    if ((num > 0) && (num < clientSocket->parentShip->item_list.size()))
+                    {
+                        tmp_item = clientSocket->parentShip->item_list[num];
+                    }
+                }
+                if (tmp_item)
+                {
+                    tmp_item->type = GetString(data, 10);
+                    tmp_item->pos.setX(GetInt32((unsigned char*)data, 11 + tmp_item->type.length()));
+                    tmp_item->pos.setY(GetInt32((unsigned char*)data, 15 + tmp_item->type.length()));
+                    tmp_item->image_alpha = GetInt32((unsigned char*)data, 19 + tmp_item->type.length());
+                    tmp_item->hp = GetInt32((unsigned char*)data, 23 + tmp_item->type.length());
+                }
+            }
+            if ((def_com & 0x0F) == ITEM_GET)
+            {
+                if ((def_com & 0xF0) == ITEM_ID)
+                {
+                    qint64 tmp_id = GetInt64((unsigned char*)data, 2);
+                    for (int i = 0; i < idgen->item_list.size(); i++)
+                    {
+                        if (idgen->item_list[i]->id == tmp_id)
+                        {
+                            tmp_item = idgen->item_list[i];
+                        }
+                    }
+                }
+                if ((def_com & 0xF0) == ITEM_NUM)
+                {
+                    qint64 num = GetInt64((unsigned char*)data, 2);
+                    if ((num > -1) && (num < clientSocket->parentShip->item_list.size()))
+                    {
+                        tmp_item = clientSocket->parentShip->item_list[num];
+                    }
+                }
+                if (tmp_item == 0)
+                {
+                    tmp_item = new CItem();
+                    net_send_item(clientSocket, tmp_item);
+                    delete tmp_item;
+                }
+                else
+                {
+                    net_send_item(clientSocket, tmp_item);
+                }
+
+            }
+            break;
+        }
+        case NET_SHELL:
+        {
+            QString goal = GetString(data, 1);
+            for (int i = 0; i < SHIPS.size(); i++)
+            {
+                if (SHIPS[i]->login == goal)
+                {
+                    net_send_shell(clientSocket, SHIPS[i]->shell);
+                }
             }
         }
     }

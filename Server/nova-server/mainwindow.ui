@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -59,9 +59,9 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>10</y>
+        <y>20</y>
         <width>171</width>
-        <height>171</height>
+        <height>241</height>
        </rect>
       </property>
       <property name="title">
@@ -116,14 +116,37 @@
       <widget class="QPushButton" name="buttonUsrCrt">
        <property name="geometry">
         <rect>
-         <x>70</x>
-         <y>130</y>
+         <x>60</x>
+         <y>200</y>
          <width>75</width>
          <height>23</height>
         </rect>
        </property>
        <property name="text">
         <string>Create</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="cbox_shelltype">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>150</y>
+         <width>111</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_3">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>130</y>
+         <width>47</width>
+         <height>13</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Shell type</string>
        </property>
       </widget>
      </widget>

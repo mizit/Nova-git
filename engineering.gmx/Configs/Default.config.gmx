@@ -655,7 +655,7 @@
     <option_xbone_title_id>1234ABCD</option_xbone_title_id>
   </Options>
   <ConfigConstants>
-    <constants number="22">
+    <constants number="39">
       <constant name="CELL_OBJECT">0</constant>
       <constant name="CELL_ANGLE">1</constant>
       <constant name="CELL_PERMISSION">2</constant>
@@ -678,6 +678,23 @@
       <constant name="INV_ELEMENTS">3</constant>
       <constant name="INV_CONT">1</constant>
       <constant name="INV_TUBE">2</constant>
+      <constant name="NET_GOOD_DAY">1</constant>
+      <constant name="NET_POSITION">2</constant>
+      <constant name="NET_FIRST_LOAD">3</constant>
+      <constant name="NET_IM_OUT">4</constant>
+      <constant name="NET_MARK">5</constant>
+      <constant name="NET_ITEM">6</constant>
+      <constant name="NET_SHELL">7</constant>
+      <constant name="PT_ENGINEERING">3</constant>
+      <constant name="NO">0</constant>
+      <constant name="YES">1</constant>
+      <constant name="BUSY">2</constant>
+      <constant name="ERROR">3</constant>
+      <constant name="ITEM_SET">1</constant>
+      <constant name="ITEM_GET">2</constant>
+      <constant name="ITEM_ADD">3</constant>
+      <constant name="ITEM_NUM">16</constant>
+      <constant name="ITEM_ID">32</constant>
     </constants>
   </ConfigConstants>
 </Config>

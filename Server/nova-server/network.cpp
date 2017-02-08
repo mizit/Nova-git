@@ -41,6 +41,15 @@ qint32 GetInt32(unsigned char *str, int pos)
     return ans;
 }
 
+qint64 GetInt64(unsigned char *str, int pos)
+{
+    qint64 ans = 0;
+    ans = ((qint64)str[pos + 7] << 56) + ((qint64)str[pos + 6] << 48) +
+            ((qint64)str[pos + 5] << 40) + ((qint64)str[pos + 4] << 32) +
+            (str[pos + 3] << 24) + (str[pos + 2] << 16) + (str[pos + 1] << 8) + str[pos];
+    return ans;
+}
+
 qint32 SetToRawData(unsigned char *str, int pos, qint32 data)
 {
     str[pos] = data & 0xFF;
@@ -48,6 +57,15 @@ qint32 SetToRawData(unsigned char *str, int pos, qint32 data)
     str[pos + 2] = (data & 0xFF0000) >> 16;
     str[pos + 3] = (data & 0xFF000000) >> 24;
     return pos + 4;
+}
+
+qint32 SetToRawData(unsigned char *str, int pos, qint64 data)
+{
+    for (int i = 0; i < 8; i++)
+    {
+        str[pos + i] = data & (0xFF << (i * 8)) >> (i * 8);
+    }
+    return pos + 8;
 }
 
 qint32 SetToRawData(unsigned char *str, int pos, QString data)
@@ -111,5 +129,49 @@ void net_send_mark(MySocket* socket, qint32 x, qint32 y)
     int runner = 3;
     runner = SetToRawData(data, runner, x);
     runner = SetToRawData(data, runner, y);
+    socket->MyWrite((char*)data, runner - 2);
+}
+
+void net_send_item(MySocket* socket, CItem* item)
+{
+    QDataStream net_data(socket);
+    int len = 0;
+    len += sizeof(qint64); //id
+    len += sizeof(QPoint); //pos
+    len += sizeof(int); //image_alpha
+    len += item->type.length(); //type
+    len += sizeof(int); //hp
+    unsigned char *data;
+    data = new unsigned char[len];
+    data[2] = NET_ITEM;
+    int runner = 3;
+    runner = SetToRawData(data, runner, item->type);
+    runner = SetToRawData(data, runner, item->id);
+    runner = SetToRawData(data, runner, item->pos.rx());
+    runner = SetToRawData(data, runner, item->pos.ry());
+    runner = SetToRawData(data, runner, item->image_alpha);
+    runner = SetToRawData(data, runner, item->hp);
+    data[0] = (unsigned char)(runner & 0xFF);
+    data[1] = (unsigned char)((runner & 0xFF00) << 8);
+    socket->MyWrite((char*)data, runner - 2);
+}
+
+void net_send_shell(MySocket* socket, CShell* shell)
+{
+    QDataStream net_data(socket);
+    int len = 4 * GRID_SIZE * GRID_SIZE;
+    unsigned char *data;
+    data = new unsigned char[len];
+    data[2] = NET_SHELL;
+    int runner = 3;
+    for (int i = 0; i < GRID_SIZE; i++)
+    {
+        for (int j = 0; j < GRID_SIZE; j++)
+        {
+            runner = SetToRawData(data, runner, shell->grid[i][j].permissions);
+        }
+    }
+    data[0] = (unsigned char)(runner & 0xFF);
+    data[1] = (unsigned char)((runner & 0xFF00) << 8);
     socket->MyWrite((char*)data, runner - 2);
 }
