@@ -6,7 +6,7 @@ CItem::CItem()
     owner = "space";
     pos.setX(0);
     pos.setY(0);
-    image_alpha = 0;
+    image_angle = 0;
     type = "noone";
     hp = 100;
     power = 100;

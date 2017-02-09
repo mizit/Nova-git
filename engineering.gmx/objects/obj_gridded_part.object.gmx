@@ -185,7 +185,7 @@ grid_outputs[# 0, 1] = LEFT|DOWN;
     var g_x, g_y;
     g_x = floor((mouse_x - crnt_grid.x) / crnt_grid.cell_size); 
     g_y = floor((mouse_y - crnt_grid.y) / crnt_grid.cell_size);
-    if (!gridded_part_set(crnt_grid, g_x, g_y))
+    if (!gridded_part_set(crnt_grid, g_x, g_y, 1))
     {
         inv_item_add(id);
         dragging = 0;

@@ -57,10 +57,11 @@ switch (l_command)
         if (l_name > 0)
         {
             var l_obj = instance_create(0, 0, l_name);
-            var l_id = buffer_read(l_buf, buffer_u64);
+            var l_id = buffer_read(l_buf, buffer_u32);
+            buffer_read(l_buf, buffer_u32);
             var l_x = buffer_read(l_buf, buffer_u32);
             var l_y = buffer_read(l_buf, buffer_u32);
-            var l_ia = buffer_read(l_buf, buffer_u32);
+            var l_ia = buffer_read(l_buf, buffer_s32);
             var l_hp = buffer_read(l_buf, buffer_u32);
             l_obj.net_id = l_id;
             l_obj.hp = l_hp;
@@ -78,7 +79,7 @@ switch (l_command)
                     with(l_obj)
                     {
                         part_outputs_shift(l_obj.image_angle);
-                        part_set(obj_grid, l_x, l_y);
+                        part_set(obj_grid, l_x, l_y, 0);
                     }
                 }
                 if (object_is_ancestor(l_obj.object_index, obj_gridded_part))
@@ -86,7 +87,7 @@ switch (l_command)
                     with(l_obj)
                     {
                         gridded_part_outputs_shift(l_obj.image_angle);
-                        gridded_part_set(obj_grid, l_x, l_y);
+                        gridded_part_set(obj_grid, l_x, l_y, 0);
                     }
                 }
             }

@@ -63,7 +63,7 @@ qint32 SetToRawData(unsigned char *str, int pos, qint64 data)
 {
     for (int i = 0; i < 8; i++)
     {
-        str[pos + i] = data & (0xFF << (i * 8)) >> (i * 8);
+        str[pos + i] = (data & (0xFF << (i * 8))) >> (i * 8);
     }
     return pos + 8;
 }
@@ -138,18 +138,18 @@ void net_send_item(MySocket* socket, CItem* item)
     int len = 0;
     len += sizeof(qint64); //id
     len += sizeof(QPoint); //pos
-    len += sizeof(int); //image_alpha
+    len += sizeof(int); //image_angle
     len += item->type.length(); //type
     len += sizeof(int); //hp
-    unsigned char *data;
-    data = new unsigned char[len];
+    unsigned char data[100];
+    //data = new unsigned char[len];
     data[2] = NET_ITEM;
     int runner = 3;
     runner = SetToRawData(data, runner, item->type);
     runner = SetToRawData(data, runner, item->id);
     runner = SetToRawData(data, runner, item->pos.rx());
     runner = SetToRawData(data, runner, item->pos.ry());
-    runner = SetToRawData(data, runner, item->image_alpha);
+    runner = SetToRawData(data, runner, item->image_angle);
     runner = SetToRawData(data, runner, item->hp);
     data[0] = (unsigned char)(runner & 0xFF);
     data[1] = (unsigned char)((runner & 0xFF00) << 8);

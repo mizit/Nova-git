@@ -1,5 +1,5 @@
 ///load_inventory();
-var part_num = 0;
+/*var part_num = 0;
 ini_open("inventory.ini");
 while (ini_section_exists("Container" + string(part_num)))
 {
@@ -11,4 +11,4 @@ while (ini_section_exists("Container" + string(part_num)))
     }
     part_num++;
 }
-ini_close();
+ini_close();*/

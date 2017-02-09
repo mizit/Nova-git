@@ -1,5 +1,5 @@
 ///load_grid(grid);
-var crnt_grid = argument0;
+/*var crnt_grid = argument0;
 ini_open("ship_grid.ini");
 for (var i = 0; i < 7; i++)
 {
@@ -41,4 +41,4 @@ while (ini_section_exists("Gridded Part" + string(part_num)))
     }
     part_num++;
 }
-ini_close();
+ini_close();*/

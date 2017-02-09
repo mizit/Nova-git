@@ -46,7 +46,7 @@ public:
     qint64 id;
     QString owner;
     QPoint pos;
-    int image_alpha;
+    int image_angle;
     QString type;
     int hp;
     int power;

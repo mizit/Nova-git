@@ -61,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ship->shell->loadgrid();
 
         QSettings settInv(QString("save/%1/inventory.ini").arg(ship->login), QSettings::IniFormat);
-        settInv.beginGroup("general");
+        settInv.beginGroup("General");
         int item_num = settInv.value("num").toInt();
         settInv.endGroup();
         for (int j = 0; j < item_num; j++)
@@ -70,13 +70,16 @@ MainWindow::MainWindow(QWidget *parent) :
             CItem* tmp_item;
             QString type = settInv.value("type").toString();
             tmp_item = idgen->createItem(type);
-            tmp_item->pos.setX(settPos.value("x").toInt());
-            tmp_item->pos.setY(settPos.value("y").toInt());
-            tmp_item->hp = settPos.value("hp").toInt();
-            tmp_item->power = settPos.value("x").toInt();
+            tmp_item->owner = ship->login;
+            tmp_item->pos.setX(settInv.value("x").toFloat());
+            tmp_item->pos.setY(settInv.value("y").toFloat());
+            tmp_item->hp = settInv.value("hp").toFloat();
+            tmp_item->power = settInv.value("x").toFloat();
+            tmp_item->image_angle = settInv.value("image_angle").toFloat();
             settInv.endGroup();
             ship->item_list.append(tmp_item);
             tmp_item->small_list_position = ship->item_list.size() - 1;
+
         }
     }
 
@@ -113,6 +116,10 @@ void MainWindow::ItemAdd()
             SHIPS[i]->item_list.append(item);
             item->small_list_position = SHIPS[i]->item_list.size() - 1;
             ui->lview_inv->addItem(type + QString(" %1").arg(item->id));
+            if (SHIPS[i]->engSocket > 0)
+            {
+                net_send_item(SClients[SHIPS[i]->engSocket], item);
+            }
         }
     }
 }
@@ -173,6 +180,7 @@ void MainWindow::DataSave()
             settInv.setValue("y", SHIPS[i]->item_list[j]->pos.ry());
             settInv.setValue("hp", SHIPS[i]->item_list[j]->hp);
             settInv.setValue("power", SHIPS[i]->item_list[j]->power);
+            settInv.setValue("image_angle", SHIPS[i]->item_list[j]->image_angle);
             settInv.endGroup();
         }
     }
@@ -272,13 +280,13 @@ void MainWindow::UserDisconnected()
 void MainWindow::slotReadClient()
 {
     MySocket* clientSocket = (MySocket*)sender();
-    char *data;
+    char data[38];
     char tmp_len[2];
     int len;
     QDataStream net_data(clientSocket);
     net_data.readRawData(tmp_len, 2);
     len = (tmp_len[1] << 8) + tmp_len[0];
-    data = new char[len];
+    //data = new char[len];
     net_data.readRawData(data, len);
     //LogAddString(RawDataToString(data, len));
     switch (data[0])
@@ -420,7 +428,7 @@ void MainWindow::slotReadClient()
                     tmp_item->type = GetString(data, 10);
                     tmp_item->pos.setX(GetInt32((unsigned char*)data, 11 + tmp_item->type.length()));
                     tmp_item->pos.setY(GetInt32((unsigned char*)data, 15 + tmp_item->type.length()));
-                    tmp_item->image_alpha = GetInt32((unsigned char*)data, 19 + tmp_item->type.length());
+                    tmp_item->image_angle = GetInt32((unsigned char*)data, 19 + tmp_item->type.length());
                     tmp_item->hp = GetInt32((unsigned char*)data, 23 + tmp_item->type.length());
                 }
             }

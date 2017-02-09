@@ -1,0 +1,15 @@
+///net_send_item_set_id(buffer, socket, item);
+var l_buf = argument0;
+var l_soc = argument1;
+var l_item = argument2;
+buffer_seek(l_buf, buffer_seek_start, 2 );
+buffer_write(l_buf, buffer_u8, NET_ITEM );
+buffer_write(l_buf, buffer_u8, ITEM_SET | ITEM_ID);
+buffer_write(l_buf, buffer_u64, l_item.net_id);
+buffer_write(l_buf, buffer_string, object_get_name(l_item.object_index));
+buffer_write(l_buf, buffer_u32, l_item.grd_x + 1);
+buffer_write(l_buf, buffer_u32, l_item.grd_y + 1);
+buffer_write(l_buf, buffer_u32, l_item.image_angle);
+buffer_write(l_buf, buffer_u32, l_item.hp);
+buffer_write_size(l_buf);
+network_send_raw(l_soc, l_buf, buffer_tell(l_buf));
