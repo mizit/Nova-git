@@ -13,6 +13,9 @@
     <sprite>sprites\s_asterod</sprite>
     <sprite>sprites\s_hud</sprite>
     <sprite>sprites\s_mark</sprite>
+    <sprite>sprites\s_sp</sprite>
+    <sprite>sprites\s_big_arrow</sprite>
+    <sprite>sprites\s_little_arrow</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\back_test</background>
@@ -49,8 +52,8 @@
     <object>objects\obj_mark</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\r_authorization</room>
     <room>rooms\room0</room>
+    <room>rooms\r_authorization</room>
   </rooms>
   <constants number="11">
     <constant name="NET_GOOD_DAY">1</constant>
