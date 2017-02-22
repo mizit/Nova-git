@@ -41,7 +41,7 @@ mnvr_up_key = ord('W');
 mnvr_down_key = ord('S');
 thurst_up_key = vk_space;
 
-instance_create(50000, 50000, obj_mark);
+instance_create(obj_great_ship.x, obj_great_ship.y, obj_mark);
 
 sonar_point = obj_mark;
 sonar_ttl = room_speed * 2;
@@ -53,7 +53,10 @@ hud_rot_koeff = 10;
 hud_max_speed = 50;
 
 alarm[0] = room_speed;
-net_send_first_load(obj_net.net_buf, obj_net.socket);
+if (instance_exists(obj_net))
+{
+    net_send_first_load(obj_net.net_buf, obj_net.socket);
+}
 </string>
           </argument>
         </arguments>
@@ -76,7 +79,10 @@ net_send_first_load(obj_net.net_buf, obj_net.socket);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>net_send_position(obj_net.net_buf, obj_net.socket);
+            <string>if (instance_exists(obj_net))
+{
+    net_send_position(obj_net.net_buf, obj_net.socket);
+}
 alarm[0] = 1;
 </string>
           </argument>
@@ -149,7 +155,20 @@ if (keyboard_check(sonar_key))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>motion_add(point_direction(other.x, other.y, x, y), speed / 4);
+            <string>//motion_add(point_direction(other.x, other.y, x, y), speed / 4);
+var ast_dir = point_direction(other.x, other.y, x, y);
+var ast_dis = point_distance(other.x, other.y, x, y);
+var max_dis = sprite_get_bbox_right(sprite_index) - sprite_get_bbox_left(sprite_index) +
+sprite_get_bbox_right(other.sprite_index) - sprite_get_bbox_left(other.sprite_index);
+var angle_koeff = sin(degtorad(angle_difference(direction, ast_dir)));
+rot_speed += speed * angle_koeff * 0.1;
+motion_add(ast_dir, (max_dis - ast_dis) * 0.001);
+while (place_meeting(x, y, other))
+{
+    x += lengthdir_x(1, ast_dir);
+    y += lengthdir_y(1, ast_dir);
+}
+speed *= 0.9;
 </string>
           </argument>
         </arguments>
@@ -172,7 +191,9 @@ if (keyboard_check(sonar_key))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_self();
+            <string>draw_sprite_ext(s_big_arrow, -1, x, y, 1, 1, speed * 3.6, c_white, 1);
+draw_sprite_ext(s_little_arrow, -1, x, y, 1, 1, speed * 36, c_white, 1);
+draw_self();
 if (object_exists(sonar_point))
 {
     draw_sprite_ext(s_sonar, -1, x, y, 1, 1, point_direction(x, y, sonar_point.x, sonar_point.y), c_white, sonar_alpha);
@@ -188,12 +209,35 @@ hud_rot += (rot_speed * hud_rot_koeff);
 var hud_width, hud_height;
 hud_width = sprite_get_width(s_hud);
 hud_height = sprite_get_height(s_hud);
-draw_sprite_part_ext(s_hud, 3, 0, 0, hud_width * min(1, speed / hud_max_speed), hud_height, 
-x - hud_width / 2, y - hud_height / 2, 1, 1, c_white, 1);
+//draw_sprite_part_ext(s_hud, 3, 0, 0, hud_width * min(1, speed / hud_max_speed), hud_height, 
+//x - hud_width / 2, y - hud_height / 2, 1, 1, c_white, 1);
 draw_sprite_ext(s_hud, 0, x, y, 1, 1, hud_rot, c_white, 1);
 draw_sprite_ext(s_hud, 1, x, y, 1, 1, image_angle, c_white, 1);
 draw_sprite_ext(s_hud, 2, x, y, 1, 1, direction, c_white, 1);
 draw_sprite_ext(s_hud, 4, x, y, 1, 1, point_direction(x, y, sonar_point.x, sonar_point.y), c_white, 1);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="116">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>game_restart();
 </string>
           </argument>
         </arguments>
