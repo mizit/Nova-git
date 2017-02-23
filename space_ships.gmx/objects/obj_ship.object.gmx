@@ -57,6 +57,17 @@ if (instance_exists(obj_net))
 {
     net_send_first_load(obj_net.net_buf, obj_net.socket);
 }
+
+file = file_text_open_read("asteroids.dat");
+var num = file_text_read_real(file);
+repeat(num)
+{
+    var tx, ty;
+    tx = file_text_read_real(file) * 100;
+    ty = file_text_read_real(file) * 100;
+    instance_create(tx, ty, obj_asteroid);
+}
+file_text_close(file);
 </string>
           </argument>
         </arguments>
@@ -191,7 +202,11 @@ speed *= 0.9;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_sprite_ext(s_big_arrow, -1, x, y, 1, 1, speed * 3.6, c_white, 1);
+            <string>view_xview = x - 512;
+view_yview = y - 384;
+
+
+draw_sprite_ext(s_big_arrow, -1, x, y, 1, 1, speed * 3.6, c_white, 1);
 draw_sprite_ext(s_little_arrow, -1, x, y, 1, 1, speed * 36, c_white, 1);
 draw_self();
 if (object_exists(sonar_point))

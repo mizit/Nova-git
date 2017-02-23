@@ -3,6 +3,25 @@
   <Configs name="configs">
     <Config>Configs\Default</Config>
   </Configs>
+  <datafiles number="1" name="datafiles">
+    <datafile>
+      <name>asteroids.dat</name>
+      <exists>-1</exists>
+      <size>309344</size>
+      <exportAction>2</exportAction>
+      <exportDir></exportDir>
+      <overwrite>0</overwrite>
+      <freeData>-1</freeData>
+      <removeEnd>0</removeEnd>
+      <store>0</store>
+      <ConfigOptions>
+        <Config name="Default">
+          <CopyToMask>17593242079470</CopyToMask>
+        </Config>
+      </ConfigOptions>
+      <filename>asteroids.dat</filename>
+    </datafile>
+  </datafiles>
   <NewExtensions/>
   <sounds name="sound"/>
   <sprites name="sprites">
@@ -19,6 +38,7 @@
   </sprites>
   <backgrounds name="background">
     <background>background\back_test</background>
+    <background>background\back_space</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -50,6 +70,7 @@
     </objects>
     <object>objects\obj_enemy_ship</object>
     <object>objects\obj_mark</object>
+    <object>objects\obj_back</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>
