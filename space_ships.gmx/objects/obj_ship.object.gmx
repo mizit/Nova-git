@@ -68,6 +68,56 @@ repeat(num)
     instance_create(tx, ty, obj_asteroid);
 }
 file_text_close(file);
+
+ps = part_system_create();
+
+part_system_depth(ps, depth + 1);
+part_system_automatic_draw(ps, false);
+
+pt1 = part_type_create();
+part_type_shape(pt1, pt_shape_flare);
+part_type_size(pt1, 0.3, 0.5, -0.05, 0);
+part_type_speed(pt1, 0, 0, 0, 0);
+part_type_direction(pt1, 0, 360, 0, 0);
+part_type_color2(pt1, c_orange, c_yellow);
+part_type_blend(pt1, 1);
+part_type_alpha1(pt1, 1);
+part_type_orientation(pt1, 0, 360, 0, 0, 0);
+part_type_life(pt1, 4, 8);
+
+em_main = part_emitter_create(ps);
+
+man_xoff[0] = 30;
+man_yoff[0] = -10;
+man_xoff[1] = 30;
+man_yoff[1] = 10;
+man_xoff[2] = -30;
+man_yoff[2] = -16;
+man_xoff[3] = -30;
+man_yoff[3] = 16;
+
+pt2 = part_type_create();
+part_type_shape(pt2, pt_shape_smoke);
+part_type_orientation(pt2, 0, 360, 0, 0, 0);
+part_type_colour1(pt2, c_white);
+part_type_size(pt2, 0.02, 0.05, 0.003, 0);
+part_type_alpha2(pt2, 1, 0);
+part_type_speed(pt2, 3, 5, -0.1, 0);
+part_type_life(pt2, 30, 60);
+
+pt3 = part_type_create();
+part_type_shape(pt3, pt_shape_smoke);
+part_type_orientation(pt3, 0, 360, 0, 0, 0);
+part_type_colour1(pt3, c_white);
+part_type_size(pt3, 0.02, 0.05, 0.003, 0);
+part_type_alpha2(pt3, 1, 0);
+part_type_speed(pt3, 3, 5, -0.1, 0);
+part_type_life(pt3, 30, 60);
+
+em[0] = part_emitter_create(ps);
+em[1] = part_emitter_create(ps);
+em[2] = part_emitter_create(ps);
+em[3] = part_emitter_create(ps);
 </string>
           </argument>
         </arguments>
@@ -119,25 +169,73 @@ alarm[0] = 1;
             <kind>1</kind>
             <string>image_angle += rot_speed;
 rot_speed += rot_pwr / mass * (keyboard_check(rot_left_key) - keyboard_check(rot_right_key));
+
+
+var m_size = 3
+var m_d = 5;
+var m_num = 10;
+
+part_type_direction(pt2, min(image_angle - 90 - m_d, image_angle - 90 + m_d), max(image_angle - 90 - m_d, image_angle - 90 + m_d), 0, 0);
+part_type_direction(pt3, min(image_angle + 90 - m_d, image_angle + 90 + m_d), max(image_angle + 90 - m_d, image_angle + 90 + m_d), 0, 0);
+
+for (var i = 0; i &lt; 4; i++)
+{
+    var dx = lengthdir_x(man_xoff[i], image_angle) + lengthdir_x(man_yoff[i], image_angle + 90);
+    var dy = lengthdir_y(man_xoff[i], image_angle) + lengthdir_y(man_yoff[i], image_angle + 90);
+    part_emitter_region(ps, em[i], dx - m_size, dx + m_size, dy - m_size, dy + m_size, ps_shape_ellipse, ps_distr_gaussian);
+}
+//part_emitter_burst(ps, em[0], pt2, 5);
+//part_emitter_burst(ps, em[1], pt3, 5);
+//part_emitter_burst(ps, em[2], pt2, 5);
+//part_emitter_burst(ps, em[3], pt3, 5);
+if (keyboard_check(rot_left_key))
+{
+    part_emitter_burst(ps, em[0], pt2, m_num);
+    part_emitter_burst(ps, em[3], pt3, m_num);
+}
+if (keyboard_check(rot_right_key))
+{
+    part_emitter_burst(ps, em[1], pt3, m_num);
+    part_emitter_burst(ps, em[2], pt2, m_num);
+}
 if (keyboard_check(mnvr_left_key))
 {
     motion_add(image_angle + 90, mnvr_pwr / mass);
+    part_emitter_burst(ps, em[0], pt2, m_num);
+    part_emitter_burst(ps, em[2], pt2, m_num);
 }
 if (keyboard_check(mnvr_right_key))
 {
     motion_add(image_angle - 90, mnvr_pwr / mass);
+    part_emitter_burst(ps, em[1], pt3, m_num);
+    part_emitter_burst(ps, em[3], pt3, m_num);
 }
 if (keyboard_check(mnvr_up_key))
 {
     motion_add(image_angle, mnvr_pwr / mass);
+    part_type_direction(pt2, min(image_angle - 180 + m_d, image_angle - 180 - m_d), max(image_angle - 180 - m_d, image_angle - 180 + m_d), 0, 0);
+    part_emitter_burst(ps, em[2], pt2, m_num);
+    part_emitter_burst(ps, em[3], pt2, m_num);
 }
 if (keyboard_check(mnvr_down_key))
 {
     motion_add(image_angle + 180, mnvr_pwr / mass);
+    part_type_direction(pt2, min(image_angle - m_d, image_angle + m_d), max(image_angle - m_d, image_angle + m_d), 0, 0);
+    part_emitter_burst(ps, em[0], pt2, m_num);
+    part_emitter_burst(ps, em[1], pt2, m_num);
 }
 if (keyboard_check(thurst_up_key))
 {
     motion_add(image_angle, thurst_pwr / mass);
+    var en_size = 6;
+    part_type_speed(pt1, 3, 5, 0, 0);
+    part_type_direction(pt1, 180 + image_angle, 180 + image_angle, 0, 0);
+    
+    part_emitter_region(ps, em_main, -lengthdir_x(sprite_width / 2, image_angle) - en_size, 
+    -lengthdir_x(sprite_width / 2, image_angle) + en_size, -lengthdir_y(sprite_width / 2, image_angle) - en_size,
+     -lengthdir_y(sprite_width / 2, image_angle) + en_size, ps_shape_ellipse, ps_distr_gaussian);
+    part_emitter_burst(ps, em_main, pt1, 16)
+
 }
 if (keyboard_check(sonar_key))
 {
@@ -208,6 +306,8 @@ view_yview = y - 384;
 
 draw_sprite_ext(s_big_arrow, -1, x, y, 1, 1, speed * 3.6, c_white, 1);
 draw_sprite_ext(s_little_arrow, -1, x, y, 1, 1, speed * 36, c_white, 1);
+part_system_position(ps, x, y);
+part_system_drawit(ps);
 draw_self();
 if (object_exists(sonar_point))
 {
