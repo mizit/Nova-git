@@ -30,6 +30,13 @@
 #define PT_BATTLE       4
 
 
+class MyServer : public QTcpServer
+{
+public:
+    MyServer();
+    void incomingConnection(qintptr);
+};
+
 class MySocket : public QTcpSocket
 {
 public:

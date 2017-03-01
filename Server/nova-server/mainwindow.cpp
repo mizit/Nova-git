@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     log_model = new QStandardItemModel();
     ui->log->setModel(log_model);
 
-    server = new QTcpServer(this);
+    server = new MyServer();
     connect(server, SIGNAL(newConnection()), this, SLOT(newUser()));
     server->listen(QHostAddress::Any, 63258);  
 
@@ -151,7 +151,10 @@ void MainWindow::SetPos()
                 SHIPS[i]->shell->pos->image_angle = ui->edit_ia->text().toInt();
                 SHIPS[i]->shell->pos->rot_speed = ui->edit_rspeed->text().toInt();
                 SHIPS[i]->shell->pos->speed = ui->edit_speed->text().toInt();
-                net_send_set_position(SClients[SHIPS[i]->pilotSocket], SHIPS[i]);
+                if (SHIPS[i]->pilotSocket > 0)
+                {
+                    net_send_set_position(SClients[SHIPS[i]->pilotSocket], SHIPS[i]);
+                }
         }
     }
 }
@@ -222,11 +225,12 @@ void MainWindow::UserCreate()
 
 void MainWindow::newUser()
 {
-    QTcpSocket* loc_soc;
-    loc_soc = (QTcpSocket*)(server->nextPendingConnection());
+    //QTcpSocket* loc_soc;
+    //loc_soc = (QTcpSocket*)(server->nextPendingConnection());
     MySocket* clientSocket;
-    clientSocket = new MySocket();
-    clientSocket->setSocketDescriptor(loc_soc->socketDescriptor());
+    clientSocket = (MySocket*)(server->nextPendingConnection());
+    //clientSocket = new MySocket();
+    //clientSocket->setSocketDescriptor(loc_soc->socketDescriptor());
     //clientSocket = dynamic_cast<MySocket*>(loc_soc);
     //clientSocket = static_cast<MySocket*>(server->nextPendingConnection());
     clientSocket->log = ui->log;

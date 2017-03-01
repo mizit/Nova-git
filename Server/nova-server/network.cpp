@@ -1,5 +1,19 @@
 #include <network.h>
 
+MyServer::MyServer()
+{
+
+}
+
+void MyServer::incomingConnection(qintptr des)
+{
+    MySocket *soc;
+    soc = new MySocket;
+    soc->setSocketDescriptor(des);
+    addPendingConnection(soc);
+}
+
+
 MySocket::MySocket()
 {
     pt_type = 0;
@@ -105,8 +119,8 @@ void net_send_set_position(MySocket* socket, CShip* ship)
 {
     QDataStream net_data(socket);
     int len = 6 * 4 + ship->login.length() + 4;
-    unsigned char *data;
-    data = new unsigned char[len];
+    unsigned char data[256];
+    //data = new unsigned char[len];
     data[2] = NET_POSITION;
     int runner = 3;
     runner = SetToRawData(data, runner, ship->login);

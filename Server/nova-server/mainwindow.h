@@ -42,7 +42,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QTcpServer *server;
+    MyServer *server;
     QMap<int, MySocket*> SClients;
     MyTableModel *table_model;
     QStandardItemModel *log_model;

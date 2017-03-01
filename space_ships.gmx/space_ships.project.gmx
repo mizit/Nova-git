@@ -73,8 +73,8 @@
     <object>objects\obj_back</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\room0</room>
     <room>rooms\r_authorization</room>
+    <room>rooms\room0</room>
   </rooms>
   <constants number="11">
     <constant name="NET_GOOD_DAY">1</constant>

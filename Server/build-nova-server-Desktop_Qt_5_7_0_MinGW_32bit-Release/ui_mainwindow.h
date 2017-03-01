@@ -19,6 +19,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QListView>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
@@ -45,6 +46,8 @@ public:
     QLabel *label_2;
     QLineEdit *editPass;
     QPushButton *buttonUsrCrt;
+    QComboBox *cbox_shelltype;
+    QLabel *label_3;
     QWidget *tab_3;
     QComboBox *combo_userpos;
     QGroupBox *groupBox_2;
@@ -60,6 +63,13 @@ public:
     QLineEdit *edit_ia;
     QLineEdit *edit_rspeed;
     QLineEdit *edit_dir;
+    QPushButton *button_lockpos;
+    QPushButton *button_setpos;
+    QGroupBox *groupBox_3;
+    QPushButton *button_add_item;
+    QListWidget *lview_items;
+    QListWidget *lview_inv;
+    QPushButton *pushButton;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -87,7 +97,7 @@ public:
         tab_2->setObjectName(QStringLiteral("tab_2"));
         groupBox = new QGroupBox(tab_2);
         groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setGeometry(QRect(10, 10, 171, 171));
+        groupBox->setGeometry(QRect(10, 20, 171, 241));
         editLogin = new QLineEdit(groupBox);
         editLogin->setObjectName(QStringLiteral("editLogin"));
         editLogin->setGeometry(QRect(30, 40, 113, 20));
@@ -102,7 +112,13 @@ public:
         editPass->setGeometry(QRect(30, 90, 113, 20));
         buttonUsrCrt = new QPushButton(groupBox);
         buttonUsrCrt->setObjectName(QStringLiteral("buttonUsrCrt"));
-        buttonUsrCrt->setGeometry(QRect(70, 130, 75, 23));
+        buttonUsrCrt->setGeometry(QRect(60, 200, 75, 23));
+        cbox_shelltype = new QComboBox(groupBox);
+        cbox_shelltype->setObjectName(QStringLiteral("cbox_shelltype"));
+        cbox_shelltype->setGeometry(QRect(30, 150, 111, 22));
+        label_3 = new QLabel(groupBox);
+        label_3->setObjectName(QStringLiteral("label_3"));
+        label_3->setGeometry(QRect(20, 130, 47, 13));
         tabWidget->addTab(tab_2, QString());
         tab_3 = new QWidget();
         tab_3->setObjectName(QStringLiteral("tab_3"));
@@ -111,7 +127,7 @@ public:
         combo_userpos->setGeometry(QRect(20, 20, 121, 22));
         groupBox_2 = new QGroupBox(tab_3);
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
-        groupBox_2->setGeometry(QRect(180, 40, 281, 191));
+        groupBox_2->setGeometry(QRect(170, 20, 281, 201));
         label_x = new QLabel(groupBox_2);
         label_x->setObjectName(QStringLiteral("label_x"));
         label_x->setGeometry(QRect(20, 20, 47, 13));
@@ -149,7 +165,28 @@ public:
         edit_dir = new QLineEdit(groupBox_2);
         edit_dir->setObjectName(QStringLiteral("edit_dir"));
         edit_dir->setGeometry(QRect(150, 140, 113, 20));
+        button_lockpos = new QPushButton(groupBox_2);
+        button_lockpos->setObjectName(QStringLiteral("button_lockpos"));
+        button_lockpos->setGeometry(QRect(20, 170, 75, 23));
+        button_setpos = new QPushButton(groupBox_2);
+        button_setpos->setObjectName(QStringLiteral("button_setpos"));
+        button_setpos->setGeometry(QRect(150, 170, 75, 23));
+        groupBox_3 = new QGroupBox(tab_3);
+        groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
+        groupBox_3->setGeometry(QRect(470, 20, 531, 491));
+        button_add_item = new QPushButton(groupBox_3);
+        button_add_item->setObjectName(QStringLiteral("button_add_item"));
+        button_add_item->setGeometry(QRect(320, 450, 75, 23));
+        lview_items = new QListWidget(groupBox_3);
+        lview_items->setObjectName(QStringLiteral("lview_items"));
+        lview_items->setGeometry(QRect(280, 20, 231, 421));
+        lview_inv = new QListWidget(groupBox_3);
+        lview_inv->setObjectName(QStringLiteral("lview_inv"));
+        lview_inv->setGeometry(QRect(10, 20, 256, 451));
         tabWidget->addTab(tab_3, QString());
+        pushButton = new QPushButton(centralWidget);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(1090, 0, 75, 23));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -164,7 +201,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -178,6 +215,7 @@ public:
         label->setText(QApplication::translate("MainWindow", "Login", 0));
         label_2->setText(QApplication::translate("MainWindow", "Password", 0));
         buttonUsrCrt->setText(QApplication::translate("MainWindow", "Create", 0));
+        label_3->setText(QApplication::translate("MainWindow", "Shell type", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "\320\241\320\276\320\267\320\264\320\260\320\275\320\270\320\265", 0));
         groupBox_2->setTitle(QApplication::translate("MainWindow", "GroupBox", 0));
         label_x->setText(QApplication::translate("MainWindow", "x", 0));
@@ -186,7 +224,12 @@ public:
         label_4->setText(QApplication::translate("MainWindow", "speed", 0));
         lable_rspeed->setText(QApplication::translate("MainWindow", "rot_speed", 0));
         lable_dir->setText(QApplication::translate("MainWindow", "direction", 0));
+        button_lockpos->setText(QApplication::translate("MainWindow", "\320\227\320\260\320\273\320\276\321\207\320\270\321\202\321\214", 0));
+        button_setpos->setText(QApplication::translate("MainWindow", "\320\243\321\201\321\202\320\260\320\275\320\276\320\262\320\270\321\202\321\214", 0));
+        groupBox_3->setTitle(QApplication::translate("MainWindow", "Inventory", 0));
+        button_add_item->setText(QApplication::translate("MainWindow", "Add Item", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MainWindow", "\320\240\320\260\321\201\320\277\320\276\320\273\320\276\320\266\320\265\320\275\320\270\320\265", 0));
+        pushButton->setText(QApplication::translate("MainWindow", "PushButton", 0));
     } // retranslateUi
 
 };

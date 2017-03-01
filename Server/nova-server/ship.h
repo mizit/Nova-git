@@ -19,10 +19,10 @@ class CShellPosition
 {
 public:
     QPoint *pos;
-    qint64 direction;
-    qint64 speed;
-    qint64 image_angle;
-    qint64 rot_speed;
+    qint32 direction;
+    qint32 speed;
+    qint32 image_angle;
+    qint32 rot_speed;
 public:
     CShellPosition();
 };
