@@ -68,6 +68,9 @@ repeat(num)
     instance_create(tx, ty, obj_asteroid);
 }
 file_text_close(file);
+instance_deactivate_object(obj_asteroid);
+alarm[1] = room_speed * 2;
+
 
 ps = part_system_create();
 
@@ -118,6 +121,30 @@ em[0] = part_emitter_create(ps);
 em[1] = part_emitter_create(ps);
 em[2] = part_emitter_create(ps);
 em[3] = part_emitter_create(ps);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>alarm[1] = room_speed * 2;
+instance_deactivate_object(obj_asteroid);
 </string>
           </argument>
         </arguments>
@@ -242,6 +269,9 @@ if (keyboard_check(sonar_key))
     sonar_alpha = 1;
 }
 
+instance_activate_region(x - view_wview * 2, y - view_hview * 2, 
+view_wview * 3, view_hview * 3, 1);
+
 </string>
           </argument>
         </arguments>
@@ -330,6 +360,11 @@ draw_sprite_ext(s_hud, 0, x, y, 1, 1, hud_rot, c_white, 1);
 draw_sprite_ext(s_hud, 1, x, y, 1, 1, image_angle, c_white, 1);
 draw_sprite_ext(s_hud, 2, x, y, 1, 1, direction, c_white, 1);
 draw_sprite_ext(s_hud, 4, x, y, 1, 1, point_direction(x, y, sonar_point.x, sonar_point.y), c_white, 1);
+
+/*draw_set_alpha(0.3);
+draw_set_colour(c_red);
+draw_rectangle(x - view_xview * 2, y - view_yview * 2, 
+view_xview * 3, view_yview * 3, 0);*/
 </string>
           </argument>
         </arguments>

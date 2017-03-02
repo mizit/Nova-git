@@ -89,7 +89,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     timer_save = new QTimer();
     connect(timer_save, SIGNAL(timeout()), this, SLOT(DataSave()));
-    timer_save->start(5000);
+    timer_save->start(300000);
 
     connect(ui->button_lockpos, SIGNAL(clicked()), this, SLOT(LockPos()));
     connect(ui->button_setpos, SIGNAL(clicked()), this, SLOT(SetPos()));

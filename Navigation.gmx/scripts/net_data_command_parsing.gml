@@ -39,6 +39,7 @@ switch (l_command)
         {
             if (!instance_exists(obj_ship))
             {
+                //
                 show_message("Ошибка! Данные о позиции пришли до создания корабля.");
                 break;
             }
