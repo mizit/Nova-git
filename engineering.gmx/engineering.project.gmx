@@ -15,6 +15,7 @@
     <sprites name="cells">
       <sprite>sprites\s_inv_cell</sprite>
       <sprite>sprites\s_inv</sprite>
+      <sprite>sprites\s_space</sprite>
       <sprite>sprites\s_tab_label</sprite>
     </sprites>
     <sprites name="power">
@@ -45,6 +46,9 @@
       <sprite>sprites\s_element5</sprite>
     </sprites>
     <sprite>sprites\s_select_corner</sprite>
+    <sprites name="items">
+      <sprite>sprites\s_money_case</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -145,11 +149,16 @@
       <object>objects\obj_element5</object>
     </objects>
     <object>objects\obj_inv</object>
+    <object>objects\obj_space</object>
     <object>objects\obj_net</object>
     <objects name="autorization">
       <object>objects\obj_login</object>
       <object>objects\obj_pass</object>
       <object>objects\obj_title</object>
+    </objects>
+    <objects name="items">
+      <object>objects\obj_money_case</object>
+      <object>objects\obj_item</object>
     </objects>
   </objects>
   <rooms name="rooms">

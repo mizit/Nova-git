@@ -71,10 +71,12 @@ inv_item_add(instance_create(0, 0, obj_navigation));*/</code>
     <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="1024" hview="768" xport="0" yport="0" wport="1024" hport="768" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
   </views>
   <instances>
-    <instance objName="obj_grid" x="128" y="64" name="inst_C6C3075A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_grid" x="32" y="64" name="inst_C6C3075A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_inv" x="32" y="544" name="inst_CCAC0BF7" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_inv" x="32" y="544" name="inst_60CDBEA4" locked="0" code="permission = INV_TUBE;&#xA;label_text = &quot;Tubes&quot;;&#xA;tab_num = 1;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_inv" x="32" y="544" name="inst_759D4BFB" locked="0" code="permission = INV_ELEMENTS;&#xA;label_text = &quot;Elements&quot;;&#xA;tab_num = 2;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_inv" x="32" y="544" name="inst_759D4BFB" locked="0" code="permission = INV_ITEMS;&#xA;label_text = &quot;Items&quot;;&#xA;tab_num = 3;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_inv" x="32" y="544" name="inst_6F1C4AE5" locked="0" code="permission = INV_ELEMENTS;&#xA;label_text = &quot;Elements&quot;;&#xA;tab_num = 2;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_space" x="512" y="0" name="inst_727CD4A8" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>
