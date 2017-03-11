@@ -85,8 +85,10 @@ part_emitter_stream(ps, em, pt, speed + 1);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_background(my_back, view_xview - obj_ship.x * (background_get_width(my_back)/ 2 / 
-room_width), view_yview - obj_ship.y * (background_get_width(my_back)/ 2 / room_height));
+            <string>draw_background(my_back, max(min(view_xview, view_xview - obj_ship.x * (background_get_width(my_back)/ 2 / 
+room_width)), view_xview - background_get_width(my_back) + view_wview), 
+max(min(view_yview, view_yview - obj_ship.y * (background_get_height(my_back)/ 2 / room_height)), 
+view_yview - background_get_height(my_back) + view_hview));
 </string>
           </argument>
         </arguments>
