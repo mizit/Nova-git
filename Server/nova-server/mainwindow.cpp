@@ -98,6 +98,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lview_items->addItem(TUBE_CORNER);
     ui->lview_items->addItem(TUBE_TEE);
     ui->lview_items->addItem(TUBE_SPLITTER);
+    ui->lview_items->addItem(MONEY_CASE);
 
     connect(ui->button_add_item, SIGNAL(clicked()), this, SLOT(ItemAdd()));
 }
@@ -115,6 +116,7 @@ void MainWindow::ItemAdd()
             item = idgen->createItem(type);
             SHIPS[i]->item_list.append(item);
             item->small_list_position = SHIPS[i]->item_list.size() - 1;
+            item->owner = SHIPS[i]->login;
             ui->lview_inv->addItem(type + QString(" %1").arg(item->id));
             if (SHIPS[i]->engSocket > 0)
             {
@@ -284,7 +286,7 @@ void MainWindow::UserDisconnected()
 void MainWindow::slotReadClient()
 {
     MySocket* clientSocket = (MySocket*)sender();
-    char data[38];
+    char data[256];
     char tmp_len[2];
     int len;
     QDataStream net_data(clientSocket);
@@ -406,27 +408,27 @@ void MainWindow::slotReadClient()
         {
             char def_com = data[1];
             CItem *tmp_item = 0;
+            if ((def_com & 0xF0) == ITEM_ID)
+            {
+                qint64 tmp_id = GetInt64((unsigned char*)data, 2);
+                for (int i = 0; i < idgen->item_list.size(); i++)
+                {
+                    if (idgen->item_list[i]->id == tmp_id)
+                    {
+                        tmp_item = idgen->item_list[i];
+                    }
+                }
+            }
+            if ((def_com & 0xF0) == ITEM_NUM)
+            {
+                qint64 num = GetInt64((unsigned char*)data, 2);
+                if ((num > -1) && (num < clientSocket->parentShip->item_list.size()))
+                {
+                    tmp_item = clientSocket->parentShip->item_list[num];
+                }
+            }
             if ((def_com & 0x0F) == ITEM_SET)
             {
-                if ((def_com & 0xF0) == ITEM_ID)
-                {
-                    qint64 tmp_id = GetInt64((unsigned char*)data, 2);
-                    for (int i = 0; i < idgen->item_list.size(); i++)
-                    {
-                        if (idgen->item_list[i]->id == tmp_id)
-                        {
-                            tmp_item = idgen->item_list[i];
-                        }
-                    }
-                }
-                if ((def_com & 0xF0) == ITEM_NUM)
-                {
-                    qint64 num = GetInt64((unsigned char*)data, 2);
-                    if ((num > 0) && (num < clientSocket->parentShip->item_list.size()))
-                    {
-                        tmp_item = clientSocket->parentShip->item_list[num];
-                    }
-                }
                 if (tmp_item)
                 {
                     tmp_item->type = GetString(data, 10);
@@ -438,25 +440,6 @@ void MainWindow::slotReadClient()
             }
             if ((def_com & 0x0F) == ITEM_GET)
             {
-                if ((def_com & 0xF0) == ITEM_ID)
-                {
-                    qint64 tmp_id = GetInt64((unsigned char*)data, 2);
-                    for (int i = 0; i < idgen->item_list.size(); i++)
-                    {
-                        if (idgen->item_list[i]->id == tmp_id)
-                        {
-                            tmp_item = idgen->item_list[i];
-                        }
-                    }
-                }
-                if ((def_com & 0xF0) == ITEM_NUM)
-                {
-                    qint64 num = GetInt64((unsigned char*)data, 2);
-                    if ((num > -1) && (num < clientSocket->parentShip->item_list.size()))
-                    {
-                        tmp_item = clientSocket->parentShip->item_list[num];
-                    }
-                }
                 if (tmp_item == 0)
                 {
                     tmp_item = new CItem();
@@ -468,6 +451,60 @@ void MainWindow::slotReadClient()
                     net_send_item(clientSocket, tmp_item);
                 }
 
+            }
+            if ((def_com &0x0F) == ITEM_DROP)
+            {
+                if (tmp_item)
+                {
+                    if (tmp_item->owner == clientSocket->parentShip->login)
+                    {
+                        tmp_item->type = GetString(data, 10);
+                        tmp_item->pos.setX(clientSocket->parentShip->shell->pos->pos->rx());
+                        tmp_item->pos.setY(clientSocket->parentShip->shell->pos->pos->ry());
+                        tmp_item->image_angle = GetInt32((unsigned char*)data, 19 + tmp_item->type.length());
+                        tmp_item->hp = GetInt32((unsigned char*)data, 23 + tmp_item->type.length());
+                        tmp_item->owner = SPACE;
+                        clientSocket->LogAddString(QString("Item dropped %1").arg(tmp_item->type));
+                        for (int i = 0; i < SHIPS.size(); i++)
+                        {
+                            if (SClients[SHIPS[i]->pilotSocket] > 0)
+                            {
+                                net_send_item(SClients[SHIPS[i]->pilotSocket], tmp_item);
+                            }
+                            if (SClients[SHIPS[i]->navSocket] > 0)
+                            {
+                                net_send_item(SClients[SHIPS[i]->navSocket], tmp_item);
+                            }
+                        }
+                    }
+                }
+            }
+            if ((def_com &0x0F) == ITEM_PICKUP)
+            {
+                if (tmp_item)
+                {
+                    if (tmp_item->owner == SPACE)
+                    {
+                        tmp_item->type = GetString(data, 10);
+                        tmp_item->pos.setX(0);
+                        tmp_item->pos.setY(0);
+                        tmp_item->image_angle = GetInt32((unsigned char*)data, 19 + tmp_item->type.length());
+                        tmp_item->hp = GetInt32((unsigned char*)data, 23 + tmp_item->type.length());
+                        tmp_item->owner = clientSocket->parentShip->login;
+                        clientSocket->LogAddString(QString("Item picked up %1").arg(tmp_item->type));
+                        for (int i = 0; i < SHIPS.size(); i++)
+                        {
+                            if (SClients[SHIPS[i]->pilotSocket] > 0)
+                            {
+                                net_send_item(SClients[SHIPS[i]->pilotSocket], tmp_item);
+                            }
+                            if (SClients[SHIPS[i]->navSocket] > 0)
+                            {
+                                net_send_item(SClients[SHIPS[i]->navSocket], tmp_item);
+                            }
+                        }
+                    }
+                }
             }
             break;
         }

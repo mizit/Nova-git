@@ -29,6 +29,7 @@
 #define PT_ENGINEERING  3
 #define PT_BATTLE       4
 
+#define SPACE   "space"
 
 class MyServer : public QTcpServer
 {

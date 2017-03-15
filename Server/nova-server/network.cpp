@@ -109,7 +109,7 @@ QString RawDataToString(char* data, int len)
 void net_send_gd_answer(MySocket* socket, char answer)
 {
     QDataStream net_data(socket);
-    char data[2];
+    char data[4];
     data[2] = NET_GOOD_DAY;
     data[3] = answer;
     socket->MyWrite(data, 2);
@@ -167,6 +167,7 @@ void net_send_item(MySocket* socket, CItem* item)
     runner = SetToRawData(data, runner, item->hp);
     data[0] = (unsigned char)(runner & 0xFF);
     data[1] = (unsigned char)((runner & 0xFF00) << 8);
+    socket->LogAddString(item->type);
     socket->MyWrite((char*)data, runner - 2);
 }
 

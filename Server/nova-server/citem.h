@@ -31,10 +31,13 @@
 #define TUBE_CORNER     "obj_tube_corner"
 #define TUBE_TEE        "obj_tube_tee"
 #define TUBE_SPLITTER   "obj_tube_splitter"
+#define MONEY_CASE      "obj_money_case"
 
 #define ITEM_SET    0x01
 #define ITEM_GET    0x02
 #define ITEM_ADD    0x03
+#define ITEM_DROP   0x04
+#define ITEM_PICKUP 0x05
 #define ITEM_NUM    0x10
 #define ITEM_ID     0x20
 

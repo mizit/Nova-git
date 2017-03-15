@@ -103,6 +103,8 @@
         <script>scripts\net_send_hello.gml</script>
         <script>scripts\net_send_item_get_num.gml</script>
         <script>scripts\net_send_item_set_id.gml</script>
+        <script>scripts\net_send_item_drop.gml</script>
+        <script>scripts\net_send_item_pickup.gml</script>
         <script>scripts\net_send_im_out.gml</script>
         <script>scripts\net_send_mark.gml</script>
         <script>scripts\net_send_position.gml</script>

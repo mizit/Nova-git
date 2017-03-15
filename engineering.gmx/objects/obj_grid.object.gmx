@@ -110,8 +110,8 @@ cell_set_permission(ship_grid, 6, 4, PM_TUBE|PM_POWER);*/
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var tmp = instance_create(0, 0, obj_money_case);
-inv_item_add(tmp);
+            <string>//var tmp = instance_create(0, 0, obj_money_case);
+//inv_item_add(tmp);
 </string>
           </argument>
         </arguments>

@@ -655,7 +655,7 @@
     <option_xbone_title_id>1234ABCD</option_xbone_title_id>
   </Options>
   <ConfigConstants>
-    <constants number="41">
+    <constants number="43">
       <constant name="CELL_OBJECT">0</constant>
       <constant name="CELL_ANGLE">1</constant>
       <constant name="CELL_PERMISSION">2</constant>
@@ -695,6 +695,8 @@
       <constant name="ITEM_SET">1</constant>
       <constant name="ITEM_GET">2</constant>
       <constant name="ITEM_ADD">3</constant>
+      <constant name="ITEM_DROP">4</constant>
+      <constant name="ITEM_PICKUP">5</constant>
       <constant name="ITEM_NUM">16</constant>
       <constant name="ITEM_ID">32</constant>
     </constants>

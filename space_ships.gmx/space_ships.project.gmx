@@ -35,6 +35,7 @@
     <sprite>sprites\s_sp</sprite>
     <sprite>sprites\s_big_arrow</sprite>
     <sprite>sprites\s_little_arrow</sprite>
+    <sprite>sprites\s_money_case</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\back_test</background>
@@ -71,6 +72,10 @@
     <object>objects\obj_enemy_ship</object>
     <object>objects\obj_mark</object>
     <object>objects\obj_back</object>
+    <objects name="items">
+      <object>objects\obj_item</object>
+      <object>objects\obj_money_case</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_authorization</room>

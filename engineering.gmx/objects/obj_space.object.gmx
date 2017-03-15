@@ -180,47 +180,6 @@ for (var i = 0; i &lt; ds_list_size(items_list); i++)
         </arguments>
       </action>
     </event>
-    <event eventtype="6" enumb="53">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/*if (point_in_rectangle(mouse_x, mouse_y, x + label_x, y + label_y, 
-x + label_x + sprite_get_width(label_sprite), y + label_y + sprite_get_height(label_sprite)))
-{
-    if (open)
-    {
-        with(obj_inv)
-        {
-            open = 0;
-        }
-    }
-    else
-    {
-        with(obj_inv)
-        {
-            open = 0;
-        }
-        open = 1;
-    }
-}*/
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
     <event eventtype="6" enumb="4">
       <action>
         <libid>1</libid>
@@ -247,7 +206,8 @@ x + label_x + sprite_get_width(label_sprite), y + label_y + sprite_get_height(la
     {
         obj.visible = 1;
         obj.dragging = 1;
-        ds_list_delete(items_list, i);        
+        ds_list_delete(items_list, i);   
+        net_send_item_pickup(obj_net.net_buf, obj_net.socket, obj);     
         break;
     }
 }

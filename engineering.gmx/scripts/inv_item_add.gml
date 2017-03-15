@@ -41,6 +41,7 @@ if (l_perm)
         l_obj.x = clamp(l_obj.x, obj_space.x + l_obj.sprite_width / 2, obj_space.x + obj_space.sprite_width - l_obj.sprite_width / 2);
         l_obj.y = clamp(l_obj.y, obj_space.y + l_obj.sprite_height/ 2, obj_space.y + obj_space.sprite_height - l_obj.sprite_height / 2);
         ds_list_add(obj_space.items_list, l_obj);
+        net_send_item_drop(obj_net.net_buf, obj_net.socket, l_obj);
     }
     else
     {
