@@ -88,5 +88,50 @@ switch (l_command)
         }
         break;
     }
+    case NET_ITEM:
+    {
+        var l_str = buffer_read(l_buf, buffer_string);
+        if (l_str == "noone")
+        {
+            first_load = 0;
+            break;
+        }
+        var l_name = asset_get_index(l_str);
+        if (l_name > 0)
+        {
+            var l_net_id = buffer_read(l_buf, buffer_u32);
+            var l_obj = noone;
+            with (l_name)
+            {
+                if (net_id == l_net_id)
+                {
+                    l_obj = id;
+                }
+            }
+            if !(l_obj)
+            {
+                l_obj = instance_create(0, 0, l_name);
+                l_obj.net_id = l_net_id;
+            }
+            buffer_read(l_buf, buffer_u32);
+            l_obj.x = buffer_read(l_buf, buffer_u32) / 1000;
+            l_obj.y = buffer_read(l_buf, buffer_u32) / 1000;
+            l_obj.image_angle = buffer_read(l_buf, buffer_s32) / 1000;
+            l_obj.hp = buffer_read(l_buf, buffer_u32);
+            if ((l_obj.x < 10) && (l_obj.x > -1) && 
+            (l_obj.y < 10) && (l_obj.y > -1))
+            {
+                with(l_obj)
+                {
+                    instance_destroy();
+                }
+            }
+        }
+        if (first_load)
+        {
+            net_send_item_get_num(obj_net.net_buf, obj_net.socket, obj_ship.item_counter);
+            obj_ship.item_counter++;
+        }
+    }
 }
 buffer_delete(l_buf);

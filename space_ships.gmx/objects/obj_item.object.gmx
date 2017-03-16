@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>general_id = 0;
+            <string>net_id = 0;
 speed_rot = random_range(-5, 5);
 </string>
           </argument>

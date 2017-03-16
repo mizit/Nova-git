@@ -70,6 +70,7 @@ public:
     QListWidget *lview_items;
     QListWidget *lview_inv;
     QPushButton *pushButton;
+    QPushButton *btn_save;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -187,6 +188,9 @@ public:
         pushButton = new QPushButton(centralWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setGeometry(QRect(1090, 0, 75, 23));
+        btn_save = new QPushButton(centralWidget);
+        btn_save->setObjectName(QStringLiteral("btn_save"));
+        btn_save->setGeometry(QRect(1000, 0, 75, 23));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -230,6 +234,7 @@ public:
         button_add_item->setText(QApplication::translate("MainWindow", "Add Item", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MainWindow", "\320\240\320\260\321\201\320\277\320\276\320\273\320\276\320\266\320\265\320\275\320\270\320\265", 0));
         pushButton->setText(QApplication::translate("MainWindow", "PushButton", 0));
+        btn_save->setText(QApplication::translate("MainWindow", "Save", 0));
     } // retranslateUi
 
 };

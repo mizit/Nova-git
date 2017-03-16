@@ -70,7 +70,7 @@ switch (l_command)
             {
                 inv_item_add(l_obj);
             }
-            else
+            else if ((l_x > 0) && (l_x < 10) && (l_y > 0) && (l_y < 10))
             {
                 l_x--;
                 l_y--;
@@ -89,6 +89,38 @@ switch (l_command)
                         gridded_part_outputs_shift(l_obj.image_angle);
                         gridded_part_set(obj_grid, l_x, l_y, 0);
                     }
+                }
+            }
+            else
+            {
+                var l_pos = noone;
+                for (var l_i = 0; l_i < ds_list_size(obj_space.items_list); l_i++)
+                {
+                    if (obj_space.items_list[| l_i].net_id == l_id)
+                    {
+                        l_pos = l_i;
+                    }
+                }
+                if (l_pos)
+                {
+                    with(l_obj)
+                    {
+                        instance_destroy();
+                    }
+                    l_obj = obj_space.items_list[| l_pos];
+                    with(l_obj)
+                    {
+                        instance_destroy();
+                    }
+                    ds_list_delete(obj_space.items_list, l_pos);
+                }
+                else
+                {
+                    l_obj.x = random_range(obj_space.x + sprite_get_width(l_obj.sprite_index) / 2, 
+                    obj_space.x + sprite_get_width(obj_space.sprite_index) - sprite_get_width(l_obj.sprite_index) / 2);
+                    l_obj.y = random_range(obj_space.y + sprite_get_height(l_obj.sprite_index) / 2, 
+                    obj_space.y + sprite_get_height(obj_space.sprite_index) - sprite_get_height(l_obj.sprite_index) / 2);
+                    inv_item_add(l_obj);
                 }
             }
         }

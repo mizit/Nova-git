@@ -50,6 +50,9 @@
         <script>scripts\net_send_first_load.gml</script>
         <script>scripts\net_send_im_out.gml</script>
         <script>scripts\net_send_position.gml</script>
+        <script>scripts\net_send_item_get_num.gml</script>
+        <script>scripts\net_send_item_drop.gml</script>
+        <script>scripts\net_send_item_pickup.gml</script>
       </scripts>
       <script>scripts\net_data_parsing.gml</script>
       <script>scripts\net_data_command_parsing.gml</script>
@@ -81,18 +84,26 @@
     <room>rooms\r_authorization</room>
     <room>rooms\room0</room>
   </rooms>
-  <constants number="11">
+  <constants number="19">
     <constant name="NET_GOOD_DAY">1</constant>
     <constant name="NET_POSITION">2</constant>
     <constant name="NET_FIRST_LOAD">3</constant>
     <constant name="NET_IM_OUT">4</constant>
     <constant name="NET_MARK">5</constant>
+    <constant name="NET_ITEM">6</constant>
     <constant name="PT_PILOT">1</constant>
     <constant name="PT_NAVIGATION">2</constant>
     <constant name="YES">1</constant>
     <constant name="NO">0</constant>
     <constant name="BUSY">2</constant>
     <constant name="ERROR">3</constant>
+    <constant name="ITEM_SET">1</constant>
+    <constant name="ITEM_GET">2</constant>
+    <constant name="ITEM_ADD">3</constant>
+    <constant name="ITEM_DROP">4</constant>
+    <constant name="ITEM_PICKUP">5</constant>
+    <constant name="ITEM_NUM">16</constant>
+    <constant name="ITEM_ID">32</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

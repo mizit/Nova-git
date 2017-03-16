@@ -12,6 +12,7 @@
 #include <QTimer>
 #include <citem.h>
 #include <QVariant>
+#include <QFile>
 
 #define SHIPS   table_model->ship_list
 
@@ -49,6 +50,7 @@ private:
     QTimer *timer_update;
     QTimer *timer_save;
     CIdGen *idgen;
+    QList <CItem*> space_items;
 };
 
 

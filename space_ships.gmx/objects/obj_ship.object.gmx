@@ -33,6 +33,9 @@ thurst_pwr = 1;
 
 rot_speed = 0;
 
+tractor_beam_range = 150;
+tractor_list = ds_list_create();
+
 rot_left_key = ord('Q');
 rot_right_key = ord('E');
 mnvr_left_key = ord('A');
@@ -53,10 +56,13 @@ hud_rot_koeff = 10;
 hud_max_speed = 50;
 
 alarm[0] = room_speed;
+item_counter = 0;
 if (instance_exists(obj_net))
 {
     net_send_first_load(obj_net.net_buf, obj_net.socket);
 }
+alarm[2] = 1;
+
 
 file = file_text_open_read("asteroids.dat");
 var num = file_text_read_real(file);
@@ -121,6 +127,29 @@ em[0] = part_emitter_create(ps);
 em[1] = part_emitter_create(ps);
 em[2] = part_emitter_create(ps);
 em[3] = part_emitter_create(ps);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>net_send_item_get_num(obj_net.net_buf, obj_net.socket, obj_ship.item_counter);
 </string>
           </argument>
         </arguments>
@@ -272,6 +301,26 @@ if (keyboard_check(sonar_key))
 instance_activate_region(x - view_wview * 2, y - view_hview * 2, 
 view_wview * 3, view_hview * 3, 1);
 
+for (var i = 0; i &lt; instance_number(obj_item); i++)
+{
+    var item = instance_find(obj_item, i);
+    if (point_distance(x, y, item.x, item.y) &lt; tractor_beam_range)
+    {
+        if !(ds_list_find_index(tractor_list, item))
+        {
+            ds_list_add(tractor_list, item);
+            net_send_item_pickup(obj_net.net_buf, obj_net.socket, item);
+        }
+    }
+    else
+    {
+        if (ds_list_find_index(tractor_list, item))
+        {
+            ds_list_delete(tractor_list, ds_list_find_index(tractor_list, item));
+            net_send_item_drop(obj_net.net_buf, obj_net.socket, item);
+        }
+    }
+}
 </string>
           </argument>
         </arguments>

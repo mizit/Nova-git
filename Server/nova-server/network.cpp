@@ -167,7 +167,7 @@ void net_send_item(MySocket* socket, CItem* item)
     runner = SetToRawData(data, runner, item->hp);
     data[0] = (unsigned char)(runner & 0xFF);
     data[1] = (unsigned char)((runner & 0xFF00) << 8);
-    socket->LogAddString(item->type);
+    //socket->LogAddString(item->type);
     socket->MyWrite((char*)data, runner - 2);
 }
 

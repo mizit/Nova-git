@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->buttonUsrCrt, SIGNAL(clicked()), this, SLOT(UserCreate()));
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(pbtn()));
+    connect(ui->btn_save, SIGNAL(clicked()), this, SLOT(DataSave()));
 
     int num = 0;
     QVariant buf;
@@ -79,8 +80,26 @@ MainWindow::MainWindow(QWidget *parent) :
             settInv.endGroup();
             ship->item_list.append(tmp_item);
             tmp_item->small_list_position = ship->item_list.size() - 1;
-
         }
+    }
+    QSettings settInv("save/space.ini", QSettings::IniFormat);
+    settInv.beginGroup("general");
+    int item_num = settInv.value("num").toInt();
+    settInv.endGroup();
+    for (int i = 0; i < item_num; i++)
+    {
+        settInv.beginGroup(QString("item%1").arg(i));
+        CItem* tmp_item;
+        QString type = settInv.value("type").toString();
+        tmp_item = idgen->createItem(type);
+        tmp_item->owner = SPACE;
+        tmp_item->pos.setX(settInv.value("x").toFloat());
+        tmp_item->pos.setY(settInv.value("y").toFloat());
+        tmp_item->hp = settInv.value("hp").toFloat();
+        tmp_item->power = settInv.value("x").toFloat();
+        tmp_item->image_angle = settInv.value("image_angle").toFloat();
+        settInv.endGroup();
+        space_items.append(tmp_item);
     }
 
     timer_update = new QTimer();
@@ -163,8 +182,11 @@ void MainWindow::SetPos()
 
 void MainWindow::DataSave()
 {
+
     for (int i = 0; i < SHIPS.size(); i++)
     {
+        QFile file(QString("save/%1/position.ini").arg(SHIPS[i]->login));
+        file.remove();
         QSettings settPos(QString("save/%1/position.ini").arg(SHIPS[i]->login), QSettings::IniFormat);
         settPos.setValue("x", SHIPS[i]->shell->pos->pos->rx());
         settPos.setValue("y", SHIPS[i]->shell->pos->pos->ry());
@@ -173,6 +195,8 @@ void MainWindow::DataSave()
         settPos.setValue("rot_speed", SHIPS[i]->shell->pos->rot_speed);
         settPos.setValue("speed", SHIPS[i]->shell->pos->speed);
 
+        file.setFileName(QString("save/%1/inventory.ini").arg(SHIPS[i]->login));
+        file.remove();
         QSettings settInv(QString("save/%1/inventory.ini").arg(SHIPS[i]->login), QSettings::IniFormat);
         settInv.beginGroup("general");
         settInv.setValue("num", SHIPS[i]->item_list.size());
@@ -188,6 +212,24 @@ void MainWindow::DataSave()
             settInv.setValue("image_angle", SHIPS[i]->item_list[j]->image_angle);
             settInv.endGroup();
         }
+    }
+
+    QFile file("save/space.ini");
+    file.remove();
+    QSettings settInv("save/space.ini", QSettings::IniFormat);
+    settInv.beginGroup("general");
+    settInv.setValue("num", space_items.size());
+    settInv.endGroup();
+    for (int i = 0; i < space_items.size(); i++)
+    {
+        settInv.beginGroup(QString("item%1").arg(i));
+        settInv.setValue("type", space_items[i]->type);
+        settInv.setValue("x", space_items[i]->pos.rx());
+        settInv.setValue("y", space_items[i]->pos.ry());
+        settInv.setValue("hp", space_items[i]->hp);
+        settInv.setValue("power", space_items[i]->power);
+        settInv.setValue("image_angle", space_items[i]->image_angle);
+        settInv.endGroup();
     }
 }
 
@@ -421,10 +463,22 @@ void MainWindow::slotReadClient()
             }
             if ((def_com & 0xF0) == ITEM_NUM)
             {
-                qint64 num = GetInt64((unsigned char*)data, 2);
-                if ((num > -1) && (num < clientSocket->parentShip->item_list.size()))
+                if (clientSocket->parentShip->engSocket == clientSocket->descriptor)
                 {
-                    tmp_item = clientSocket->parentShip->item_list[num];
+                    qint64 num = GetInt64((unsigned char*)data, 2);
+                    if ((num > -1) && (num < clientSocket->parentShip->item_list.size()))
+                    {
+                        tmp_item = clientSocket->parentShip->item_list[num];
+                    }
+                }
+                if ((clientSocket->parentShip->pilotSocket == clientSocket->descriptor) ||
+                    (clientSocket->parentShip->navSocket == clientSocket->descriptor))
+                {
+                    qint64 num = GetInt64((unsigned char*)data, 2);
+                    if ((num > -1) && (num < space_items.size()))
+                    {
+                        tmp_item = space_items[num];
+                    }
                 }
             }
             if ((def_com & 0x0F) == ITEM_SET)
@@ -454,55 +508,89 @@ void MainWindow::slotReadClient()
             }
             if ((def_com &0x0F) == ITEM_DROP)
             {
-                if (tmp_item)
+                if (clientSocket->parentShip->engSocket == clientSocket->descriptor)
                 {
-                    if (tmp_item->owner == clientSocket->parentShip->login)
+                    if (tmp_item)
                     {
-                        tmp_item->type = GetString(data, 10);
-                        tmp_item->pos.setX(clientSocket->parentShip->shell->pos->pos->rx());
-                        tmp_item->pos.setY(clientSocket->parentShip->shell->pos->pos->ry());
-                        tmp_item->image_angle = GetInt32((unsigned char*)data, 19 + tmp_item->type.length());
-                        tmp_item->hp = GetInt32((unsigned char*)data, 23 + tmp_item->type.length());
-                        tmp_item->owner = SPACE;
-                        clientSocket->LogAddString(QString("Item dropped %1").arg(tmp_item->type));
-                        for (int i = 0; i < SHIPS.size(); i++)
+                        if (tmp_item->owner == clientSocket->parentShip->login)
                         {
-                            if (SClients[SHIPS[i]->pilotSocket] > 0)
+                            tmp_item->type = GetString(data, 10);
+                            tmp_item->pos.setX(clientSocket->parentShip->shell->pos->pos->rx());
+                            tmp_item->pos.setY(clientSocket->parentShip->shell->pos->pos->ry());
+                            tmp_item->image_angle = GetInt32((unsigned char*)data, 19 + tmp_item->type.length());
+                            tmp_item->hp = GetInt32((unsigned char*)data, 23 + tmp_item->type.length());
+                            tmp_item->owner = SPACE;
+                            for (int i = 0; i < clientSocket->parentShip->item_list.size(); i++)
                             {
-                                net_send_item(SClients[SHIPS[i]->pilotSocket], tmp_item);
+                                if (clientSocket->parentShip->item_list.takeAt(i)->id == tmp_item->id)
+                                {
+                                    clientSocket->parentShip->item_list.removeAt(i);
+                                }
                             }
-                            if (SClients[SHIPS[i]->navSocket] > 0)
+                            space_items.append(tmp_item);
+                            for (int i = 0; i < SHIPS.size(); i++)
                             {
-                                net_send_item(SClients[SHIPS[i]->navSocket], tmp_item);
+                                if (SHIPS[i]->pilotSocket > 0)
+                                {
+                                    net_send_item(SClients[SHIPS[i]->pilotSocket], tmp_item);
+                                }
+                                if (SHIPS[i]->navSocket > 0)
+                                {
+                                    net_send_item(SClients[SHIPS[i]->navSocket], tmp_item);
+                                }
                             }
                         }
+                    }
+                }
+                if (clientSocket->parentShip->pilotSocket == clientSocket->descriptor)
+                {
+                    if (clientSocket->parentShip->engSocket > 0)
+                    {
+                        net_send_item(SClients[clientSocket->parentShip->engSocket], tmp_item);
                     }
                 }
             }
             if ((def_com &0x0F) == ITEM_PICKUP)
             {
-                if (tmp_item)
+                if (clientSocket->parentShip->engSocket == clientSocket->descriptor)
                 {
-                    if (tmp_item->owner == SPACE)
+                    if (tmp_item)
                     {
-                        tmp_item->type = GetString(data, 10);
-                        tmp_item->pos.setX(0);
-                        tmp_item->pos.setY(0);
-                        tmp_item->image_angle = GetInt32((unsigned char*)data, 19 + tmp_item->type.length());
-                        tmp_item->hp = GetInt32((unsigned char*)data, 23 + tmp_item->type.length());
-                        tmp_item->owner = clientSocket->parentShip->login;
-                        clientSocket->LogAddString(QString("Item picked up %1").arg(tmp_item->type));
-                        for (int i = 0; i < SHIPS.size(); i++)
+                        if (tmp_item->owner == SPACE)
                         {
-                            if (SClients[SHIPS[i]->pilotSocket] > 0)
+                            tmp_item->type = GetString(data, 10);
+                            tmp_item->pos.setX(0);
+                            tmp_item->pos.setY(0);
+                            tmp_item->image_angle = GetInt32((unsigned char*)data, 19 + tmp_item->type.length());
+                            tmp_item->hp = GetInt32((unsigned char*)data, 23 + tmp_item->type.length());
+                            tmp_item->owner = clientSocket->parentShip->login;
+                            for (int i = 0; i < space_items.size(); i++)
                             {
-                                net_send_item(SClients[SHIPS[i]->pilotSocket], tmp_item);
+                                if (space_items.takeAt(i)->id == tmp_item->id)
+                                {
+                                    space_items.removeAt(i);
+                                }
                             }
-                            if (SClients[SHIPS[i]->navSocket] > 0)
+                            clientSocket->parentShip->item_list.append(tmp_item);
+                            for (int i = 0; i < SHIPS.size(); i++)
                             {
-                                net_send_item(SClients[SHIPS[i]->navSocket], tmp_item);
+                                if (SHIPS[i]->pilotSocket > 0)
+                                {
+                                    net_send_item(SClients[SHIPS[i]->pilotSocket], tmp_item);
+                                }
+                                if (SHIPS[i]->navSocket > 0)
+                                {
+                                    net_send_item(SClients[SHIPS[i]->navSocket], tmp_item);
+                                }
                             }
                         }
+                    }
+                }
+                if (clientSocket->parentShip->pilotSocket == clientSocket->descriptor)
+                {
+                    if (clientSocket->parentShip->engSocket > 0)
+                    {
+                        net_send_item(SClients[clientSocket->parentShip->engSocket], tmp_item);
                     }
                 }
             }
