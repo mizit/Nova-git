@@ -79,9 +79,9 @@ MainWindow::MainWindow(QWidget *parent) :
             tmp_item->image_angle = settInv.value("image_angle").toFloat();
             settInv.endGroup();
             ship->item_list.append(tmp_item);
-            tmp_item->small_list_position = ship->item_list.size() - 1;
         }
     }
+    ui->combo_userpos->addItem(SPACE);
     QSettings settInv("save/space.ini", QSettings::IniFormat);
     settInv.beginGroup("general");
     int item_num = settInv.value("num").toInt();
@@ -134,12 +134,30 @@ void MainWindow::ItemAdd()
             CItem *item;
             item = idgen->createItem(type);
             SHIPS[i]->item_list.append(item);
-            item->small_list_position = SHIPS[i]->item_list.size() - 1;
             item->owner = SHIPS[i]->login;
             ui->lview_inv->addItem(type + QString(" %1").arg(item->id));
             if (SHIPS[i]->engSocket > 0)
             {
-                net_send_item(SClients[SHIPS[i]->engSocket], item);
+                net_send_item(SClients[SHIPS[i]->engSocket], item, ITEM_SET | ITEM_ID);
+            }
+        }
+    }
+    if (name == SPACE)
+    {
+        CItem *item;
+        item = idgen->createItem(type);
+        space_items.append(item);
+        item->owner = SPACE;
+        ui->lview_inv->addItem(type + QString(" %1").arg(item->id));
+        for (int i = 0; i < SHIPS.size(); i++)
+        {
+            if (SHIPS[i]->pilotSocket > 0)
+            {
+                net_send_item(SClients[SHIPS[i]->pilotSocket], item, ITEM_SET | ITEM_ID);
+            }
+            if (SHIPS[i]->navSocket > 0)
+            {
+                net_send_item(SClients[SHIPS[i]->navSocket], item, ITEM_SET | ITEM_ID);
             }
         }
     }
@@ -306,6 +324,14 @@ void MainWindow::DataUpdate()
             {
                 ui->lview_inv->addItem(SHIPS[i]->item_list[j]->type + QString(" %1").arg(SHIPS[i]->item_list[j]->id));
             }
+        }
+    }
+    if (name == SPACE)
+    {
+        ui->lview_inv->clear();
+        for (int j = 0; j < space_items.size(); j++)
+        {
+            ui->lview_inv->addItem(space_items[j]->type + QString(" %1").arg(space_items[j]->id));
         }
     }
 }
@@ -497,12 +523,12 @@ void MainWindow::slotReadClient()
                 if (tmp_item == 0)
                 {
                     tmp_item = new CItem();
-                    net_send_item(clientSocket, tmp_item);
+                    net_send_item(clientSocket, tmp_item, ITEM_SET | ITEM_ID);
                     delete tmp_item;
                 }
                 else
                 {
-                    net_send_item(clientSocket, tmp_item);
+                    net_send_item(clientSocket, tmp_item, ITEM_SET | ITEM_ID);
                 }
 
             }
@@ -532,11 +558,11 @@ void MainWindow::slotReadClient()
                             {
                                 if (SHIPS[i]->pilotSocket > 0)
                                 {
-                                    net_send_item(SClients[SHIPS[i]->pilotSocket], tmp_item);
+                                    net_send_item(SClients[SHIPS[i]->pilotSocket], tmp_item, ITEM_DROP | ITEM_ID);
                                 }
                                 if (SHIPS[i]->navSocket > 0)
                                 {
-                                    net_send_item(SClients[SHIPS[i]->navSocket], tmp_item);
+                                    net_send_item(SClients[SHIPS[i]->navSocket], tmp_item, ITEM_DROP | ITEM_ID);
                                 }
                             }
                         }
@@ -546,7 +572,7 @@ void MainWindow::slotReadClient()
                 {
                     if (clientSocket->parentShip->engSocket > 0)
                     {
-                        net_send_item(SClients[clientSocket->parentShip->engSocket], tmp_item);
+                        net_send_item(SClients[clientSocket->parentShip->engSocket], tmp_item, ITEM_DROP | ITEM_ID);
                     }
                 }
             }
@@ -576,11 +602,11 @@ void MainWindow::slotReadClient()
                             {
                                 if (SHIPS[i]->pilotSocket > 0)
                                 {
-                                    net_send_item(SClients[SHIPS[i]->pilotSocket], tmp_item);
+                                    net_send_item(SClients[SHIPS[i]->pilotSocket], tmp_item, ITEM_PICKUP | ITEM_ID);
                                 }
                                 if (SHIPS[i]->navSocket > 0)
                                 {
-                                    net_send_item(SClients[SHIPS[i]->navSocket], tmp_item);
+                                    net_send_item(SClients[SHIPS[i]->navSocket], tmp_item, ITEM_PICKUP | ITEM_ID);
                                 }
                             }
                         }
@@ -590,7 +616,7 @@ void MainWindow::slotReadClient()
                 {
                     if (clientSocket->parentShip->engSocket > 0)
                     {
-                        net_send_item(SClients[clientSocket->parentShip->engSocket], tmp_item);
+                        net_send_item(SClients[clientSocket->parentShip->engSocket], tmp_item, ITEM_PICKUP | ITEM_ID);
                     }
                 }
             }

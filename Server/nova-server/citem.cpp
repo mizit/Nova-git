@@ -10,8 +10,6 @@ CItem::CItem()
     type = "noone";
     hp = 100;
     power = 100;
-    big_list_postion = -1;
-    small_list_position = -1;
 }
 
 
@@ -46,6 +44,5 @@ CItem* CIdGen::createItem(QString type, quint8 it)
     item->id = IdGen(it, 0);
     item->type = type;
     item_list.append(item);
-    item->big_list_postion = item_list.size() - 1;
     return item;
 }

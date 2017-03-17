@@ -146,19 +146,14 @@ void net_send_mark(MySocket* socket, qint32 x, qint32 y)
     socket->MyWrite((char*)data, runner - 2);
 }
 
-void net_send_item(MySocket* socket, CItem* item)
+void net_send_item(MySocket* socket, CItem* item, qint32 com)
 {
     QDataStream net_data(socket);
-    int len = 0;
-    len += sizeof(qint64); //id
-    len += sizeof(QPoint); //pos
-    len += sizeof(int); //image_angle
-    len += item->type.length(); //type
-    len += sizeof(int); //hp
-    unsigned char data[100];
+    unsigned char data[255];
     //data = new unsigned char[len];
     data[2] = NET_ITEM;
     int runner = 3;
+    runner = SetToRawData(data, runner, com);
     runner = SetToRawData(data, runner, item->type);
     runner = SetToRawData(data, runner, item->id);
     runner = SetToRawData(data, runner, item->pos.rx());

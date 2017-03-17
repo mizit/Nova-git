@@ -63,7 +63,7 @@ QString RawDataToString(char* data, int len);
 void net_send_gd_answer(MySocket*, char);
 void net_send_set_position(MySocket* socket, CShip* ship);
 void net_send_mark(MySocket* socket, qint32 x, qint32 y);
-void net_send_item(MySocket* socket, CItem* item);
+void net_send_item(MySocket* socket, CItem* item, qint32 com);
 void net_send_shell(MySocket* socket, CShell* shell);
 
 #endif // NETWORK_H

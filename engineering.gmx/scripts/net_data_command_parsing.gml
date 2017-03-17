@@ -47,6 +47,7 @@ switch (l_command)
     }
     case NET_ITEM:
     {
+        var l_com = buffer_read(l_buf, buffer_u32);
         var l_str = buffer_read(l_buf, buffer_string);
         if (l_str == "noone")
         {
@@ -56,7 +57,104 @@ switch (l_command)
         var l_name = asset_get_index(l_str);
         if (l_name > 0)
         {
-            var l_obj = instance_create(0, 0, l_name);
+            if ((l_com & $0F) == ITEM_SET)
+            {
+                var l_id = buffer_read(l_buf, buffer_u32);
+                var l_obj = noone;
+                with(obj_global_item)
+                {
+                    if (net_id == l_id)
+                    {
+                        l_obj = id;
+                    }
+                }
+                if !(l_obj)
+                {
+                    l_obj = instance_create(0, 0, l_name);
+                }
+                buffer_read(l_buf, buffer_u32);
+                var l_x = buffer_read(l_buf, buffer_u32);
+                var l_y = buffer_read(l_buf, buffer_u32);
+                l_obj.net_id = l_id;
+                l_obj.image_angle = buffer_read(l_buf, buffer_s32);
+                l_obj.hp = buffer_read(l_buf, buffer_u32);
+                if ((l_x == 0) || (l_y == 0))
+                {
+                    inv_item_add(l_obj);
+                }
+                else 
+                {
+                    l_x--;
+                    l_y--;
+                    if (object_is_ancestor(l_obj.object_index, obj_part))
+                    {
+                        with(l_obj)
+                        {
+                            part_outputs_shift(l_obj.image_angle);
+                            part_set(obj_grid, l_x, l_y, 0);
+                        }
+                    }
+                    if (object_is_ancestor(l_obj.object_index, obj_gridded_part))
+                    {
+                        with(l_obj)
+                        {
+                            gridded_part_outputs_shift(l_obj.image_angle);
+                            gridded_part_set(obj_grid, l_x, l_y, 0);
+                        }
+                    }
+                }
+            }
+            if ((l_com & $0F) == ITEM_PICKUP)
+            {
+                var l_id = buffer_read(l_buf, buffer_u32);
+                var l_obj = noone;
+                with(obj_global_item)
+                {
+                    if (net_id == l_id)
+                    {
+                        buffer_read(l_buf, buffer_u32);
+                        buffer_read(l_buf, buffer_u32);
+                        buffer_read(l_buf, buffer_u32);
+                        buffer_read(l_buf, buffer_s32);
+                        buffer_read(l_buf, buffer_u32);
+                        return 0;
+                    }
+                }
+                l_obj = instance_create(0, 0, l_name);
+                buffer_read(l_buf, buffer_u32);
+                var l_x = buffer_read(l_buf, buffer_u32);
+                var l_y = buffer_read(l_buf, buffer_u32);
+                l_obj.net_id = l_id;
+                l_obj.image_angle = buffer_read(l_buf, buffer_s32);
+                l_obj.hp = buffer_read(l_buf, buffer_u32);
+                l_obj.x = random_range(obj_space.x + sprite_get_width(l_obj.sprite_index) / 2, 
+                    obj_space.x + sprite_get_width(obj_space.sprite_index) - sprite_get_width(l_obj.sprite_index) / 2);
+                l_obj.y = random_range(obj_space.y + sprite_get_height(l_obj.sprite_index) / 2, 
+                    obj_space.y + sprite_get_height(obj_space.sprite_index) - sprite_get_height(l_obj.sprite_index) / 2);
+                inv_item_add(l_obj);
+            }
+            if ((l_com & $0F) == ITEM_DROP)
+            {
+                var l_id = buffer_read(l_buf, buffer_u32);
+                var l_obj = noone;
+                with(obj_global_item)
+                {
+                    if (net_id == l_id)
+                    {
+                        l_obj = id;
+                    }
+                }
+                if (l_obj)
+                {
+                    var l_pos = ds_list_find_index(obj_space.items_list, l_obj);
+                    with (l_obj)
+                    {
+                        instance_destroy();
+                    }
+                    ds_list_delete(obj_space.items_list, l_pos);
+                }
+            }
+            /*var l_obj = instance_create(0, 0, l_name);
             var l_id = buffer_read(l_buf, buffer_u32);
             buffer_read(l_buf, buffer_u32);
             var l_x = buffer_read(l_buf, buffer_u32);
@@ -122,7 +220,7 @@ switch (l_command)
                     obj_space.y + sprite_get_height(obj_space.sprite_index) - sprite_get_height(l_obj.sprite_index) / 2);
                     inv_item_add(l_obj);
                 }
-            }
+            }*/
         }
         if (obj_grid.first_load)
         {

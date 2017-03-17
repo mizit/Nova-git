@@ -28,7 +28,7 @@
             <string>mass = 100;
 
 rot_pwr = 0.3;
-mnvr_pwr = 0.1;
+mnvr_pwr = 1;
 thurst_pwr = 1;
 
 rot_speed = 0;
@@ -306,7 +306,7 @@ for (var i = 0; i &lt; instance_number(obj_item); i++)
     var item = instance_find(obj_item, i);
     if (point_distance(x, y, item.x, item.y) &lt; tractor_beam_range)
     {
-        if !(ds_list_find_index(tractor_list, item))
+        if (ds_list_find_index(tractor_list, item) == -1)
         {
             ds_list_add(tractor_list, item);
             net_send_item_pickup(obj_net.net_buf, obj_net.socket, item);
@@ -314,7 +314,7 @@ for (var i = 0; i &lt; instance_number(obj_item); i++)
     }
     else
     {
-        if (ds_list_find_index(tractor_list, item))
+        if (ds_list_find_index(tractor_list, item) != -1)
         {
             ds_list_delete(tractor_list, ds_list_find_index(tractor_list, item));
             net_send_item_drop(obj_net.net_buf, obj_net.socket, item);
@@ -414,6 +414,12 @@ draw_sprite_ext(s_hud, 4, x, y, 1, 1, point_direction(x, y, sonar_point.x, sonar
 draw_set_colour(c_red);
 draw_rectangle(x - view_xview * 2, y - view_yview * 2, 
 view_xview * 3, view_yview * 3, 0);*/
+
+for (var i = 0; i &lt; ds_list_size(tractor_list); i++)
+{
+    draw_set_colour(c_white);
+    draw_text(x, y + i * 25, tractor_list[| i]);
+}
 </string>
           </argument>
         </arguments>

@@ -53,8 +53,6 @@ public:
     QString type;
     int hp;
     int power;
-    int big_list_postion;
-    int small_list_position;
 };
 
 class CIdGen
