@@ -33,6 +33,7 @@ net_id = 0;
 hp = 0;
 grd_x = -1;
 grd_y = -1;
+elements_max = 1;
 </string>
           </argument>
         </arguments>

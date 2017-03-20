@@ -3,7 +3,7 @@ var l_grid = argument0;
 var l_x = argument1;
 var l_y = argument2;
 var l_send = argument3;
-if (l_grid)
+if (instance_exists(l_grid))
 {
     if ((l_x >= 0) && ((l_x + width - 1) < l_grid.width) && (l_y >= 0) && ((l_y + height - 1) < l_grid.height))
     {

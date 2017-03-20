@@ -163,6 +163,7 @@
       <object>objects\obj_item</object>
     </objects>
     <object>objects\obj_global_item</object>
+    <object>objects\obj_info</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_authorization</room>

@@ -28,6 +28,10 @@
             <string>net_id = 0;
 dragging = 0;
 depth = -5;
+grd_x = 0;
+grd_y = 0;
+hp = 100;
+must_set_up = 0;
 </string>
           </argument>
         </arguments>
@@ -54,6 +58,48 @@ depth = -5;
 {
     x = mouse_x;
     y = mouse_y;
+}
+if (must_set_up)
+{
+    if ((grd_x == 0) || (grd_y == 0))
+    {
+        must_set_up = 0;
+    }
+    else
+    {
+        with(obj_part_parent)
+        {
+            if ((grd_x == other.grd_x) &amp;&amp; (grd_y == other.grd_y))
+            {
+                if (ds_list_size(elements_list) &lt; elements_max)
+                {
+                    ds_list_add(elements_list, other);
+                    other.visible = false;
+                    other.dragging = 0;
+                    other.grd_x = grd_x;
+                    other.grd_y = grd_y;
+                    other.must_set_up = 0;
+                    var l_tmp = other;
+                    with (obj_inv)
+                    {
+                        if (permission == INV_ELEMENTS)
+                        {
+                            ds_list_delete(items_list, ds_list_find_index(items_list, l_tmp));
+                        }
+                    }
+                }
+                /*else
+                {
+                    inv_item_add(other);
+                    other.dragging = 0;
+                    other.visible = false;
+                    other.grd_x = 0;
+                    other.grd_y = 0;
+                    net_send_item_set_id(obj_net.net_buf, obj_net.socket, other);
+                }*/
+            }
+        }
+    }
 }
 </string>
           </argument>
@@ -85,6 +131,9 @@ depth = -5;
             ds_list_add(obj_part_grid.elements_list, id);
             visible = false;
             dragging = 0;
+            grd_x = obj_part_grid.base.grd_x;
+            grd_y = obj_part_grid.base.grd_y;
+            net_send_item_set_id(obj_net.net_buf, obj_net.socket, id);
             //instance_destroy();
     }
     else
@@ -92,6 +141,9 @@ depth = -5;
         inv_item_add(id);
         dragging = 0;
         visible = false;
+        grd_x = 0;
+        grd_y = 0;
+        net_send_item_set_id(obj_net.net_buf, obj_net.socket, id);
         /*var cont = inv_cell_with_object(object_index);
         cont.number++;
         instance_destroy();*/

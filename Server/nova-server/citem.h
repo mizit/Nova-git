@@ -32,6 +32,8 @@
 #define TUBE_TEE        "obj_tube_tee"
 #define TUBE_SPLITTER   "obj_tube_splitter"
 #define MONEY_CASE      "obj_money_case"
+#define POWER_BLOCK     "obj_power_block"
+#define ELEMENT1        "obj_element1"
 
 #define ITEM_SET    0x01
 #define ITEM_GET    0x02

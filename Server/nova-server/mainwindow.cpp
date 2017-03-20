@@ -118,6 +118,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lview_items->addItem(TUBE_TEE);
     ui->lview_items->addItem(TUBE_SPLITTER);
     ui->lview_items->addItem(MONEY_CASE);
+    ui->lview_items->addItem(POWER_BLOCK);
+    ui->lview_items->addItem(ELEMENT1);
 
     connect(ui->button_add_item, SIGNAL(clicked()), this, SLOT(ItemAdd()));
 }
@@ -358,278 +360,280 @@ void MainWindow::slotReadClient()
     char tmp_len[2];
     int len;
     QDataStream net_data(clientSocket);
-    net_data.readRawData(tmp_len, 2);
-    len = (tmp_len[1] << 8) + tmp_len[0];
-    //data = new char[len];
-    net_data.readRawData(data, len);
-    //LogAddString(RawDataToString(data, len));
-    switch (data[0])
+    while (net_data.readRawData(tmp_len, 2) > 0)
     {
-        case NET_GOOD_DAY:
+        len = (tmp_len[1] << 8) + tmp_len[0];
+        //data = new char[len];
+        net_data.readRawData(data, len);
+        //LogAddString(RawDataToString(data, len));
+        switch (data[0])
         {
-            int member_type = data[1];
-            QString login = GetString(data, 2);
-            QString password = GetString(data, 3 + login.length());
-            bool test = 0;
-            for (int i = 0; i < SHIPS.size(); i++)
+            case NET_GOOD_DAY:
             {
-                if (SHIPS[i]->login == login)
+                int member_type = data[1];
+                QString login = GetString(data, 2);
+                QString password = GetString(data, 3 + login.length());
+                bool test = 0;
+                for (int i = 0; i < SHIPS.size(); i++)
                 {
-                    test = 1;
-                    if (SHIPS[i]->password == password)
+                    if (SHIPS[i]->login == login)
                     {
-                        int idusersoc = SClients.key(clientSocket, -1);
-                        if (idusersoc >= 0)
+                        test = 1;
+                        if (SHIPS[i]->password == password)
                         {
-                            if (*(SHIPS[i]->sockets[member_type]) == -1)
+                            int idusersoc = SClients.key(clientSocket, -1);
+                            if (idusersoc >= 0)
                             {
-                                table_model->StartChange();
-                                *(SHIPS[i]->sockets[member_type]) = idusersoc;
-                                table_model->EndChange();
-                                LogAddString(QString("User connected - %1").arg(SHIPS[i]->login));
-                                clientSocket->parentShip = SHIPS[i];
-                                clientSocket->pt_type = member_type;
-                                net_send_gd_answer(clientSocket, YES);
+                                if (*(SHIPS[i]->sockets[member_type]) == -1)
+                                {
+                                    table_model->StartChange();
+                                    *(SHIPS[i]->sockets[member_type]) = idusersoc;
+                                    table_model->EndChange();
+                                    LogAddString(QString("User connected - %1").arg(SHIPS[i]->login));
+                                    clientSocket->parentShip = SHIPS[i];
+                                    clientSocket->pt_type = member_type;
+                                    net_send_gd_answer(clientSocket, YES);
+                                }
+                                else
+                                {
+                                    net_send_gd_answer(clientSocket, BUSY);
+                                }
                             }
                             else
                             {
-                                net_send_gd_answer(clientSocket, BUSY);
+                                net_send_gd_answer(clientSocket, ERROR);
                             }
                         }
                         else
                         {
-                            net_send_gd_answer(clientSocket, ERROR);
+                            LogAddString(SHIPS[i]->password);
+                            LogAddString(password);
+                            net_send_gd_answer(clientSocket, NO);
                         }
+                        break;
+                    }
+                    //net_send_gd_answer(clientSocket, ERROR);
+                }
+                if (!test)
+                {
+                    net_send_gd_answer(clientSocket, NO);
+                }
+                break;
+            }
+            case NET_POSITION:
+            {
+                qint32 x = GetInt32((unsigned char*)data, 1);
+                qint32 y = GetInt32((unsigned char*)data, 5);
+                qint32 image_angle = GetInt32((unsigned char*)data, 9);
+                qint32 speed = GetInt32((unsigned char*)data, 13);
+                qint32 rot_speed = GetInt32((unsigned char*)data, 17);
+                qint32 direction = GetInt32((unsigned char*)data, 21);
+                clientSocket->parentShip->shell->pos->pos->setX(x);
+                clientSocket->parentShip->shell->pos->pos->setY(y);
+                clientSocket->parentShip->shell->pos->image_angle = image_angle;
+                clientSocket->parentShip->shell->pos->speed = speed;
+                clientSocket->parentShip->shell->pos->rot_speed = rot_speed;
+                clientSocket->parentShip->shell->pos->direction = direction;
+                for (int i = 0; i < SHIPS.size(); i++)
+                {
+                    if ((SHIPS[i] != clientSocket->parentShip) && (SHIPS[i]->pilotSocket > 0))
+                    {
+                        net_send_set_position(SClients[SHIPS[i]->pilotSocket], clientSocket->parentShip);
+                    }
+                    if (SHIPS[i]->navSocket > 0)
+                    {
+                        net_send_set_position(SClients[SHIPS[i]->navSocket], clientSocket->parentShip);
+                    }
+                }
+                break;
+            }
+            case NET_FIRST_LOAD:
+            {
+                for (int i = 0; i < SHIPS.size(); i++)
+                {
+                    net_send_set_position(clientSocket, SHIPS[i]);
+                }
+                break;
+            }
+            case NET_IM_OUT:
+            {
+                table_model->StartChange();
+                *clientSocket->parentShip->sockets[clientSocket->pt_type] = -1;
+                table_model->EndChange();
+                int idusersocs = clientSocket->socketDescriptor();
+                SClients.remove(idusersocs);
+                delete clientSocket;
+                break;
+            }
+            case NET_MARK:
+            {
+                qint32 x = GetInt32((unsigned char*)data, 1);
+                qint32 y = GetInt32((unsigned char*)data, 5);
+                if (clientSocket->parentShip->pilotSocket > 0)
+                {
+                    net_send_mark(SClients[clientSocket->parentShip->pilotSocket], x, y);
+                }
+                break;
+            }
+            case NET_ITEM:
+            {
+                char def_com = data[1];
+                CItem *tmp_item = 0;
+                if ((def_com & 0xF0) == ITEM_ID)
+                {
+                    qint64 tmp_id = GetInt64((unsigned char*)data, 2);
+                    for (int i = 0; i < idgen->item_list.size(); i++)
+                    {
+                        if (idgen->item_list[i]->id == tmp_id)
+                        {
+                            tmp_item = idgen->item_list[i];
+                        }
+                    }
+                }
+                if ((def_com & 0xF0) == ITEM_NUM)
+                {
+                    if (clientSocket->parentShip->engSocket == clientSocket->descriptor)
+                    {
+                        qint64 num = GetInt64((unsigned char*)data, 2);
+                        if ((num > -1) && (num < clientSocket->parentShip->item_list.size()))
+                        {
+                            tmp_item = clientSocket->parentShip->item_list[num];
+                        }
+                    }
+                    if ((clientSocket->parentShip->pilotSocket == clientSocket->descriptor) ||
+                        (clientSocket->parentShip->navSocket == clientSocket->descriptor))
+                    {
+                        qint64 num = GetInt64((unsigned char*)data, 2);
+                        if ((num > -1) && (num < space_items.size()))
+                        {
+                            tmp_item = space_items[num];
+                        }
+                    }
+                }
+                if ((def_com & 0x0F) == ITEM_SET)
+                {
+                    if (tmp_item)
+                    {
+                        tmp_item->type = GetString(data, 10);
+                        tmp_item->pos.setX(GetInt32((unsigned char*)data, 11 + tmp_item->type.length()));
+                        tmp_item->pos.setY(GetInt32((unsigned char*)data, 15 + tmp_item->type.length()));
+                        tmp_item->image_angle = GetInt32((unsigned char*)data, 19 + tmp_item->type.length());
+                        tmp_item->hp = GetInt32((unsigned char*)data, 23 + tmp_item->type.length());
+                    }
+                }
+                if ((def_com & 0x0F) == ITEM_GET)
+                {
+                    if (tmp_item == 0)
+                    {
+                        tmp_item = new CItem();
+                        net_send_item(clientSocket, tmp_item, ITEM_SET | ITEM_ID);
+                        delete tmp_item;
                     }
                     else
                     {
-                        LogAddString(SHIPS[i]->password);
-                        LogAddString(password);
-                        net_send_gd_answer(clientSocket, NO);
+                        net_send_item(clientSocket, tmp_item, ITEM_SET | ITEM_ID);
                     }
-                    break;
-                }
-                //net_send_gd_answer(clientSocket, ERROR);
-            }
-            if (!test)
-            {
-                net_send_gd_answer(clientSocket, NO);
-            }
-            break;
-        }
-        case NET_POSITION:
-        {
-            qint32 x = GetInt32((unsigned char*)data, 1);
-            qint32 y = GetInt32((unsigned char*)data, 5);
-            qint32 image_angle = GetInt32((unsigned char*)data, 9);
-            qint32 speed = GetInt32((unsigned char*)data, 13);
-            qint32 rot_speed = GetInt32((unsigned char*)data, 17);
-            qint32 direction = GetInt32((unsigned char*)data, 21);
-            clientSocket->parentShip->shell->pos->pos->setX(x);
-            clientSocket->parentShip->shell->pos->pos->setY(y);
-            clientSocket->parentShip->shell->pos->image_angle = image_angle;
-            clientSocket->parentShip->shell->pos->speed = speed;
-            clientSocket->parentShip->shell->pos->rot_speed = rot_speed;
-            clientSocket->parentShip->shell->pos->direction = direction;
-            for (int i = 0; i < SHIPS.size(); i++)
-            {
-                if ((SHIPS[i] != clientSocket->parentShip) && (SHIPS[i]->pilotSocket > 0))
-                {
-                    net_send_set_position(SClients[SHIPS[i]->pilotSocket], clientSocket->parentShip);
-                }
-                if (SHIPS[i]->navSocket > 0)
-                {
-                    net_send_set_position(SClients[SHIPS[i]->navSocket], clientSocket->parentShip);
-                }
-            }
-            break;
-        }
-        case NET_FIRST_LOAD:
-        {
-            for (int i = 0; i < SHIPS.size(); i++)
-            {
-                net_send_set_position(clientSocket, SHIPS[i]);
-            }
-            break;
-        }
-        case NET_IM_OUT:
-        {
-            table_model->StartChange();
-            *clientSocket->parentShip->sockets[clientSocket->pt_type] = -1;
-            table_model->EndChange();
-            int idusersocs = clientSocket->socketDescriptor();
-            SClients.remove(idusersocs);
-            delete clientSocket;
-            break;
-        }
-        case NET_MARK:
-        {
-            qint32 x = GetInt32((unsigned char*)data, 1);
-            qint32 y = GetInt32((unsigned char*)data, 5);
-            if (clientSocket->parentShip->pilotSocket > 0)
-            {
-                net_send_mark(SClients[clientSocket->parentShip->pilotSocket], x, y);
-            }
-            break;
-        }
-        case NET_ITEM:
-        {
-            char def_com = data[1];
-            CItem *tmp_item = 0;
-            if ((def_com & 0xF0) == ITEM_ID)
-            {
-                qint64 tmp_id = GetInt64((unsigned char*)data, 2);
-                for (int i = 0; i < idgen->item_list.size(); i++)
-                {
-                    if (idgen->item_list[i]->id == tmp_id)
-                    {
-                        tmp_item = idgen->item_list[i];
-                    }
-                }
-            }
-            if ((def_com & 0xF0) == ITEM_NUM)
-            {
-                if (clientSocket->parentShip->engSocket == clientSocket->descriptor)
-                {
-                    qint64 num = GetInt64((unsigned char*)data, 2);
-                    if ((num > -1) && (num < clientSocket->parentShip->item_list.size()))
-                    {
-                        tmp_item = clientSocket->parentShip->item_list[num];
-                    }
-                }
-                if ((clientSocket->parentShip->pilotSocket == clientSocket->descriptor) ||
-                    (clientSocket->parentShip->navSocket == clientSocket->descriptor))
-                {
-                    qint64 num = GetInt64((unsigned char*)data, 2);
-                    if ((num > -1) && (num < space_items.size()))
-                    {
-                        tmp_item = space_items[num];
-                    }
-                }
-            }
-            if ((def_com & 0x0F) == ITEM_SET)
-            {
-                if (tmp_item)
-                {
-                    tmp_item->type = GetString(data, 10);
-                    tmp_item->pos.setX(GetInt32((unsigned char*)data, 11 + tmp_item->type.length()));
-                    tmp_item->pos.setY(GetInt32((unsigned char*)data, 15 + tmp_item->type.length()));
-                    tmp_item->image_angle = GetInt32((unsigned char*)data, 19 + tmp_item->type.length());
-                    tmp_item->hp = GetInt32((unsigned char*)data, 23 + tmp_item->type.length());
-                }
-            }
-            if ((def_com & 0x0F) == ITEM_GET)
-            {
-                if (tmp_item == 0)
-                {
-                    tmp_item = new CItem();
-                    net_send_item(clientSocket, tmp_item, ITEM_SET | ITEM_ID);
-                    delete tmp_item;
-                }
-                else
-                {
-                    net_send_item(clientSocket, tmp_item, ITEM_SET | ITEM_ID);
-                }
 
-            }
-            if ((def_com &0x0F) == ITEM_DROP)
-            {
-                if (clientSocket->parentShip->engSocket == clientSocket->descriptor)
+                }
+                if ((def_com &0x0F) == ITEM_DROP)
                 {
-                    if (tmp_item)
+                    if (clientSocket->parentShip->engSocket == clientSocket->descriptor)
                     {
-                        if (tmp_item->owner == clientSocket->parentShip->login)
+                        if (tmp_item)
                         {
-                            tmp_item->type = GetString(data, 10);
-                            tmp_item->pos.setX(clientSocket->parentShip->shell->pos->pos->rx());
-                            tmp_item->pos.setY(clientSocket->parentShip->shell->pos->pos->ry());
-                            tmp_item->image_angle = GetInt32((unsigned char*)data, 19 + tmp_item->type.length());
-                            tmp_item->hp = GetInt32((unsigned char*)data, 23 + tmp_item->type.length());
-                            tmp_item->owner = SPACE;
-                            for (int i = 0; i < clientSocket->parentShip->item_list.size(); i++)
+                            if (tmp_item->owner == clientSocket->parentShip->login)
                             {
-                                if (clientSocket->parentShip->item_list.takeAt(i)->id == tmp_item->id)
+                                tmp_item->type = GetString(data, 10);
+                                tmp_item->pos.setX(clientSocket->parentShip->shell->pos->pos->rx());
+                                tmp_item->pos.setY(clientSocket->parentShip->shell->pos->pos->ry());
+                                tmp_item->image_angle = GetInt32((unsigned char*)data, 19 + tmp_item->type.length());
+                                tmp_item->hp = GetInt32((unsigned char*)data, 23 + tmp_item->type.length());
+                                tmp_item->owner = SPACE;
+                                for (int i = 0; i < clientSocket->parentShip->item_list.size(); i++)
                                 {
-                                    clientSocket->parentShip->item_list.removeAt(i);
+                                    if (clientSocket->parentShip->item_list.takeAt(i)->id == tmp_item->id)
+                                    {
+                                        clientSocket->parentShip->item_list.removeAt(i);
+                                    }
                                 }
-                            }
-                            space_items.append(tmp_item);
-                            for (int i = 0; i < SHIPS.size(); i++)
-                            {
-                                if (SHIPS[i]->pilotSocket > 0)
+                                space_items.append(tmp_item);
+                                for (int i = 0; i < SHIPS.size(); i++)
                                 {
-                                    net_send_item(SClients[SHIPS[i]->pilotSocket], tmp_item, ITEM_DROP | ITEM_ID);
-                                }
-                                if (SHIPS[i]->navSocket > 0)
-                                {
-                                    net_send_item(SClients[SHIPS[i]->navSocket], tmp_item, ITEM_DROP | ITEM_ID);
+                                    if (SHIPS[i]->pilotSocket > 0)
+                                    {
+                                        net_send_item(SClients[SHIPS[i]->pilotSocket], tmp_item, ITEM_DROP | ITEM_ID);
+                                    }
+                                    if (SHIPS[i]->navSocket > 0)
+                                    {
+                                        net_send_item(SClients[SHIPS[i]->navSocket], tmp_item, ITEM_DROP | ITEM_ID);
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                if (clientSocket->parentShip->pilotSocket == clientSocket->descriptor)
-                {
-                    if (clientSocket->parentShip->engSocket > 0)
+                    if (clientSocket->parentShip->pilotSocket == clientSocket->descriptor)
                     {
-                        net_send_item(SClients[clientSocket->parentShip->engSocket], tmp_item, ITEM_DROP | ITEM_ID);
+                        if (clientSocket->parentShip->engSocket > 0)
+                        {
+                            net_send_item(SClients[clientSocket->parentShip->engSocket], tmp_item, ITEM_DROP | ITEM_ID);
+                        }
                     }
                 }
-            }
-            if ((def_com &0x0F) == ITEM_PICKUP)
-            {
-                if (clientSocket->parentShip->engSocket == clientSocket->descriptor)
+                if ((def_com &0x0F) == ITEM_PICKUP)
                 {
-                    if (tmp_item)
+                    if (clientSocket->parentShip->engSocket == clientSocket->descriptor)
                     {
-                        if (tmp_item->owner == SPACE)
+                        if (tmp_item)
                         {
-                            tmp_item->type = GetString(data, 10);
-                            tmp_item->pos.setX(0);
-                            tmp_item->pos.setY(0);
-                            tmp_item->image_angle = GetInt32((unsigned char*)data, 19 + tmp_item->type.length());
-                            tmp_item->hp = GetInt32((unsigned char*)data, 23 + tmp_item->type.length());
-                            tmp_item->owner = clientSocket->parentShip->login;
-                            for (int i = 0; i < space_items.size(); i++)
+                            if (tmp_item->owner == SPACE)
                             {
-                                if (space_items.takeAt(i)->id == tmp_item->id)
+                                tmp_item->type = GetString(data, 10);
+                                tmp_item->pos.setX(0);
+                                tmp_item->pos.setY(0);
+                                tmp_item->image_angle = GetInt32((unsigned char*)data, 19 + tmp_item->type.length());
+                                tmp_item->hp = GetInt32((unsigned char*)data, 23 + tmp_item->type.length());
+                                tmp_item->owner = clientSocket->parentShip->login;
+                                for (int i = 0; i < space_items.size(); i++)
                                 {
-                                    space_items.removeAt(i);
+                                    if (space_items.takeAt(i)->id == tmp_item->id)
+                                    {
+                                        space_items.removeAt(i);
+                                    }
                                 }
-                            }
-                            clientSocket->parentShip->item_list.append(tmp_item);
-                            for (int i = 0; i < SHIPS.size(); i++)
-                            {
-                                if (SHIPS[i]->pilotSocket > 0)
+                                clientSocket->parentShip->item_list.append(tmp_item);
+                                for (int i = 0; i < SHIPS.size(); i++)
                                 {
-                                    net_send_item(SClients[SHIPS[i]->pilotSocket], tmp_item, ITEM_PICKUP | ITEM_ID);
-                                }
-                                if (SHIPS[i]->navSocket > 0)
-                                {
-                                    net_send_item(SClients[SHIPS[i]->navSocket], tmp_item, ITEM_PICKUP | ITEM_ID);
+                                    if (SHIPS[i]->pilotSocket > 0)
+                                    {
+                                        net_send_item(SClients[SHIPS[i]->pilotSocket], tmp_item, ITEM_PICKUP | ITEM_ID);
+                                    }
+                                    if (SHIPS[i]->navSocket > 0)
+                                    {
+                                        net_send_item(SClients[SHIPS[i]->navSocket], tmp_item, ITEM_PICKUP | ITEM_ID);
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                if (clientSocket->parentShip->pilotSocket == clientSocket->descriptor)
-                {
-                    if (clientSocket->parentShip->engSocket > 0)
+                    if (clientSocket->parentShip->pilotSocket == clientSocket->descriptor)
                     {
-                        net_send_item(SClients[clientSocket->parentShip->engSocket], tmp_item, ITEM_PICKUP | ITEM_ID);
+                        if (clientSocket->parentShip->engSocket > 0)
+                        {
+                            net_send_item(SClients[clientSocket->parentShip->engSocket], tmp_item, ITEM_PICKUP | ITEM_ID);
+                        }
                     }
                 }
+                break;
             }
-            break;
-        }
-        case NET_SHELL:
-        {
-            QString goal = GetString(data, 1);
-            for (int i = 0; i < SHIPS.size(); i++)
+            case NET_SHELL:
             {
-                if (SHIPS[i]->login == goal)
+                QString goal = GetString(data, 1);
+                for (int i = 0; i < SHIPS.size(); i++)
                 {
-                    net_send_shell(clientSocket, SHIPS[i]->shell);
+                    if (SHIPS[i]->login == goal)
+                    {
+                        net_send_shell(clientSocket, SHIPS[i]->shell);
+                    }
                 }
             }
         }
