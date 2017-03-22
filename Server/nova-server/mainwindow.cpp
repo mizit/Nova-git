@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->buttonUsrCrt, SIGNAL(clicked()), this, SLOT(UserCreate()));
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(pbtn()));
     connect(ui->btn_save, SIGNAL(clicked()), this, SLOT(DataSave()));
+    connect(ui->btn_delItem, SIGNAL(clicked()), this, SLOT(ItemDel()));
 
     int num = 0;
     QVariant buf;
@@ -120,8 +121,38 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lview_items->addItem(MONEY_CASE);
     ui->lview_items->addItem(POWER_BLOCK);
     ui->lview_items->addItem(ELEMENT1);
+    ui->lview_items->addItem(ELEMENT2);
+    ui->lview_items->addItem(ELEMENT3);
+    ui->lview_items->addItem(ELEMENT4);
+    ui->lview_items->addItem(ELEMENT5);
+    ui->lview_items->addItem(POWER_BLOCK_S);
+    ui->lview_items->addItem(LIFE_SYSTEM);
+    ui->lview_items->addItem(NAVIGATION);
+    ui->lview_items->addItem(WEAPON);
+    ui->lview_items->addItem(ENGINE_S);
 
     connect(ui->button_add_item, SIGNAL(clicked()), this, SLOT(ItemAdd()));
+}
+
+void MainWindow::ItemDel()
+{
+    QString name = ui->combo_userpos->currentText();
+    for (int i = 0; i < SHIPS.size(); i++)
+    {
+        if (SHIPS[i]->login == name)
+        {
+            int num;
+            num = ui->lview_inv->currentRow();
+            deleteItem(SHIPS[i]->item_list[num]);
+        }
+    }
+    if (name == SPACE)
+    {
+        int num;
+        num = ui->lview_inv->currentRow();
+        deleteItem(space_items[num]);
+    }
+    DataUpdate();
 }
 
 void MainWindow::ItemAdd()
@@ -163,6 +194,23 @@ void MainWindow::ItemAdd()
             }
         }
     }
+}
+
+void MainWindow::deleteItem(CItem* item)
+{
+    idgen->free_num.append(item->id);
+    for (int i = 0; i < SHIPS.size(); i++)
+    {
+        if (SHIPS[i]->login == item->owner)
+        {
+            SHIPS[i]->item_list.removeOne(item);
+        }
+    }
+    if (item->owner == SPACE)
+    {
+        space_items.removeOne(item);
+    }
+    delete item;
 }
 
 void MainWindow::LockPos()

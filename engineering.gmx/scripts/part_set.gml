@@ -27,4 +27,8 @@ if ((l_x >= 0) && (l_x < l_grid.width) && (l_y >= 0) && (l_y < l_grid.height))
 }
 id.grd_x = -1;
 id.grd_y = -1;
+if (l_send)
+{
+    net_send_item_set_id(obj_net.net_buf, obj_net.socket, id);
+}
 return 0;

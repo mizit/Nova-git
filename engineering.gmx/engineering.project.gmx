@@ -22,6 +22,7 @@
       <sprite>sprites\s_power_block</sprite>
       <sprite>sprites\s_great_power_block</sprite>
       <sprite>sprites\s_test_power</sprite>
+      <sprite>sprites\s_small_power_block</sprite>
     </sprites>
     <sprite>sprites\s_thunder</sprite>
     <sprite>sprites\s_button</sprite>
@@ -70,6 +71,7 @@
     <script>scripts\grid_delete_object.gml</script>
     <scripts name="power">
       <script>scripts\power_recalculation.gml</script>
+      <script>scripts\load_recalculation.gml</script>
     </scripts>
     <script>scripts\ds_list_complement_list.gml</script>
     <scripts name="save/load">
@@ -134,12 +136,25 @@
         <object>objects\obj_power_block</object>
         <object>objects\obj_great_power_block</object>
         <object>objects\obj_test_power</object>
+        <object>objects\obj_small_power_block</object>
         <object>objects\obj_power_parent</object>
       </objects>
-      <object>objects\obj_life_system</object>
-      <object>objects\obj_navigation</object>
-      <object>objects\obj_weapon</object>
-      <object>objects\obj_engine_s</object>
+      <objects name="life systems">
+        <object>objects\obj_life_system</object>
+        <object>objects\obj_ls_parent</object>
+      </objects>
+      <objects name="navigations">
+        <object>objects\obj_navigation</object>
+        <object>objects\obj_nav_parent</object>
+      </objects>
+      <objects name="engines">
+        <object>objects\obj_engine_parent</object>
+        <object>objects\obj_engine_s</object>
+      </objects>
+      <objects name="weapons">
+        <object>objects\obj_weapon</object>
+        <object>objects\obj_weapon_parent</object>
+      </objects>
     </objects>
     <object>objects\obj_button</object>
     <objects name="elements">

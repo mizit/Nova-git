@@ -28,6 +28,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void LogAddString(QString str);
+    void deleteItem(CItem*);
 
 private slots:
     void newUser();
@@ -40,6 +41,7 @@ private slots:
     void LockPos();
     void SetPos();
     void ItemAdd();
+    void ItemDel();
 
 private:
     Ui::MainWindow *ui;

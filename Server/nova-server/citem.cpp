@@ -12,7 +12,6 @@ CItem::CItem()
     power = 100;
 }
 
-
 CIdGen::CIdGen()
 {
     for (quint16 i = 0; i < 4096; i++)

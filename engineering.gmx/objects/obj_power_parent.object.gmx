@@ -26,7 +26,152 @@
           <argument>
             <kind>1</kind>
             <string>event_inherited();
-my_power = 100;
+my_power = 0;
+my_charge = 0;
+my_max_charge = 0;
+shut_down = 0;
+shut_down_time = 3600;
+load = 0;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>shut_down = 0;
+event_perform(ev_other, ev_user2);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="12">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>event_inherited();
+my_power = 0;
+my_max_charge = 0;
+shut_down_time = 3600;
+for (var i = 0; i &lt; ds_list_size(elements_list); i++)
+{
+    switch (elements_list[| i].object_index)
+    {
+        case obj_element1:
+        {
+            if (!shut_down)
+            {
+                switch (my_power)
+                {
+                    case 0:
+                    {
+                        my_power = 50;
+                        break;
+                    }
+                    case 50:
+                    {
+                        my_power = 75;
+                        break;
+                    }
+                    case 75:
+                    {
+                        my_power = 90;
+                        break;
+                    }
+                    case 90:
+                    {
+                        my_power = 100;
+                        break;
+                    }
+                }
+            }
+            break;
+        }
+        case obj_element2:
+        {
+            switch (my_max_charge)
+            {
+                case 0:
+                {
+                    my_max_charge = 100;
+                    break;
+                }
+                case 100:
+                {
+                    my_max_charge = 150;
+                    break;
+                }
+                case 150:
+                {
+                    my_max_charge = 180;
+                    break;
+                }
+                case 180:
+                {
+                    my_max_charge = 200;
+                    break;
+                }
+            }
+            break;
+        }
+        case obj_element3:
+        {
+            switch (shut_down_time)
+            {
+                case 3600:
+                {
+                    shut_down_time = 1800;
+                    break;
+                }
+                case 1800:
+                {
+                    shut_down_time = 900;
+                    break;
+                }
+                case 900:
+                {
+                    shut_down_time = 450;
+                    break;
+                }
+                case 450:
+                {
+                    shut_down_time = 225;
+                    break;
+                }
+            }
+            break;
+        }
+    }
+}
 </string>
           </argument>
         </arguments>

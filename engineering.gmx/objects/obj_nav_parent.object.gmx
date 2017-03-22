@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>&lt;undefined&gt;</parentName>
+  <parentName>obj_gridded_part</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -25,13 +25,19 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>text = "";
+            <string>event_inherited();
+need_permission = PM_NAVIGATION;
+rot_step = 90;
+ec_koeff = 1;
+radar_range = 0;
+radio_range = 0;
+system_level = 0;
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="64">
+    <event eventtype="7" enumb="12">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -48,16 +54,74 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (instance_exists(obj_power_block))
+            <string>event_inherited();
+radar_range = 0;
+radio_range = 0;
+system_level = 0;
+for (var i = 0; i &lt; ds_list_size(elements_list); i++)
 {
-    text = obj_power_block.my_power;
-    draw_text(x, y, text);
-    text = obj_power_block.my_max_charge;
-    draw_text(x, y + 25, text);
-    text = obj_power_block.shut_down_time;
-    draw_text(x, y + 50, text);
-    text = obj_power_block.load;
-    draw_text(x, y + 75, text);
+    switch (elements_list[| i].object_index)
+    {
+        case obj_element1:
+        {
+            switch (radar_range)
+            {
+                case 0:
+                {
+                    radar_range = 5000;
+                    break;
+                }
+                case 5000:
+                {
+                    radar_range = 7500;
+                    break;
+                }
+                case 7500:
+                {
+                    radar_range = 9000;
+                    break;
+                }
+                case 9000:
+                {
+                    radar_range = 10000;
+                    break;
+                }
+            }
+            break;
+        }
+        case obj_element2:
+        {
+            switch (radio_range)
+            {
+                case 0:
+                {
+                    radio_range = 20000;
+                    break;
+                }
+                case 20000:
+                {
+                    radio_range = 30000;
+                    break;
+                }
+                case 30000:
+                {
+                    radio_range = 36000;
+                    break;
+                }
+                case 36000:
+                {
+                    radio_range = 40000;
+                    break;
+                }
+            }
+            break;
+        }
+        case obj_element3:
+        {
+            system_level++;
+            break;
+        }
+    }
 }
 </string>
           </argument>

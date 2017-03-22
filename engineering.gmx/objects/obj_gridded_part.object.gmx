@@ -41,7 +41,34 @@ for (var i = 0; i &lt; grid_size; i++)
         grid_outputs[# i, j] = 0;
     }
 }
+energy_consumption = 0;
+ec_koeff = 0;
+alarm[5] = 1;
+
 grid_outputs[# 0, 1] = LEFT|DOWN;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="5">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>elements_max = width * height;
 </string>
           </argument>
         </arguments>
@@ -228,6 +255,33 @@ if ((crnt_grid) &amp;&amp; (visible))
     grid_delete_object(crnt_grid, id);
     event_perform(ev_other, ev_user1);
     power_recalculation(crnt_grid.ship_grid);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="12">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>energy_consumption = 0;
+for (var i = 0; i &lt; ds_list_size(elements_list); i++)
+{
+    energy_consumption += elements_list[| i].energy_consumption * ec_koeff;
 }
 </string>
           </argument>

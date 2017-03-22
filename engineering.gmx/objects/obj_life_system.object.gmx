@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>-2</depth>
   <persistent>0</persistent>
-  <parentName>obj_gridded_part</parentName>
+  <parentName>obj_ls_parent</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -26,8 +26,6 @@
           <argument>
             <kind>1</kind>
             <string>event_inherited();
-rot_step = 90;
-need_permission = PM_LIFE_SYSTEM;
 width = 3;
 height = 1;
 grid_size = max(width, height);

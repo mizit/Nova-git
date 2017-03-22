@@ -67,6 +67,10 @@ if (ds_list_size(elements_list) &gt; ser_num)
 {
     var cont = elements_list[| ser_num];
     ds_list_delete(elements_list, ser_num);
+    with (base)
+    {
+        event_perform(ev_other, ev_user2);
+    }
     cont.visible = true;
     cont.dragging = 1;
     //instance_create(mouse_x, mouse_y, cont);

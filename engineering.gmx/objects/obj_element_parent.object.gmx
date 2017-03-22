@@ -32,6 +32,7 @@ grd_x = 0;
 grd_y = 0;
 hp = 100;
 must_set_up = 0;
+energy_consumption = 0;
 </string>
           </argument>
         </arguments>
@@ -79,6 +80,7 @@ if (must_set_up)
                     other.grd_x = grd_x;
                     other.grd_y = grd_y;
                     other.must_set_up = 0;
+                    event_perform(ev_other, ev_user2);
                     var l_tmp = other;
                     with (obj_inv)
                     {
@@ -133,6 +135,10 @@ if (must_set_up)
             dragging = 0;
             grd_x = obj_part_grid.base.grd_x;
             grd_y = obj_part_grid.base.grd_y;
+            with(obj_part_grid.base)
+            {
+                event_perform(ev_other, ev_user2);
+            }
             net_send_item_set_id(obj_net.net_buf, obj_net.socket, id);
             //instance_destroy();
     }

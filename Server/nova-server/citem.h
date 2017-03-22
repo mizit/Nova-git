@@ -34,6 +34,15 @@
 #define MONEY_CASE      "obj_money_case"
 #define POWER_BLOCK     "obj_power_block"
 #define ELEMENT1        "obj_element1"
+#define ELEMENT2        "obj_element2"
+#define ELEMENT3        "obj_element3"
+#define ELEMENT4        "obj_element4"
+#define ELEMENT5        "obj_element5"
+#define POWER_BLOCK_S   "obj_small_power_block"
+#define LIFE_SYSTEM     "obj_life_system"
+#define NAVIGATION      "obj_navigation"
+#define WEAPON          "obj_weapon"
+#define ENGINE_S        "obj_engine_s"
 
 #define ITEM_SET    0x01
 #define ITEM_GET    0x02

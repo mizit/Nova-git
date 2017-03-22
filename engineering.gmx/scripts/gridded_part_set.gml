@@ -28,4 +28,8 @@ if (instance_exists(l_grid))
 }
 id.grd_x = -1;
 id.grd_y = -1;
+if (l_send)
+{
+    net_send_item_set_id(obj_net.net_buf, obj_net.socket, id);
+}
 return 0;

@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -388,6 +388,19 @@
          <width>256</width>
          <height>451</height>
         </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_delItem">
+       <property name="geometry">
+        <rect>
+         <x>410</x>
+         <y>450</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Del Item</string>
        </property>
       </widget>
      </widget>

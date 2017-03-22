@@ -69,6 +69,7 @@ public:
     QPushButton *button_add_item;
     QListWidget *lview_items;
     QListWidget *lview_inv;
+    QPushButton *btn_delItem;
     QPushButton *pushButton;
     QPushButton *btn_save;
     QMenuBar *menuBar;
@@ -184,6 +185,9 @@ public:
         lview_inv = new QListWidget(groupBox_3);
         lview_inv->setObjectName(QStringLiteral("lview_inv"));
         lview_inv->setGeometry(QRect(10, 20, 256, 451));
+        btn_delItem = new QPushButton(groupBox_3);
+        btn_delItem->setObjectName(QStringLiteral("btn_delItem"));
+        btn_delItem->setGeometry(QRect(410, 450, 75, 23));
         tabWidget->addTab(tab_3, QString());
         pushButton = new QPushButton(centralWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
@@ -205,7 +209,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -232,6 +236,7 @@ public:
         button_setpos->setText(QApplication::translate("MainWindow", "\320\243\321\201\321\202\320\260\320\275\320\276\320\262\320\270\321\202\321\214", 0));
         groupBox_3->setTitle(QApplication::translate("MainWindow", "Inventory", 0));
         button_add_item->setText(QApplication::translate("MainWindow", "Add Item", 0));
+        btn_delItem->setText(QApplication::translate("MainWindow", "Del Item", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MainWindow", "\320\240\320\260\321\201\320\277\320\276\320\273\320\276\320\266\320\265\320\275\320\270\320\265", 0));
         pushButton->setText(QApplication::translate("MainWindow", "PushButton", 0));
         btn_save->setText(QApplication::translate("MainWindow", "Save", 0));
