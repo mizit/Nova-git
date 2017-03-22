@@ -99,7 +99,7 @@ if (ds_list_size(elements_list) &gt; ser_num)
             <kind>1</kind>
             <string>if (sprite_exists(back_sprite) &amp;&amp; ds_exists(elements_list, ds_type_list))
 {
-    draw_sprite(back_sprite, -1, x, y);
+    draw_sprite(back_sprite, 0, x, y);
     var lx, ly;
     lx = x - sprite_get_xoffset(back_sprite);
     ly = y - sprite_get_yoffset(back_sprite);
@@ -116,7 +116,7 @@ if (ds_list_size(elements_list) &gt; ser_num)
             draw_set_alpha(1);
             if (ds_list_size(elements_list) &gt; ser_num)
             {
-                draw_sprite (elements_list[| ser_num].sprite_index, -1, 
+                draw_sprite (elements_list[| ser_num].sprite_index, 0, 
                 lx + cell_size / 2 + dx + (2 * dx + cell_size) * i, 
                 ly + cell_size / 2 + dy + (2 * dy + cell_size) * j);
             }

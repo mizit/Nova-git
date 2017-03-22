@@ -48,7 +48,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (instance_exists(obj_power_block))
+            <string>if (instance_exists(obj_power_block) &amp;&amp; instance_exists(obj_small_power_block))
 {
     text = obj_power_block.my_power;
     draw_text(x, y, text);
@@ -58,6 +58,18 @@
     draw_text(x, y + 50, text);
     text = obj_power_block.load;
     draw_text(x, y + 75, text);
+    text = obj_power_block.my_charge;
+    draw_text(x, y + 100, text);
+    text = obj_small_power_block.my_power;
+    draw_text(x + 50, y, text);
+    text = obj_small_power_block.my_max_charge;
+    draw_text(x + 50, y + 25, text);
+    text = obj_small_power_block.shut_down_time;
+    draw_text(x + 50, y + 50, text);
+    text = obj_small_power_block.load;
+    draw_text(x + 50, y + 75, text);
+    text = obj_small_power_block.my_charge;
+    draw_text(x + 50, y + 100, text);
 }
 </string>
           </argument>

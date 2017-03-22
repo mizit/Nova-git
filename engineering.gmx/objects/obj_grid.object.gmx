@@ -209,6 +209,7 @@ cell_set_permission(ship_grid, 6, 4, PM_TUBE|PM_POWER);*/
         }
         if (ds_list_size(a[| CELL_PS_LIST]) &gt; 0)
         {
+            draw_text(x + i * cell_size, y + j * cell_size, ds_list_size(a[| CELL_PS_LIST]));
             var test = 0;
             for (var k = 0; k &lt; ds_list_size(a[| CELL_PS_LIST]); k++)
             {

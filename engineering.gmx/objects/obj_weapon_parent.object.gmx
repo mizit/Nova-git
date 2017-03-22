@@ -28,7 +28,7 @@
             <string>event_inherited();
 need_permission = PM_WEAPON;
 rot_step = 90;
-ec_koeff = 2;
+ec_koeff = 1;
 weapon = 0;
 shields = 0;
 electronic_warfare = 0;

@@ -29,9 +29,11 @@
 my_power = 0;
 my_charge = 0;
 my_max_charge = 0;
+charge_koeff = 0.01;
 shut_down = 0;
 shut_down_time = 3600;
 load = 0;
+image_speed = 0;
 </string>
           </argument>
         </arguments>
@@ -56,6 +58,53 @@ load = 0;
             <kind>1</kind>
             <string>shut_down = 0;
 event_perform(ev_other, ev_user2);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>event_inherited();
+if ((grd_x &gt;= 0) &amp;&amp; (grd_y &gt;= 0))
+{
+    var charge_delta = 0;
+    var tmp_list = obj_grid.ship_grid[# grd_x, grd_y];
+    tmp_list = tmp_list[| CELL_PS_LIST];
+    for (var i = 0; i &lt; ds_list_size(tmp_list); i++)
+    {
+        charge_delta += tmp_list[| i].my_power;
+        //charge_delta -= tmp_list[| i].load;
+    }
+    charge_delta -= load;
+    if (charge_delta &gt;= 0)
+    {
+        my_charge = min(my_max_charge, my_charge + charge_delta * charge_koeff);
+    }
+}
+if (my_max_charge == 0)
+{
+    image_index = 0;
+}
+else
+{
+    image_index = (max(0, my_charge) / my_max_charge) * (image_number - 1);
+}
 </string>
           </argument>
         </arguments>
@@ -243,6 +292,33 @@ for (var i = 0; i &lt; width; i++)
         var cell = crnt_grid.ship_grid[# g_x + i, g_y + j];
         ds_list_add(cell[| CELL_PS_LIST], id);
     }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>event_inherited();
+if (shut_down)
+{
+    draw_text(x, y, "out of order");
 }
 </string>
           </argument>

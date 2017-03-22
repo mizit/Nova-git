@@ -6,10 +6,12 @@ for (var l_i = 0; l_i < ds_grid_width(l_grid); l_i++)
     for (var l_j = 0; l_j < ds_grid_height(l_grid); l_j++)
     {
         var l_a = l_grid[# l_i, l_j];
+        ds_list_clear(l_a[| CELL_PS_LIST]);
         if (l_a[| CELL_OBJECT])
         {
             if (object_get_parent(l_a[| CELL_OBJECT].object_index) == obj_power_parent)
             {
+                ds_list_add(l_a[| CELL_PS_LIST], l_a[| CELL_OBJECT]);
                 ds_queue_enqueue(l_process_queue, l_a);
             }
             else

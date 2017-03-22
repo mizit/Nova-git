@@ -30,6 +30,8 @@ rot_step = 90;
 need_permission = PM_POWER;
 size_x = 2;
 size_y = 2;
+gridded_part_set_internal_outputs();
+
 </string>
           </argument>
         </arguments>

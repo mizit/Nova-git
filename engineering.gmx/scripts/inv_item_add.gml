@@ -23,6 +23,14 @@ if (object_is_ancestor(l_obj.object_index, obj_part)) || (object_is_ancestor(l_o
 if (l_perm)
 {
     var l_inv;
+    if (abs(l_obj.image_angle % 180) == 90)
+    {
+        with(l_obj)
+        {
+            event_perform(ev_mouse, ev_mouse_wheel_up);
+        }
+        
+    }
     with(obj_inv)
     {
         if (l_perm == permission)
