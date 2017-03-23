@@ -1,5 +1,12 @@
 #include "ship.h"
 
+CWeapon::CWeapon()
+{
+    weapon = 0;
+    shields = 0;
+    electronic_warfare = 0;
+}
+
 CShip::CShip()
 {
     pilotSocket = -1;
@@ -14,6 +21,16 @@ CShip::CShip()
     sockets[3] = &engSocket;
     sockets[4] = &batSocket;
     shell = new CShell();
+    air_output = 0;
+    air_bank = 0;
+    safely = 0;
+    radar_range = 0;
+    radio_range = 0;
+    system_level = 0;
+    main_drive = 0;
+    man_drive = 0;
+    back_drive = 0;
+    mass = 0;
 }
 
 void CShell::loadgrid()

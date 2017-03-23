@@ -123,6 +123,7 @@ if (ds_list_size(elements_list) &gt; ser_num)
             draw_set_alpha(0.6);
         }
     }
+    draw_set_color(c_black);
     draw_set_alpha(1);
 }
 </string>

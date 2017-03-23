@@ -374,6 +374,18 @@ void MainWindow::DataUpdate()
             {
                 ui->lview_inv->addItem(SHIPS[i]->item_list[j]->type + QString(" %1").arg(SHIPS[i]->item_list[j]->id));
             }
+            ui->edit_air_output->setText(QString("%1").arg(SHIPS[i]->air_output));
+            ui->edit_air_bank->setText(QString("%1").arg(SHIPS[i]->air_bank));
+            ui->edit_safely->setText(QString("%1").arg(SHIPS[i]->safely));
+            ui->edit_radar_range->setText(QString("%1").arg(SHIPS[i]->radar_range));
+            ui->edit_radio_range->setText(QString("%1").arg(SHIPS[i]->radio_range));
+            ui->edit_system_level->setText(QString("%1").arg(SHIPS[i]->system_level));
+            ui->edit_main_drive->setText(QString("%1").arg(SHIPS[i]->main_drive));
+            ui->edit_man_drive->setText(QString("%1").arg(SHIPS[i]->man_drive));
+            ui->edit_back_drive->setText(QString("%1").arg(SHIPS[i]->back_drive));
+            ui->edit_mass->setText(QString("%1").arg(SHIPS[i]->mass));
+            ui->edit_weapon_num->setText(QString("%1").arg(SHIPS[i]->weapons.size()));
+
         }
     }
     if (name == SPACE)
@@ -599,9 +611,10 @@ void MainWindow::slotReadClient()
                                 tmp_item->owner = SPACE;
                                 for (int i = 0; i < clientSocket->parentShip->item_list.size(); i++)
                                 {
-                                    if (clientSocket->parentShip->item_list.takeAt(i)->id == tmp_item->id)
+                                    if (clientSocket->parentShip->item_list[i]->id == tmp_item->id)
                                     {
                                         clientSocket->parentShip->item_list.removeAt(i);
+                                        break;
                                     }
                                 }
                                 space_items.append(tmp_item);
@@ -643,9 +656,10 @@ void MainWindow::slotReadClient()
                                 tmp_item->owner = clientSocket->parentShip->login;
                                 for (int i = 0; i < space_items.size(); i++)
                                 {
-                                    if (space_items.takeAt(i)->id == tmp_item->id)
+                                    if (space_items[i]->id == tmp_item->id)
                                     {
                                         space_items.removeAt(i);
+                                        break;
                                     }
                                 }
                                 clientSocket->parentShip->item_list.append(tmp_item);
@@ -670,6 +684,35 @@ void MainWindow::slotReadClient()
                             net_send_item(SClients[clientSocket->parentShip->engSocket], tmp_item, ITEM_PICKUP | ITEM_ID);
                         }
                     }
+                }
+                break;
+            }
+            case NET_SHIP_DATA:
+            {
+                clientSocket->parentShip->air_output = GetInt32((unsigned char*)data, 1);
+                clientSocket->parentShip->air_bank = GetInt32((unsigned char*)data, 5);
+                clientSocket->parentShip->safely = GetInt32((unsigned char*)data, 9);
+                clientSocket->parentShip->radar_range = GetInt32((unsigned char*)data, 13);
+                clientSocket->parentShip->radio_range = GetInt32((unsigned char*)data, 17);
+                clientSocket->parentShip->system_level = GetInt32((unsigned char*)data, 21);
+                clientSocket->parentShip->main_drive = GetInt32((unsigned char*)data, 25);
+                clientSocket->parentShip->man_drive = GetInt32((unsigned char*)data, 29);
+                clientSocket->parentShip->back_drive = GetInt32((unsigned char*)data, 33);
+                clientSocket->parentShip->mass = GetInt32((unsigned char*)data, 37);
+                qint32 weapon_num = GetInt32((unsigned char*)data, 41);
+                for (int i = 0; i < clientSocket->parentShip->weapons.size(); i++)
+                {
+                    delete clientSocket->parentShip->weapons[0];
+                    clientSocket->parentShip->weapons.removeFirst();
+                }
+                for (int i = 0; i < weapon_num; i++)
+                {
+                    CWeapon* wpn;
+                    wpn = new CWeapon();
+                    wpn->weapon = GetInt32((unsigned char*)data, 42 + i * 12);
+                    wpn->shields = GetInt32((unsigned char*)data, 46 + i * 12);
+                    wpn->electronic_warfare = GetInt32((unsigned char*)data, 50 + i * 12);
+                    clientSocket->parentShip->weapons.append(wpn);
                 }
                 break;
             }

@@ -69,6 +69,7 @@ grid_outputs[# 0, 1] = LEFT|DOWN;
           <argument>
             <kind>1</kind>
             <string>elements_max = width * height;
+mass = elements_max * 10;
 </string>
           </argument>
         </arguments>

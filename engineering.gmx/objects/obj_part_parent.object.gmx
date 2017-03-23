@@ -25,7 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>width = 1;
+            <string>event_inherited();
+width = 1;
 height = 1;
 selected = 0;
 elements_list = ds_list_create();

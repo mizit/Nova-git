@@ -52,6 +52,9 @@ net_send_shell(obj_net.net_buf, obj_net.socket);
 first_load = 1;
 item_counter = 0;
 alarm[0] = 1;
+alarm[1] = 60;
+mass = 0;
+shell_mass = 0;
 /*ini_open("ships.ini");
 for (var i = 0; i &lt; 7; i++)
 {
@@ -88,6 +91,52 @@ cell_set_permission(ship_grid, 5, 3, PM_TUBE|PM_POWER);
 cell_set_permission(ship_grid, 6, 3, PM_TUBE|PM_POWER);
 cell_set_permission(ship_grid, 5, 4, PM_TUBE|PM_POWER);
 cell_set_permission(ship_grid, 6, 4, PM_TUBE|PM_POWER);*/
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>alarm[1] = 60;
+net_send_ship_data(obj_net.net_buf, obj_net.socket);
+shell_mass = 0;
+for (var i = 0; i &lt; 7; i++)
+{
+    for (var j = 0; j &lt; 7; j++)
+    {
+        var tmp = obj_grid.ship_grid[# i, j];
+        tmp = tmp[| CELL_PERMISSION];
+        if (tmp &gt; 0)
+        {
+            shell_mass += 10;
+        }
+    }
+}
+mass = shell_mass;
+for (var i = 0; i &lt; instance_number(obj_global_item); i++)
+{
+    var tmp = instance_find(obj_global_item , i);
+    if !(tmp.in_space)
+    {
+        mass += tmp.mass;
+    }
+}
 </string>
           </argument>
         </arguments>

@@ -94,6 +94,7 @@
         <script>scripts\gridded_part_set_internal_outputs.gml</script>
       </scripts>
       <script>scripts\part_set_selected.gml</script>
+      <script>scripts\part_check_electricity.gml</script>
     </scripts>
     <scripts name="net">
       <script>scripts\net_data_command_parsing.gml</script>
@@ -106,6 +107,7 @@
         <script>scripts\net_send_item_get_num.gml</script>
         <script>scripts\net_send_item_set_id.gml</script>
         <script>scripts\net_send_item_drop.gml</script>
+        <script>scripts\net_send_ship_data.gml</script>
         <script>scripts\net_send_item_pickup.gml</script>
         <script>scripts\net_send_im_out.gml</script>
         <script>scripts\net_send_mark.gml</script>

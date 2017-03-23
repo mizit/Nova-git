@@ -206,7 +206,8 @@ for (var i = 0; i &lt; ds_list_size(items_list); i++)
     {
         obj.visible = 1;
         obj.dragging = 1;
-        ds_list_delete(items_list, i);   
+        ds_list_delete(items_list, i); 
+        obj.in_space = 0;  
         net_send_item_pickup(obj_net.net_buf, obj_net.socket, obj);     
         break;
     }

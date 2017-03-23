@@ -15,6 +15,16 @@
 
 #define GRID_SIZE   7
 
+class CWeapon
+{
+public:
+    CWeapon();
+public:
+    qint32 weapon;
+    qint32 shields;
+    qint32 electronic_warfare;
+};
+
 class CShellPosition
 {
 public:
@@ -58,6 +68,17 @@ public:
     int *sockets[5];
     CShell *shell;
     QList <CItem*> item_list;
+    qint32 air_output;
+    qint32 air_bank;
+    qint32 safely;
+    qint32 radar_range;
+    qint32 radio_range;
+    qint32 system_level;
+    qint32 main_drive;
+    qint32 man_drive;
+    qint32 back_drive;
+    qint32 mass;
+    QList <CWeapon*> weapons;
 public:
     CShip();
 };

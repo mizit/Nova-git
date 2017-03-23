@@ -30,6 +30,7 @@ rot_step = 90;
 need_permission = PM_TUBE;
 outputs = LEFT|RIGHT;
 dragging = 0;
+mass = 10;
 </string>
           </argument>
         </arguments>

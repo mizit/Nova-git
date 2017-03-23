@@ -25,7 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>net_id = 0;
+            <string>event_inherited();
+net_id = 0;
 dragging = 0;
 depth = -5;
 grd_x = 0;

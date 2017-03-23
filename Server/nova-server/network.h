@@ -23,6 +23,7 @@
 #define NET_MARK        5
 #define NET_ITEM        6
 #define NET_SHELL       7
+#define NET_SHIP_DATA   8
 
 #define PT_PILOT        1
 #define PT_NAVIGATION   2

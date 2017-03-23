@@ -54,7 +54,15 @@ with (obj_power_parent)
             }
             else
             {
-                my_charge -= (load - all_power) * charge_koeff;
+                var active_blocks = 0;
+                for (var i = 0; i < ds_list_size(list_tmp); i++)
+                {
+                    if (list_tmp[| i].shut_down == 0)
+                    {
+                        active_blocks++;
+                    }
+                }
+                my_charge -= (load - all_power) * charge_koeff / active_blocks;
             }
         }
     }
