@@ -27,9 +27,10 @@
             <kind>1</kind>
             <string>mass = 100;
 
-rot_pwr = 0.3;
-mnvr_pwr = 1;
-thurst_pwr = 1;
+rot_pwr = 0;
+mnvr_pwr = 0;
+thurst_pwr = 0;
+back_pwr = 0;
 
 rot_speed = 0;
 

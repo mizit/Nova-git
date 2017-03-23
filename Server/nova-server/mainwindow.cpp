@@ -714,6 +714,10 @@ void MainWindow::slotReadClient()
                     wpn->electronic_warfare = GetInt32((unsigned char*)data, 50 + i * 12);
                     clientSocket->parentShip->weapons.append(wpn);
                 }
+                if (clientSocket->parentShip->pilotSocket > 0)
+                {
+                    net_send_engine(SClients[clientSocket->parentShip->pilotSocket], clientSocket->parentShip);
+                }
                 break;
             }
             case NET_SHELL:

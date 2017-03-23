@@ -63,7 +63,7 @@ energy_consumption = 0;
 }
 if (must_set_up)
 {
-    if ((grd_x == 0) || (grd_y == 0))
+    if ((grd_x &lt; 0) || (grd_y &lt; 0))
     {
         must_set_up = 0;
     }
@@ -90,6 +90,12 @@ if (must_set_up)
                             ds_list_delete(items_list, ds_list_find_index(items_list, l_tmp));
                         }
                     }
+                }
+                else
+                {
+                    other.must_set_up = 0;
+                    other.grd_x = -1;
+                    other.grd_y = -1;
                 }
                 /*else
                 {
@@ -136,6 +142,7 @@ if (must_set_up)
             dragging = 0;
             grd_x = obj_part_grid.base.grd_x;
             grd_y = obj_part_grid.base.grd_y;
+            must_set_up = 0;
             with(obj_part_grid.base)
             {
                 event_perform(ev_other, ev_user2);
@@ -148,8 +155,9 @@ if (must_set_up)
         inv_item_add(id);
         dragging = 0;
         visible = false;
-        grd_x = 0;
-        grd_y = 0;
+        grd_x = -1;
+        grd_y = -1;
+        must_set_up = 0;
         net_send_item_set_id(obj_net.net_buf, obj_net.socket, id);
         /*var cont = inv_cell_with_object(object_index);
         cont.number++;

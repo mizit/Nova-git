@@ -150,6 +150,19 @@ switch (l_command)
                 buffer_read(l_buf, buffer_u32);
             }
         }
+        break;
+    }
+    case NET_SHIP_DATA:
+    {
+        if (instance_exists(obj_ship))
+        {
+            obj_ship.thurst_pwr = buffer_read(l_buf, buffer_u32) / 10;
+            obj_ship.mnvr_pwr = buffer_read(l_buf, buffer_u32) / 10;
+            obj_ship.rot_pwr = obj_ship.mnvr_pwr
+            obj_ship.back_pwr = buffer_read(l_buf, buffer_u32) / 10;
+            obj_ship.mass = buffer_read(l_buf, buffer_u32);
+        }
+        break;
     }
 }
 buffer_delete(l_buf);

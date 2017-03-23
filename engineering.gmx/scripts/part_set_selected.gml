@@ -14,7 +14,7 @@ if (argument0)
         tmp.back_sprite = sprite_index;
         tmp.elements_max = width * height;
         tmp.mask_index = sprite_index;
-        tmp.base = object_index;
+        tmp.base = id;
         tmp.base.elements_max = tmp.elements_max;
         tmp.elements_list = elements_list;
     }

@@ -185,3 +185,18 @@ void net_send_shell(MySocket* socket, CShell* shell)
     data[1] = (unsigned char)((runner & 0xFF00) << 8);
     socket->MyWrite((char*)data, runner - 2);
 }
+
+void net_send_engine(MySocket* socket, CShip* ship)
+{
+    QDataStream net_data(socket);
+    unsigned char data[255];
+    data[2] = NET_SHIP_DATA;
+    int runner = 3;
+    runner = SetToRawData(data, runner, ship->main_drive);
+    runner = SetToRawData(data, runner, ship->man_drive);
+    runner = SetToRawData(data, runner, ship->back_drive);
+    runner = SetToRawData(data, runner, ship->mass);
+    data[0] = (unsigned char)(runner & 0xFF);
+    data[1] = (unsigned char)((runner & 0xFF00) << 8);
+    socket->MyWrite((char*)data, runner - 2);
+}
