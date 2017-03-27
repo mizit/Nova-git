@@ -27,9 +27,10 @@ if (l_perm)
     {
         with(l_obj)
         {
+            dragging = 1;
             event_perform(ev_mouse, ev_mouse_wheel_up);
+            dragging = 0;
         }
-        
     }
     with(obj_inv)
     {

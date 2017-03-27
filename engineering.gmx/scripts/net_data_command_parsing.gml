@@ -80,6 +80,20 @@ switch (l_command)
                 l_obj.hp = buffer_read(l_buf, buffer_u32);
                 if ((l_x == 0) || (l_y == 0))
                 {
+                    if (object_is_ancestor(l_obj.object_index, obj_part))
+                    {
+                        with(l_obj)
+                        {
+                            part_outputs_shift(image_angle);
+                        }
+                    }
+                    if (object_is_ancestor(l_obj.object_index, obj_gridded_part))
+                    {
+                        with(l_obj)
+                        {
+                            gridded_part_outputs_shift(image_angle);
+                        }
+                    }
                     inv_item_add(l_obj);
                 }
                 else 
