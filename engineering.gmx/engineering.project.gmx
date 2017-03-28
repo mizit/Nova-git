@@ -23,14 +23,17 @@
       <sprite>sprites\s_great_power_block</sprite>
       <sprite>sprites\s_test_power</sprite>
       <sprite>sprites\s_small_power_block</sprite>
+      <sprite>sprites\s_power_block_2</sprite>
     </sprites>
     <sprite>sprites\s_thunder</sprite>
     <sprite>sprites\s_button</sprite>
     <sprites name="life system">
       <sprite>sprites\s_life_system</sprite>
+      <sprite>sprites\s_ls_small</sprite>
     </sprites>
     <sprites name="navigation">
       <sprite>sprites\s_navigation</sprite>
+      <sprite>sprites\s_nav_t</sprite>
     </sprites>
     <sprites name="weapons">
       <sprite>sprites\s_weapon</sprite>
@@ -38,6 +41,7 @@
     <sprites name="engines">
       <sprite>sprites\s_engine</sprite>
       <sprite>sprites\s_little_engine</sprite>
+      <sprite>sprites\s_tiny_engine</sprite>
     </sprites>
     <sprites name="elements">
       <sprite>sprites\s_element1</sprite>
@@ -139,19 +143,23 @@
         <object>objects\obj_great_power_block</object>
         <object>objects\obj_test_power</object>
         <object>objects\obj_small_power_block</object>
+        <object>objects\obj_power_block_2</object>
         <object>objects\obj_power_parent</object>
       </objects>
       <objects name="life systems">
         <object>objects\obj_life_system</object>
+        <object>objects\obj_ls_s</object>
         <object>objects\obj_ls_parent</object>
       </objects>
       <objects name="navigations">
         <object>objects\obj_navigation</object>
+        <object>objects\obj_nav_t</object>
         <object>objects\obj_nav_parent</object>
       </objects>
       <objects name="engines">
         <object>objects\obj_engine_parent</object>
         <object>objects\obj_engine_s</object>
+        <object>objects\obj_engine_t</object>
       </objects>
       <objects name="weapons">
         <object>objects\obj_weapon</object>

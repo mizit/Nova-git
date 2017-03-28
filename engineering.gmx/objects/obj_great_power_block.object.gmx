@@ -39,6 +39,7 @@ for (var i = 0; i &lt; grid_size; i++)
         grid_outputs[# i, j] = 0;
     }
 }
+gridded_part_set_internal_outputs();
 grid_outputs[# 0, 1] = LEFT|DOWN;
 grid_outputs[# 0, 0] = LEFT|UP;
 grid_outputs[# 1, 0] = UP;

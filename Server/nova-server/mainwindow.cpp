@@ -120,16 +120,22 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lview_items->addItem(TUBE_SPLITTER);
     ui->lview_items->addItem(MONEY_CASE);
     ui->lview_items->addItem(POWER_BLOCK);
+    ui->lview_items->addItem(POWER_BLOCK_S);
+    ui->lview_items->addItem(POWER_BLOCK_T);
     ui->lview_items->addItem(ELEMENT1);
     ui->lview_items->addItem(ELEMENT2);
     ui->lview_items->addItem(ELEMENT3);
     ui->lview_items->addItem(ELEMENT4);
     ui->lview_items->addItem(ELEMENT5);
-    ui->lview_items->addItem(POWER_BLOCK_S);
+
     ui->lview_items->addItem(LIFE_SYSTEM);
-    ui->lview_items->addItem(NAVIGATION);
+    ui->lview_items->addItem(LIFE_SYSTEM_S);
+
+    ui->lview_items->addItem(NAVIGATION_S);
+    ui->lview_items->addItem(NAVIGATION_T);
     ui->lview_items->addItem(WEAPON);
     ui->lview_items->addItem(ENGINE_S);
+    ui->lview_items->addItem(ENGINE_T);
 
     connect(ui->button_add_item, SIGNAL(clicked()), this, SLOT(ItemAdd()));
 }

@@ -53,7 +53,6 @@
   <instances>
     <instance objName="obj_ship" x="160" y="288" name="inst_8EEC960F" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_gui" x="32" y="32" name="inst_F1786769" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_great_ship" x="121504" y="113728" name="inst_4BC8127D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_asteroid" x="120672" y="113696" name="inst_10B4417D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_asteroid" x="121024" y="113120" name="inst_691FB3D0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_asteroid" x="121920" y="113376" name="inst_EF96B414" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>

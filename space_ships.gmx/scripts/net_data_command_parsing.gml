@@ -48,6 +48,12 @@ switch (l_command)
             obj_ship.speed = buffer_read(l_buf, buffer_s32) / 1000;
             obj_ship.rot_speed = buffer_read(l_buf, buffer_s32) / 1000;
             obj_ship.direction = buffer_read(l_buf, buffer_s32) / 1000;
+            var l_type = buffer_read(l_buf, buffer_string);
+            if (asset_get_type(l_type) == asset_sprite)
+            {
+                l_type = asset_get_index(l_type);
+                obj_ship.sprite_index = l_type;
+            }            
         }
         else
         {
@@ -63,6 +69,12 @@ switch (l_command)
                     speed = buffer_read(l_buf, buffer_s32) / 1000;
                     rot_speed = buffer_read(l_buf, buffer_s32) / 1000;
                     direction = buffer_read(l_buf, buffer_s32) / 1000;
+                    var l_type = buffer_read(l_buf, buffer_string);
+                    if (asset_get_type(l_type) == asset_sprite)
+                    {
+                        l_type = asset_get_index(l_type);
+                        sprite_index = l_type;
+                    }     
                 }
             }
             if (!l_test)
@@ -75,6 +87,12 @@ switch (l_command)
                 l_ship.speed = buffer_read(l_buf, buffer_s32) / 1000;
                 l_ship.rot_speed = buffer_read(l_buf, buffer_s32) / 1000;
                 l_ship.direction = buffer_read(l_buf, buffer_s32) / 1000;
+                var l_type = buffer_read(l_buf, buffer_string);
+                if (asset_get_type(l_type) == asset_sprite)
+                {
+                    l_type = asset_get_index(l_type);
+                    l_ship.sprite_index = l_type;
+                }     
             }
         }
         break;

@@ -27,7 +27,6 @@
   <sprites name="sprites">
     <sprite>sprites\s_ship_original</sprite>
     <sprite>sprites\s_sonar</sprite>
-    <sprite>sprites\s_great_ship</sprite>
     <sprite>sprites\s_asteroids</sprite>
     <sprite>sprites\s_asterod</sprite>
     <sprite>sprites\s_hud</sprite>
@@ -36,6 +35,18 @@
     <sprite>sprites\s_big_arrow</sprite>
     <sprite>sprites\s_little_arrow</sprite>
     <sprite>sprites\s_money_case</sprite>
+    <sprite>sprites\s_dock</sprite>
+    <sprites name="shells">
+      <sprite>sprites\s_abigail</sprite>
+      <sprite>sprites\s_balamut</sprite>
+      <sprite>sprites\s_discovery</sprite>
+      <sprite>sprites\s_kraizenshtern</sprite>
+      <sprite>sprites\s_nova_boat</sprite>
+      <sprite>sprites\s_stellias</sprite>
+      <sprite>sprites\s_solar_queen</sprite>
+      <sprite>sprites\s_bazar</sprite>
+      <sprite>sprites\s_nova</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\back_test</background>
@@ -79,6 +90,8 @@
       <object>objects\obj_item</object>
       <object>objects\obj_money_case</object>
     </objects>
+    <object>objects\obj_dock</object>
+    <object>objects\obj_ship_parent</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_authorization</room>

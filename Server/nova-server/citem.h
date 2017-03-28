@@ -31,18 +31,29 @@
 #define TUBE_CORNER     "obj_tube_corner"
 #define TUBE_TEE        "obj_tube_tee"
 #define TUBE_SPLITTER   "obj_tube_splitter"
+
 #define MONEY_CASE      "obj_money_case"
+
 #define POWER_BLOCK     "obj_power_block"
+#define POWER_BLOCK_T   "obj_small_power_block"
+#define POWER_BLOCK_S   "obj_power_block_2"
+
 #define ELEMENT1        "obj_element1"
 #define ELEMENT2        "obj_element2"
 #define ELEMENT3        "obj_element3"
 #define ELEMENT4        "obj_element4"
 #define ELEMENT5        "obj_element5"
-#define POWER_BLOCK_S   "obj_small_power_block"
+
 #define LIFE_SYSTEM     "obj_life_system"
-#define NAVIGATION      "obj_navigation"
+#define LIFE_SYSTEM_S   "obj_ls_s"
+
+#define NAVIGATION_S    "obj_navigation"
+#define NAVIGATION_T    "obj_nav_t"
+
 #define WEAPON          "obj_weapon"
+
 #define ENGINE_S        "obj_engine_s"
+#define ENGINE_T        "obj_engine_t"
 
 #define ITEM_SET    0x01
 #define ITEM_GET    0x02

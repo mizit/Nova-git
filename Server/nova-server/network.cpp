@@ -130,6 +130,7 @@ void net_send_set_position(MySocket* socket, CShip* ship)
     runner = SetToRawData(data, runner, ship->shell->pos->speed);
     runner = SetToRawData(data, runner, ship->shell->pos->rot_speed);
     runner = SetToRawData(data, runner, ship->shell->pos->direction);
+    runner = SetToRawData(data, runner, ship->shell->name);
     data[0] = (unsigned char)(runner & 0xFF);
     data[1] = (unsigned char)((runner & 0xFF00) << 8);
     socket->MyWrite((char*)data, runner - 2);

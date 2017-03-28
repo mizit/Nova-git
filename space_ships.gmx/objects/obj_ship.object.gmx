@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>&lt;undefined&gt;</parentName>
+  <parentName>obj_ship_parent</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -25,7 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>mass = 100;
+            <string>event_inherited();
+mass = 100;
 
 rot_pwr = 0;
 mnvr_pwr = 0;
@@ -44,8 +45,9 @@ mnvr_right_key = ord('D');
 mnvr_up_key = ord('W');
 mnvr_down_key = ord('S');
 thurst_up_key = vk_space;
+dock_key = ord('X');
 
-instance_create(obj_great_ship.x, obj_great_ship.y, obj_mark);
+instance_create(x, y, obj_mark);
 
 sonar_point = obj_mark;
 sonar_ttl = room_speed * 2;
@@ -128,6 +130,14 @@ em[0] = part_emitter_create(ps);
 em[1] = part_emitter_create(ps);
 em[2] = part_emitter_create(ps);
 em[3] = part_emitter_create(ps);
+
+var tmp_dock = instance_create(x, y, obj_dock);
+tmp_dock.xoff = 45;
+tmp_dock.yoff = 0;
+tmp_dock.owner = id;
+tmp_dock.image_alpha = 0;
+ds_list_add(my_docks, tmp_dock);
+dock_show_distance = 700;
 </string>
           </argument>
         </arguments>
@@ -224,10 +234,11 @@ alarm[0] = 1;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_angle += rot_speed;
+            <string>//Вращаем корабль
+image_angle += rot_speed;
 rot_speed += rot_pwr / mass * (keyboard_check(rot_left_key) - keyboard_check(rot_right_key));
 
-
+//разбираемся с местами испускания частиц
 var m_size = 3
 var m_d = 5;
 var m_num = 10;
@@ -241,10 +252,7 @@ for (var i = 0; i &lt; 4; i++)
     var dy = lengthdir_y(man_xoff[i], image_angle) + lengthdir_y(man_yoff[i], image_angle + 90);
     part_emitter_region(ps, em[i], dx - m_size, dx + m_size, dy - m_size, dy + m_size, ps_shape_ellipse, ps_distr_gaussian);
 }
-//part_emitter_burst(ps, em[0], pt2, 5);
-//part_emitter_burst(ps, em[1], pt3, 5);
-//part_emitter_burst(ps, em[2], pt2, 5);
-//part_emitter_burst(ps, em[3], pt3, 5);
+//испускание частиц и управление кораблём
 if (keyboard_check(rot_left_key))
 {
     part_emitter_burst(ps, em[0], pt2, m_num);
@@ -294,14 +302,15 @@ if (keyboard_check(thurst_up_key))
     part_emitter_burst(ps, em_main, pt1, 16)
 
 }
-if (keyboard_check(sonar_key))
+//устаревший сонар
+/*if (keyboard_check(sonar_key))
 {
     sonar_alpha = 1;
-}
-
+}*/
+//активируем объекты
 instance_activate_region(x - view_wview * 2, y - view_hview * 2, 
 view_wview * 3, view_hview * 3, 1);
-
+//Смотрим какие объекты в радиусе подъёма
 for (var i = 0; i &lt; instance_number(obj_item); i++)
 {
     var item = instance_find(obj_item, i);
@@ -319,6 +328,63 @@ for (var i = 0; i &lt; instance_number(obj_item); i++)
         {
             ds_list_delete(tractor_list, ds_list_find_index(tractor_list, item));
             net_send_item_drop(obj_net.net_buf, obj_net.socket, item);
+        }
+    }
+}
+//Проверка видимости стыковки
+var test = 0;
+with (obj_ship_parent)
+{
+    if (id != other.id)
+    {
+        if (point_distance(x, y, other.x, other.y) &lt; other.dock_show_distance)
+        {
+            test = 1;
+            for (var i = 0; i &lt; ds_list_size(my_docks); i++)
+            {
+                my_docks[| i].image_alpha = 1;
+            }
+        }
+        else
+        {
+            for (var i = 0; i &lt; ds_list_size(my_docks); i++)
+            {
+                my_docks[| i].image_alpha = 0;
+            }
+        }
+    }
+}
+if (test)
+{
+    for (var i = 0; i &lt; ds_list_size(my_docks); i++)
+    {
+        my_docks[| i].image_alpha = 1;
+    }
+}
+else
+{
+    for (var i = 0; i &lt; ds_list_size(my_docks); i++)
+    {
+        my_docks[| i].image_alpha = 0;
+    }
+}
+if (keyboard_check_pressed(dock_key))
+{
+    if (ds_list_size(my_docks) == 1)
+    {
+        var tmp_dock = my_docks[| 0];
+        var other_dock;
+        with (tmp_dock)
+        {
+            other_dock = collision_point(x, y, obj_dock, 1, 1);
+        }
+        if (other_dock)
+        {
+            if (abs(angle_difference(other_dock.image_angle + 180, tmp_dock.image_angle)) &lt; 45)
+            {
+                rot_speed = 0;
+                speed = other_dock.owner.speed;
+            }
         }
     }
 }
