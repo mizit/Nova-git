@@ -51,9 +51,15 @@ repeat(num)
     var tx, ty;
     tx = file_text_read_real(file) * 100;
     ty = file_text_read_real(file) * 100;
-    instance_create(tx, ty, obj_asteroid);
+    tile_add(t_astr, 0, 0, background_get_width(t_astr),
+    background_get_height(t_astr), tx - background_get_width(t_astr) / 2, 
+    ty - background_get_height(t_astr) / 2, 0);
+    //instance_create(tx, ty, obj_asteroid);
 }
 file_text_close(file);
+
+marks_list = ds_list_create();
+max_mark = 0;
 </string>
           </argument>
         </arguments>
@@ -174,7 +180,7 @@ view_yview[0] = min(max(0, mouse_y - view_hview[0] * k_h), room_height - view_hv
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (instance_exists(obj_mark))
+            <string>/*if (instance_exists(obj_mark))
 {
     obj_mark.x = mouse_x;
     obj_mark.y = mouse_y;
@@ -182,8 +188,22 @@ view_yview[0] = min(max(0, mouse_y - view_hview[0] * k_h), room_height - view_hv
 else
 {
     instance_create(mouse_x, mouse_y, obj_mark);
+}*/
+var tmp = instance_create(mouse_x, mouse_y, obj_mark);
+ds_list_add(marks_list, tmp);
+if (ds_list_size(marks_list) &gt; max_mark)
+{
+    var tmp = marks_list[| 0]
+    ds_list_delete(marks_list, 0);
+    with (tmp)
+    {
+        instance_destroy();
+    }
 }
-net_send_mark(obj_net.net_buf, obj_net.socket);
+else
+{
+    net_send_mark(obj_net.net_buf, obj_net.socket);
+}
 </string>
           </argument>
         </arguments>

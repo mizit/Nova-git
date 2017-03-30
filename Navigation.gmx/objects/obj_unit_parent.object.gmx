@@ -26,7 +26,8 @@
           <argument>
             <kind>1</kind>
             <string>my_bubble = s_bubble;
-bubble_scale = 1;
+my_text = "";
+bubble_scale = 0.5;
 show_bubble = 1;
 xoffset = -40;
 yoffset = 0;
@@ -62,7 +63,8 @@ path_width = 3;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (show_bubble)
+            <string>
+if (show_bubble)
 {
     bubble_alpha = min(bubble_alpha + alpha_step, 1);
 }
@@ -115,12 +117,22 @@ if (bubble_alpha &gt; 0)
     draw_sprite_ext(my_bubble, -1, d_x, d_y, 1, 1, bubble_angle, c_white, bubble_alpha);
     if (sprite_exists(sprite_index))
     {
+        bubble_scale = min(sprite_get_width(my_bubble) / sprite_get_width(sprite_index), 
+        sprite_get_height(my_bubble) / sprite_get_height(sprite_index)) / sqrt(2);
         draw_sprite_ext(sprite_index, -1, d_x + lengthdir_x(xoffset, bubble_angle) +
         lengthdir_x(yoffset, bubble_angle + 90), d_y + lengthdir_y(xoffset, bubble_angle) +
         lengthdir_y(yoffset, bubble_angle + 90), bubble_scale, bubble_scale, image_angle, c_white, bubble_alpha);
     }
+    if (my_text != "")
+    {
+        draw_set_halign(fa_center);
+        draw_set_valign(fa_middle);
+        draw_text(d_x + lengthdir_x(xoffset, bubble_angle) +
+        lengthdir_x(yoffset, bubble_angle + 90), d_y + lengthdir_y(xoffset, bubble_angle) +
+        lengthdir_y(yoffset, bubble_angle + 90), my_text);
+    }
 }
-
+    
 if (path_show)
 {
     draw_set_colour(path_color);
@@ -128,6 +140,35 @@ if (path_show)
     line_x = ((x + lengthdir_x(path_length, path_direction)) - view_xview[0]) / obj_navigation.scale;
     line_y = ((y + lengthdir_y(path_length, path_direction)) - view_yview[0]) / obj_navigation.scale;
     draw_line_width(d_x, d_y, line_x, line_y, path_width);
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (point_distance(x, y, obj_ship.x, obj_ship.y) &lt;= obj_ship.radar_range)
+{
+    if (sprite_exists(sprite_index))
+    {
+        draw_self();
+    }
 }
 </string>
           </argument>

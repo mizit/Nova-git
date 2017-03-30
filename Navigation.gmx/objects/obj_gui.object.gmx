@@ -25,8 +25,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>/*draw_set_color(c_white);
-draw_text(25, 25, "x = " + string(obj_ship.x) + ", y = " + string(obj_ship.y));
+            <string>//draw_set_color(c_white);
+//draw_text(25, 25, instance_number(obj_unit_parent));
+/*draw_text(25, 25, "x = " + string(obj_ship.x) + ", y = " + string(obj_ship.y));
 draw_text(25, 50, "speed = " + string(obj_ship.speed)); 
 if (object_exists(obj_ship.sonar_point))
 {

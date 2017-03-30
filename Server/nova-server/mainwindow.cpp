@@ -133,6 +133,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->lview_items->addItem(NAVIGATION_S);
     ui->lview_items->addItem(NAVIGATION_T);
+    ui->lview_items->addItem(NAVIGATION_T_4);
     ui->lview_items->addItem(WEAPON);
     ui->lview_items->addItem(ENGINE_S);
     ui->lview_items->addItem(ENGINE_T);
@@ -246,9 +247,16 @@ void MainWindow::SetPos()
                 SHIPS[i]->shell->pos->image_angle = ui->edit_ia->text().toInt();
                 SHIPS[i]->shell->pos->rot_speed = ui->edit_rspeed->text().toInt();
                 SHIPS[i]->shell->pos->speed = ui->edit_speed->text().toInt();
-                if (SHIPS[i]->pilotSocket > 0)
+                for (int j = 0; j < SHIPS.size(); j++)
                 {
-                    net_send_set_position(SClients[SHIPS[i]->pilotSocket], SHIPS[i]);
+                    if (SHIPS[j]->pilotSocket > 0)
+                    {
+                        net_send_set_position(SClients[SHIPS[j]->pilotSocket], SHIPS[i]);
+                    }
+                    if (SHIPS[j]->navSocket > 0)
+                    {
+                        net_send_set_position(SClients[SHIPS[j]->navSocket], SHIPS[i]);
+                    }
                 }
         }
     }
@@ -723,6 +731,10 @@ void MainWindow::slotReadClient()
                 if (clientSocket->parentShip->pilotSocket > 0)
                 {
                     net_send_engine(SClients[clientSocket->parentShip->pilotSocket], clientSocket->parentShip);
+                }
+                if (clientSocket->parentShip->navSocket > 0)
+                {
+                    net_send_navigation(SClients[clientSocket->parentShip->navSocket], clientSocket->parentShip);
                 }
                 break;
             }

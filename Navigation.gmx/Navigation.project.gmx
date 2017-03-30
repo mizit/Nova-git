@@ -32,9 +32,21 @@
     <sprite>sprites\s_asterod</sprite>
     <sprite>sprites\s_bubble</sprite>
     <sprite>sprites\s_mark</sprite>
+    <sprites name="ships">
+      <sprite>sprites\s_abigail</sprite>
+      <sprite>sprites\s_balamut</sprite>
+      <sprite>sprites\s_discovery</sprite>
+      <sprite>sprites\s_kraizenshtern</sprite>
+      <sprite>sprites\s_nova</sprite>
+      <sprite>sprites\s_nova_boat</sprite>
+      <sprite>sprites\s_solar_queen</sprite>
+      <sprite>sprites\s_stellias</sprite>
+      <sprite>sprites\s_bazar</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\back_test</background>
+    <background>background\t_astr</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -55,7 +67,6 @@
     <font>fonts\f_menu</font>
   </fonts>
   <objects name="objects">
-    <object>objects\obj_ship</object>
     <object>objects\obj_enemy_ship</object>
     <object>objects\obj_gui</object>
     <object>objects\obj_great_ship</object>
@@ -69,17 +80,20 @@
       <object>objects\obj_login</object>
     </objects>
     <object>objects\obj_mark</object>
+    <object>objects\obj_ship</object>
+    <object>objects\obj_moving_parent</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_authorization</room>
     <room>rooms\room0</room>
   </rooms>
-  <constants number="11">
+  <constants number="12">
     <constant name="NET_GOOD_DAY">1</constant>
     <constant name="NET_POSITION">2</constant>
     <constant name="NET_FIRST_LOAD">3</constant>
     <constant name="NET_IM_OUT">4</constant>
     <constant name="NET_MARK">5</constant>
+    <constant name="NET_SHIP_DATA">8</constant>
     <constant name="PT_PILOT">1</constant>
     <constant name="PT_NAVIGATION">2</constant>
     <constant name="YES">1</constant>

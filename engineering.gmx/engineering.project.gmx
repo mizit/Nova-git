@@ -34,6 +34,7 @@
     <sprites name="navigation">
       <sprite>sprites\s_navigation</sprite>
       <sprite>sprites\s_nav_t</sprite>
+      <sprite>sprites\s_nav_t_4</sprite>
     </sprites>
     <sprites name="weapons">
       <sprite>sprites\s_weapon</sprite>
@@ -154,6 +155,7 @@
       <objects name="navigations">
         <object>objects\obj_navigation</object>
         <object>objects\obj_nav_t</object>
+        <object>objects\obj_nav_t_4</object>
         <object>objects\obj_nav_parent</object>
       </objects>
       <objects name="engines">

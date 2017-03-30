@@ -49,6 +49,12 @@ switch (l_command)
             obj_ship.speed = buffer_read(l_buf, buffer_s32) / 1000;
             obj_ship.rot_speed = buffer_read(l_buf, buffer_s32) / 1000;
             obj_ship.direction = buffer_read(l_buf, buffer_s32) / 1000;
+            var l_type = buffer_read(l_buf, buffer_string);
+            if (asset_get_type(l_type) == asset_sprite)
+            {
+                l_type = asset_get_index(l_type);
+                obj_ship.sprite_index = l_type;
+            }   
         }
         else
         {
@@ -64,6 +70,12 @@ switch (l_command)
                     speed = buffer_read(l_buf, buffer_s32) / 1000;
                     rot_speed = buffer_read(l_buf, buffer_s32) / 1000;
                     direction = buffer_read(l_buf, buffer_s32) / 1000;
+                    var l_type = buffer_read(l_buf, buffer_string);
+                    if (asset_get_type(l_type) == asset_sprite)
+                    {
+                        l_type = asset_get_index(l_type);
+                        sprite_index = l_type;
+                    }    
                 }
             }
             if (!l_test)
@@ -76,7 +88,28 @@ switch (l_command)
                 l_ship.speed = buffer_read(l_buf, buffer_s32) / 1000;
                 l_ship.rot_speed = buffer_read(l_buf, buffer_s32) / 1000;
                 l_ship.direction = buffer_read(l_buf, buffer_s32) / 1000;
+                var l_type = buffer_read(l_buf, buffer_string);
+                if (asset_get_type(l_type) == asset_sprite)
+                {
+                    l_type = asset_get_index(l_type);
+                    l_ship.sprite_index = l_type;
+                } 
             }
+        }
+        break;
+    }
+    case NET_SHIP_DATA:
+    {
+        if (instance_exists(obj_ship))
+        {
+            obj_ship.radar_range = buffer_read(l_buf, buffer_u32);
+            obj_ship.radio_range = buffer_read(l_buf, buffer_u32);
+            obj_ship.system_level = buffer_read(l_buf, buffer_u32);
+            obj_ship.thurst_pwr = buffer_read(l_buf, buffer_u32);
+            obj_ship.rot_pwr = buffer_read(l_buf, buffer_u32);
+            obj_ship.mnvr_pwr = obj_ship.rot_pwr; 
+            obj_ship.back_drive = buffer_read(l_buf, buffer_u32);
+            obj_ship.mass = buffer_read(l_buf, buffer_u32);
         }
         break;
     }

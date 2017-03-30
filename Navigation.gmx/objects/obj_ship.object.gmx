@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>obj_unit_parent</parentName>
+  <parentName>obj_moving_parent</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -32,6 +32,7 @@ mass = 100;
 rot_pwr = 0.3;
 mnvr_pwr = 0.1;
 thurst_pwr = 1;
+back_drive = 0;
 
 rot_speed = 0;
 
@@ -48,6 +49,10 @@ sonar_ttl = room_speed * 2;
 sonar_alpha = 0;
 sonar_key = ord('X');
 net_send_first_load(obj_net.net_buf, obj_net.socket);
+
+radar_range = 0;
+radio_range = 0;
+system_level = 0;
 </string>
           </argument>
         </arguments>
@@ -72,7 +77,7 @@ net_send_first_load(obj_net.net_buf, obj_net.socket);
             <kind>1</kind>
             <string>event_inherited();
 image_angle += rot_speed;
-rot_speed += rot_pwr / mass * (keyboard_check(rot_left_key) - keyboard_check(rot_right_key));
+/*rot_speed += rot_pwr / mass * (keyboard_check(rot_left_key) - keyboard_check(rot_right_key));
 if (keyboard_check(mnvr_left_key))
 {
     motion_add(image_angle + 90, mnvr_pwr / mass);
@@ -96,32 +101,35 @@ if (keyboard_check(thurst_up_key))
 if (keyboard_check(sonar_key))
 {
     sonar_alpha = 1;
+}*/
+obj_navigation.max_mark = system_level;
+switch (system_level)
+{
+    case 0:
+    {
+        with (obj_unit_parent)
+        {
+            path_show = 0;
+        }
+        break;
+    }
+    case 1:
+    {
+        with (obj_unit_parent)
+        {
+            path_show = 0;
+        }
+        obj_ship.path_show = 1;
+        break;
+    }
+    case 2:
+    {
+        with (obj_unit_parent)
+        {
+            path_show = 1;
+        }
+    }
 }
-path_length = sqr(speed) / (thurst_pwr / mass) / 2;
-path_direction = direction;
-</string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="4" ename="obj_asteroid">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>motion_add(point_direction(other.x, other.y, x, y), speed / 4);
 </string>
           </argument>
         </arguments>
@@ -145,11 +153,19 @@ path_direction = direction;
           <argument>
             <kind>1</kind>
             <string>draw_self();
-if (object_exists(sonar_point))
+/*if (object_exists(sonar_point))
 {
     draw_sprite_ext(s_sonar, -1, x, y, 1, 1, point_direction(x, y, sonar_point.x, sonar_point.y), c_white, sonar_alpha);
     sonar_alpha = max(0, sonar_alpha - 1 / sonar_ttl);
-}
+}*/
+draw_set_colour(c_green);
+draw_set_circle_precision(64);
+draw_circle(x, y, radar_range, 1);
+draw_set_colour(c_green);
+var line_x, line_y;
+line_x = (x + lengthdir_x(radar_range, direction));
+line_y = (y + lengthdir_y(radar_range, direction));
+draw_line(x, y, line_x, line_y);
 </string>
           </argument>
         </arguments>

@@ -5,7 +5,7 @@
   <visible>-1</visible>
   <depth>0</depth>
   <persistent>0</persistent>
-  <parentName>obj_unit_parent</parentName>
+  <parentName>obj_moving_parent</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
     <event eventtype="0" enumb="0">
@@ -29,6 +29,11 @@
 bubble_scale = 0.45;
 name = "";
 rot_speed = 0;
+
+rot_pwr = 0.3;
+mnvr_pwr = 0.1;
+thurst_pwr = 1;
+mass = 100;
 </string>
           </argument>
         </arguments>

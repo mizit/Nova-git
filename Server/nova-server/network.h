@@ -67,5 +67,6 @@ void net_send_mark(MySocket* socket, qint32 x, qint32 y);
 void net_send_item(MySocket* socket, CItem* item, qint32 com);
 void net_send_shell(MySocket* socket, CShell* shell);
 void net_send_engine(MySocket* socket, CShip* ship);
+void net_send_navigation(MySocket* socket, CShip* ship);
 
 #endif // NETWORK_H

@@ -49,6 +49,7 @@
 
 #define NAVIGATION_S    "obj_navigation"
 #define NAVIGATION_T    "obj_nav_t"
+#define NAVIGATION_T_4  "obj_nav_t_4"
 
 #define WEAPON          "obj_weapon"
 
