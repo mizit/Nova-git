@@ -43,6 +43,7 @@
       <sprite>sprites\s_stellias</sprite>
       <sprite>sprites\s_bazar</sprite>
     </sprites>
+    <sprite>sprites\s_smoke</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\back_test</background>
@@ -82,6 +83,7 @@
     <object>objects\obj_mark</object>
     <object>objects\obj_ship</object>
     <object>objects\obj_moving_parent</object>
+    <object>objects\obj_smoke</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_authorization</room>
