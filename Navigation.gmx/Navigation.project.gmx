@@ -44,6 +44,8 @@
       <sprite>sprites\s_bazar</sprite>
     </sprites>
     <sprite>sprites\s_smoke</sprite>
+    <sprite>sprites\s_hud</sprite>
+    <sprite>sprites\s_locked</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\back_test</background>
@@ -59,13 +61,20 @@
         <script>scripts\net_send_im_out.gml</script>
         <script>scripts\net_send_position.gml</script>
         <script>scripts\net_send_mark.gml</script>
+        <script>scripts\net_send_msg.gml</script>
       </scripts>
       <script>scripts\net_data_command_parsing.gml</script>
       <script>scripts\net_data_parsing.gml</script>
     </scripts>
+    <scripts name="log">
+      <script>scripts\note_create.gml</script>
+      <script>scripts\note_corrupt.gml</script>
+    </scripts>
   </scripts>
   <fonts name="fonts">
     <font>fonts\f_menu</font>
+    <font>fonts\f_radio</font>
+    <font>fonts\f_radio_msg</font>
   </fonts>
   <objects name="objects">
     <object>objects\obj_enemy_ship</object>
@@ -89,19 +98,24 @@
     <room>rooms\r_authorization</room>
     <room>rooms\room0</room>
   </rooms>
-  <constants number="12">
+  <constants number="17">
     <constant name="NET_GOOD_DAY">1</constant>
     <constant name="NET_POSITION">2</constant>
     <constant name="NET_FIRST_LOAD">3</constant>
     <constant name="NET_IM_OUT">4</constant>
     <constant name="NET_MARK">5</constant>
     <constant name="NET_SHIP_DATA">8</constant>
+    <constant name="NET_TEXT">9</constant>
     <constant name="PT_PILOT">1</constant>
     <constant name="PT_NAVIGATION">2</constant>
     <constant name="YES">1</constant>
     <constant name="NO">0</constant>
     <constant name="BUSY">2</constant>
     <constant name="ERROR">3</constant>
+    <constant name="TX_MESSAGE">1</constant>
+    <constant name="TX_SYSTEM">2</constant>
+    <constant name="NOTE_COLOR">0</constant>
+    <constant name="NOTE_MSG">1</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

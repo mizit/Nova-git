@@ -83,4 +83,6 @@ public:
     CShip();
 };
 
+qint32 point_distance(QPoint* point1, QPoint* point2);
+
 #endif // SHIP_H

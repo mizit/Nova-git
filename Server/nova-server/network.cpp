@@ -219,3 +219,18 @@ void net_send_navigation(MySocket* socket, CShip* ship)
     data[1] = (unsigned char)((runner & 0xFF00) << 8);
     socket->MyWrite((char*)data, runner - 2);
 }
+
+void net_send_text(MySocket* socket, QString str, qint32 flags, qint32 chn, qint32 distance)
+{
+    QDataStream net_data(socket);
+    unsigned char data[512];
+    data[2] = NET_TEXT;
+    int runner = 3;
+    runner = SetToRawData(data, runner, chn);
+    runner = SetToRawData(data, runner, flags);
+    runner = SetToRawData(data, runner, str);
+    runner = SetToRawData(data, runner, distance);
+    data[0] = (unsigned char)(runner & 0xFF);
+    data[1] = (unsigned char)((runner & 0xFF00) << 8);
+    socket->MyWrite((char*)data, runner - 2);
+}

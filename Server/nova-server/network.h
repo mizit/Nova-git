@@ -24,11 +24,15 @@
 #define NET_ITEM        6
 #define NET_SHELL       7
 #define NET_SHIP_DATA   8
+#define NET_TEXT        9
 
 #define PT_PILOT        1
 #define PT_NAVIGATION   2
 #define PT_ENGINEERING  3
 #define PT_BATTLE       4
+
+#define TX_MESSAGE      1
+#define TX_SYSTEM       2
 
 #define SPACE   "space"
 
@@ -68,5 +72,6 @@ void net_send_item(MySocket* socket, CItem* item, qint32 com);
 void net_send_shell(MySocket* socket, CShell* shell);
 void net_send_engine(MySocket* socket, CShip* ship);
 void net_send_navigation(MySocket* socket, CShip* ship);
+void net_send_text(MySocket* socket, QString str, qint32 flags, qint32 chn, qint32 distance);
 
 #endif // NETWORK_H

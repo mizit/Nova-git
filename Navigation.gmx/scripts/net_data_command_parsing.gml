@@ -113,5 +113,60 @@ switch (l_command)
         }
         break;
     }
+    case NET_TEXT:
+    {
+        var l_ch = buffer_read(l_buf, buffer_u32);
+        var l_flags = buffer_read(l_buf, buffer_u32);
+        var l_msg = buffer_read(l_buf, buffer_string);
+        var l_dis = buffer_read(l_buf, buffer_u32) / 100000;
+        with (obj_gui)
+        {
+            var l_test = 0;
+            for (var l_i = 0; l_i < 4; l_i++)
+            {
+                if (channels[l_i] == l_ch)
+                {
+                    l_test = 1;
+                }
+            }
+            if ((l_test) || (l_flags & TX_SYSTEM))
+            {
+                surface_set_target(log_buf_surf);
+                var l_clr = c_white;
+                if (l_flags & TX_MESSAGE)
+                {
+                    l_msg = note_corrupt(l_msg, max(1, obj_ship.radio_range) / max(1, l_dis));
+                    //show_message("radio - " + string(obj_ship.radio_range) + " distance - " + string(l_dis));
+                    l_clr = c_green;
+                    l_msg = "[" + string(l_ch) + "] " + l_msg;
+                }
+                if (l_flags & TX_SYSTEM)
+                {
+                    l_clr = c_red;
+                    l_msg = "*" + l_msg + "*";
+                }
+                if (!surface_exists(log_surf))
+                {
+                    log_surf = surface_create(log_width, log_height);
+                }
+                if (!surface_exists(log_buf_surf))
+                {
+                    log_buf_surf = surface_create(log_width, log_height);
+                }
+                draw_surface(log_surf, 0, -string_height_ext(l_msg, -1, log_width));
+                draw_set_colour(c_black);
+                draw_rectangle(0, log_height - string_height_ext(l_msg, -1, log_width), 
+                log_width, log_height, 0);
+                draw_set_colour(l_clr);
+                draw_text_ext(0, log_height - string_height_ext(l_msg, -1, log_width), l_msg,
+                -1, log_width);            
+                surface_reset_target();
+                surface_set_target(log_surf);
+                draw_surface(log_buf_surf, 0, 0);
+                surface_reset_target();
+            }
+        }
+        break;
+    }
 }
 buffer_delete(l_buf);

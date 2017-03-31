@@ -28,7 +28,7 @@
             <string>ip=get_string("Айпи: ","127.0.0.1");
 socket = network_create_socket(network_socket_tcp);
 isConnected = network_connect_raw(socket, ip, 63258);
-net_buf = buffer_create(1024, buffer_fixed, 1);
+net_buf = buffer_create(2048, buffer_fixed, 1);
 fifo = ds_queue_create();
 </string>
           </argument>

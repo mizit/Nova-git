@@ -26,13 +26,15 @@
           <argument>
             <kind>1</kind>
             <string>view_enabled = 1;
-view_visible[0] = 1;
-view_xview[0] = 0;
-view_yview[0] = 0;
-view_wport[0] = 1000;
-view_hport[0] = 1000;
-view_wview[0] = 250000;
-view_hview[0] = 250000;
+view_visible[1] = 1;
+view_xview[1] = 0;
+view_yview[1] = 0;
+view_wport[1] = 1000;
+view_hport[1] = 1000;
+view_wview[1] = 250000;
+view_hview[1] = 250000;
+view_xview[0] = 260000;
+view_yview[0] = 260000;
 
 base = 1000;
 min_scale = 1;
@@ -85,8 +87,8 @@ max_mark = 0;
             <string>step = scale / 10;
 if (right_pressed)
 {
-    view_xview[0] = max(min(view_xview[0] + (drag_x - display_mouse_get_x())* scale, room_width - view_wview[0]), 0);
-    view_yview[0] = max(min(view_yview[0] + (drag_y - display_mouse_get_y())* scale, room_height - view_hview[0]), 0);
+    view_xview[1] = max(min(view_xview[1] + (drag_x - display_mouse_get_x())* scale, room_width - view_wview[1]), 0);
+    view_yview[1] = max(min(view_yview[1] + (drag_y - display_mouse_get_y())* scale, room_height - view_hview[1]), 0);
 }
 if (mouse_check_button(mb_right))
 {
@@ -121,13 +123,13 @@ else
           <argument>
             <kind>1</kind>
             <string>var k_w, k_h;
-k_w = (mouse_x - view_xview[0]) / view_wview[0];
-k_h = (mouse_y - view_yview[0]) / view_hview[0];
+k_w = (mouse_x - view_xview[1]) / view_wview[1];
+k_h = (mouse_y - view_yview[1]) / view_hview[1];
 scale = min(scale + step, max_scale);
-view_wview[0] = scale * base;
-view_hview[0] = scale * base;
-view_xview[0] = min(max(0, mouse_x - view_wview[0] * k_w), room_width - view_wview[0]);
-view_yview[0] = min(max(0, mouse_y - view_hview[0] * k_h), room_height - view_hview[0]);
+view_wview[1] = scale * base;
+view_hview[1] = scale * base;
+view_xview[1] = min(max(0, mouse_x - view_wview[1] * k_w), room_width - view_wview[1]);
+view_yview[1] = min(max(0, mouse_y - view_hview[1] * k_h), room_height - view_hview[1]);
 </string>
           </argument>
         </arguments>
@@ -151,13 +153,13 @@ view_yview[0] = min(max(0, mouse_y - view_hview[0] * k_h), room_height - view_hv
           <argument>
             <kind>1</kind>
             <string>var k_w, k_h;
-k_w = (mouse_x - view_xview[0]) / view_wview[0];
-k_h = (mouse_y - view_yview[0]) / view_hview[0];
+k_w = (mouse_x - view_xview[1]) / view_wview[1];
+k_h = (mouse_y - view_yview[1]) / view_hview[1];
 scale = max(scale - step, min_scale);
-view_wview[0] = scale * base;
-view_hview[0] = scale * base;
-view_xview[0] = min(max(0, mouse_x - view_wview[0] * k_w), room_width - view_wview[0]);
-view_yview[0] = min(max(0, mouse_y - view_hview[0] * k_h), room_height - view_hview[0]);
+view_wview[1] = scale * base;
+view_hview[1] = scale * base;
+view_xview[1] = min(max(0, mouse_x - view_wview[1] * k_w), room_width - view_wview[1]);
+view_yview[1] = min(max(0, mouse_y - view_hview[1] * k_h), room_height - view_hview[1]);
 </string>
           </argument>
         </arguments>
@@ -189,20 +191,24 @@ else
 {
     instance_create(mouse_x, mouse_y, obj_mark);
 }*/
-var tmp = instance_create(mouse_x, mouse_y, obj_mark);
-ds_list_add(marks_list, tmp);
-if (ds_list_size(marks_list) &gt; max_mark)
+//show_message(device_mouse_x(0));
+if (mouse_x &lt; 250000)
 {
-    var tmp = marks_list[| 0]
-    ds_list_delete(marks_list, 0);
-    with (tmp)
+    var tmp = instance_create(mouse_x, mouse_y, obj_mark);
+    ds_list_add(marks_list, tmp);
+    if (ds_list_size(marks_list) &gt; max_mark)
     {
-        instance_destroy();
+        var tmp = marks_list[| 0]
+        ds_list_delete(marks_list, 0);
+        with (tmp)
+        {
+            instance_destroy();
+        }
     }
-}
-else
-{
-    net_send_mark(obj_net.net_buf, obj_net.socket);
+    else
+    {
+        net_send_mark(obj_net.net_buf, obj_net.socket);
+    }
 }
 </string>
           </argument>

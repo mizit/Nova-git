@@ -8,6 +8,67 @@
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
+    <event eventtype="0" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>chn_x_offset = 1037;
+chn_y_offset = 35;
+chn_x_step = 50;
+chn_y_step = 90;
+chn_num = 4;
+channels[0] = 0;
+channels[1] = 52;
+channels[2] = 118;
+channels[3] = 1745;
+btn_x_offset = 261020;
+btn_y_offset = 260005;
+chn_text_x_offset = 1226;
+chn_text_y_offset = 35;
+select = 0;
+sel_rect_x_off = 1223;
+sel_rect_y_off = 32;
+sel_rect_x_off_b = 261223;
+sel_rect_y_off_b = 260032;
+sel_rect_width = 123;
+sel_rect_height = 35;
+msg_x_offset = 1015;
+msg_y_offset = 377;
+msg_width = 370;
+msg_length = 115;
+msg_text = "";
+
+log_x = 1015;
+log_y = 517;
+log_width = 370;
+log_height = 468;
+log_surf = surface_create(log_width, log_height);
+log_buf_surf = surface_create(log_width, log_height);
+surface_set_target(log_surf);
+draw_set_colour(c_black);
+draw_rectangle(0, 0, log_width, log_height, 0);
+surface_reset_target();
+//log_notes = ds_list_create();
+//log_max_notes = 20;
+
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="64">
       <action>
         <libid>1</libid>
@@ -33,6 +94,102 @@ if (object_exists(obj_ship.sonar_point))
 {
     draw_text(25, 75, "Distance to goal = " + string(point_distance(obj_ship.x, obj_ship.y, obj_ship.sonar_point.x, obj_ship.sonar_point.y)));
 }*/
+
+if (mouse_check_button_pressed(mb_left))
+{
+    for (var i = 0; i &lt; chn_num; i++)
+    {
+        var tmp_step = 10000;
+        for (var j = 0; j &lt; 4; j++)
+        {
+            tmp_step /= 10;
+            if (point_in_rectangle(mouse_x, mouse_y, btn_x_offset + chn_x_step * j,
+            btn_y_offset + chn_y_step * i, btn_x_offset + chn_x_step * (j + 1),
+            btn_y_offset + chn_y_step * (i + 0.5)))
+            {
+                channels[i] += tmp_step;
+            }
+            if (point_in_rectangle(mouse_x, mouse_y, btn_x_offset + chn_x_step * j,
+            btn_y_offset + chn_y_step * (i + 0.5), btn_x_offset + chn_x_step * (j + 1),
+            btn_y_offset + chn_y_step * (i + 1)))
+            {
+                channels[i] -= tmp_step;
+            }
+            if (channels[i] &gt; 9999)
+            {
+                channels[i] -= 10000;
+            }
+            if (channels[i] &lt; 0)
+            {
+                channels[i] += 10000;
+            }
+        }
+        if (point_in_rectangle(mouse_x, mouse_y, sel_rect_x_off_b, sel_rect_y_off_b + chn_y_step * i,
+        sel_rect_x_off_b + sel_rect_width, sel_rect_y_off_b + chn_y_step * i + sel_rect_height))
+        {
+            select = i;
+        }
+    }
+}
+draw_set_color(c_green);
+draw_set_font(f_radio);
+draw_sprite(s_hud, -1, 1000, 0);
+for (var i = 0; i &lt; chn_num; i++)
+{
+    for (var j = 0; j &lt; 4; j++)
+    {
+        var tmp_ch;
+        tmp_ch = string_char_at(string_format(channels[i], 4, 0), j + 1);
+        if (tmp_ch == " ")
+        {
+            tmp_ch = "0";
+        }
+        draw_text(chn_x_offset + j * chn_x_step, 
+        chn_y_offset + i * chn_y_step, tmp_ch);
+    }
+    draw_text(chn_text_x_offset, chn_text_y_offset + i * chn_y_step, "Channel " + string(i + 1));
+}
+draw_rectangle(sel_rect_x_off, sel_rect_y_off + select * chn_y_step, 
+sel_rect_x_off + sel_rect_width, sel_rect_y_off + select * chn_y_step + sel_rect_height, 1);
+
+draw_set_font(f_radio_msg);
+msg_text = string_copy(keyboard_string, 1, msg_length);
+draw_text_ext(msg_x_offset, msg_y_offset, msg_text, -1, msg_width);
+
+if (!surface_exists(log_surf))
+{
+    log_surf = surface_create(log_width, log_height);
+}
+if (!surface_exists(log_buf_surf))
+{
+    log_buf_surf = surface_create(log_width, log_height);
+}
+draw_surface(log_surf, log_x, log_y);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="9" enumb="13">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>net_send_msg(obj_net.net_buf, obj_net.socket);
+keyboard_string = "";
+msg_text = "";
 </string>
           </argument>
         </arguments>

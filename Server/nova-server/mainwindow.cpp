@@ -430,7 +430,7 @@ void MainWindow::UserDisconnected()
 void MainWindow::slotReadClient()
 {
     MySocket* clientSocket = (MySocket*)sender();
-    char data[256];
+    char data[1024];
     char tmp_len[2];
     int len;
     QDataStream net_data(clientSocket);
@@ -748,6 +748,21 @@ void MainWindow::slotReadClient()
                         net_send_shell(clientSocket, SHIPS[i]->shell);
                     }
                 }
+                break;
+            }
+            case NET_TEXT:
+            {
+                qint32 chn = GetInt32((unsigned char *)data, 1);
+                QString text = GetString(data, 5);
+                for (int i = 0; i < SHIPS.size(); i++)
+                {
+                    if (SHIPS[i]->navSocket > 0)
+                    {
+                        net_send_text(SClients[SHIPS[i]->navSocket], text, TX_MESSAGE, chn,
+                                point_distance(clientSocket->parentShip->shell->pos->pos, SHIPS[i]->shell->pos->pos));
+                    }
+                }
+                break;
             }
         }
     }
