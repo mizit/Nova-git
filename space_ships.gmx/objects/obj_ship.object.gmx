@@ -138,6 +138,9 @@ tmp_dock.owner = id;
 tmp_dock.image_alpha = 0;
 ds_list_add(my_docks, tmp_dock);
 dock_show_distance = 700;
+docked = 0;
+dock_time = 1800;
+dock_cnt = 0;
 </string>
           </argument>
         </arguments>
@@ -236,7 +239,10 @@ alarm[0] = 1;
             <kind>1</kind>
             <string>//Вращаем корабль
 image_angle += rot_speed;
-rot_speed += rot_pwr / mass * (keyboard_check(rot_left_key) - keyboard_check(rot_right_key));
+if (!docked)
+{
+    rot_speed += rot_pwr / mass * (keyboard_check(rot_left_key) - keyboard_check(rot_right_key));
+}
 
 //разбираемся с местами испускания частиц
 var m_size = 3
@@ -253,54 +259,57 @@ for (var i = 0; i &lt; 4; i++)
     part_emitter_region(ps, em[i], dx - m_size, dx + m_size, dy - m_size, dy + m_size, ps_shape_ellipse, ps_distr_gaussian);
 }
 //испускание частиц и управление кораблём
-if (keyboard_check(rot_left_key))
+if (!docked)
 {
-    part_emitter_burst(ps, em[0], pt2, m_num);
-    part_emitter_burst(ps, em[3], pt3, m_num);
-}
-if (keyboard_check(rot_right_key))
-{
-    part_emitter_burst(ps, em[1], pt3, m_num);
-    part_emitter_burst(ps, em[2], pt2, m_num);
-}
-if (keyboard_check(mnvr_left_key))
-{
-    motion_add(image_angle + 90, mnvr_pwr / mass);
-    part_emitter_burst(ps, em[0], pt2, m_num);
-    part_emitter_burst(ps, em[2], pt2, m_num);
-}
-if (keyboard_check(mnvr_right_key))
-{
-    motion_add(image_angle - 90, mnvr_pwr / mass);
-    part_emitter_burst(ps, em[1], pt3, m_num);
-    part_emitter_burst(ps, em[3], pt3, m_num);
-}
-if (keyboard_check(mnvr_up_key))
-{
-    motion_add(image_angle, mnvr_pwr / mass);
-    part_type_direction(pt2, min(image_angle - 180 + m_d, image_angle - 180 - m_d), max(image_angle - 180 - m_d, image_angle - 180 + m_d), 0, 0);
-    part_emitter_burst(ps, em[2], pt2, m_num);
-    part_emitter_burst(ps, em[3], pt2, m_num);
-}
-if (keyboard_check(mnvr_down_key))
-{
-    motion_add(image_angle + 180, mnvr_pwr / mass);
-    part_type_direction(pt2, min(image_angle - m_d, image_angle + m_d), max(image_angle - m_d, image_angle + m_d), 0, 0);
-    part_emitter_burst(ps, em[0], pt2, m_num);
-    part_emitter_burst(ps, em[1], pt2, m_num);
-}
-if (keyboard_check(thurst_up_key))
-{
-    motion_add(image_angle, thurst_pwr / mass);
-    var en_size = 6;
-    part_type_speed(pt1, 3, 5, 0, 0);
-    part_type_direction(pt1, 180 + image_angle, 180 + image_angle, 0, 0);
+    if (keyboard_check(rot_left_key))
+    {
+        part_emitter_burst(ps, em[0], pt2, m_num);
+        part_emitter_burst(ps, em[3], pt3, m_num);
+    }
+    if (keyboard_check(rot_right_key))
+    {
+        part_emitter_burst(ps, em[1], pt3, m_num);
+        part_emitter_burst(ps, em[2], pt2, m_num);
+    }
+    if (keyboard_check(mnvr_left_key))
+    {
+        motion_add(image_angle + 90, mnvr_pwr / mass);
+        part_emitter_burst(ps, em[0], pt2, m_num);
+        part_emitter_burst(ps, em[2], pt2, m_num);
+    }
+    if (keyboard_check(mnvr_right_key))
+    {
+        motion_add(image_angle - 90, mnvr_pwr / mass);
+        part_emitter_burst(ps, em[1], pt3, m_num);
+        part_emitter_burst(ps, em[3], pt3, m_num);
+    }
+    if (keyboard_check(mnvr_up_key))
+    {
+        motion_add(image_angle, mnvr_pwr / mass);
+        part_type_direction(pt2, min(image_angle - 180 + m_d, image_angle - 180 - m_d), max(image_angle - 180 - m_d, image_angle - 180 + m_d), 0, 0);
+        part_emitter_burst(ps, em[2], pt2, m_num);
+        part_emitter_burst(ps, em[3], pt2, m_num);
+    }
+    if (keyboard_check(mnvr_down_key))
+    {
+        motion_add(image_angle + 180, mnvr_pwr / mass);
+        part_type_direction(pt2, min(image_angle - m_d, image_angle + m_d), max(image_angle - m_d, image_angle + m_d), 0, 0);
+        part_emitter_burst(ps, em[0], pt2, m_num);
+        part_emitter_burst(ps, em[1], pt2, m_num);
+    }
+    if (keyboard_check(thurst_up_key))
+    {
+        motion_add(image_angle, thurst_pwr / mass);
+        var en_size = 6;
+        part_type_speed(pt1, 3, 5, 0, 0);
+        part_type_direction(pt1, 180 + image_angle, 180 + image_angle, 0, 0);
+        
+        part_emitter_region(ps, em_main, -lengthdir_x(sprite_width / 2, image_angle) - en_size, 
+        -lengthdir_x(sprite_width / 2, image_angle) + en_size, -lengthdir_y(sprite_width / 2, image_angle) - en_size,
+         -lengthdir_y(sprite_width / 2, image_angle) + en_size, ps_shape_ellipse, ps_distr_gaussian);
+        part_emitter_burst(ps, em_main, pt1, 16)
     
-    part_emitter_region(ps, em_main, -lengthdir_x(sprite_width / 2, image_angle) - en_size, 
-    -lengthdir_x(sprite_width / 2, image_angle) + en_size, -lengthdir_y(sprite_width / 2, image_angle) - en_size,
-     -lengthdir_y(sprite_width / 2, image_angle) + en_size, ps_shape_ellipse, ps_distr_gaussian);
-    part_emitter_burst(ps, em_main, pt1, 16)
-
+    }
 }
 //устаревший сонар
 /*if (keyboard_check(sonar_key))
@@ -368,6 +377,7 @@ else
         my_docks[| i].image_alpha = 0;
     }
 }
+//стыкуемся
 if (keyboard_check_pressed(dock_key))
 {
     if (ds_list_size(my_docks) == 1)
@@ -384,9 +394,46 @@ if (keyboard_check_pressed(dock_key))
             {
                 rot_speed = 0;
                 speed = other_dock.owner.speed;
+                docked = 1;
+                tmp_dock.docked = other_dock;
+                other_dock.docked = tmp_dock;
+                net_send_dock(obj_net.net_buf, obj_net.socket, 1, other_dock.owner);
             }
         }
     }
+}
+//расстыковка
+if (docked)
+{
+    if (keyboard_check(vk_anykey))
+    {
+        dock_cnt++;
+        if (dock_cnt &gt; dock_time)
+        {
+            dock_cnt = 0;
+            docked = 0;
+            if (ds_list_size(my_docks) == 1)
+            {
+                if (my_docks[| 0].docked)
+                {
+                    net_send_dock(obj_net.net_buf, obj_net.socket, 0, my_docks[| 0].docked.owner);
+                    my_docks[| 0].docked = noone;
+                }
+            }
+        }
+        else
+        {
+            net_send_dock(obj_net.net_buf, obj_net.socket, 1 + (dock_cnt &lt;&lt; 1), my_docks[| 0].docked.owner);
+        }
+    }
+    else
+    {
+        dock_cnt = max(0, dock_cnt - 1);
+    }
+}
+else
+{
+    dock_cnt = 0;
 }
 </string>
           </argument>
@@ -449,44 +496,44 @@ speed *= 0.9;
             <string>view_xview = x - 512;
 view_yview = y - 384;
 
-
-draw_sprite_ext(s_big_arrow, -1, x, y, 1, 1, speed * 3.6, c_white, 1);
-draw_sprite_ext(s_little_arrow, -1, x, y, 1, 1, speed * 36, c_white, 1);
+if (!docked)
+{
+    draw_sprite_ext(s_big_arrow, -1, x, y, 1, 1, speed * 3.6, c_white, 1);
+    draw_sprite_ext(s_little_arrow, -1, x, y, 1, 1, speed * 36, c_white, 1);
+}
+else
+{
+    draw_sprite_ext(s_docked, -1, x, y, 1, 1, 1, c_white, 0.3);
+    draw_sprite_part(s_undock, -1, 0, 0, sprite_get_width(s_undock),
+    dock_cnt / dock_time * sprite_get_height(s_undock), x - sprite_get_width(s_undock) / 2,
+    y - sprite_get_height(s_undock) / 2); 
+}
 part_system_position(ps, x, y);
 part_system_drawit(ps);
 draw_self();
-if (object_exists(sonar_point))
-{
-    draw_sprite_ext(s_sonar, -1, x, y, 1, 1, point_direction(x, y, sonar_point.x, sonar_point.y), c_white, sonar_alpha);
-    sonar_alpha = max(0, sonar_alpha - 1 / sonar_ttl);
-}
 
 //0 - rot
 //1 - base
 //2 - dir
 //3 - speed
 //4 - mark
-hud_rot += (rot_speed * hud_rot_koeff);
-var hud_width, hud_height;
-hud_width = sprite_get_width(s_hud);
-hud_height = sprite_get_height(s_hud);
-//draw_sprite_part_ext(s_hud, 3, 0, 0, hud_width * min(1, speed / hud_max_speed), hud_height, 
-//x - hud_width / 2, y - hud_height / 2, 1, 1, c_white, 1);
-draw_sprite_ext(s_hud, 0, x, y, 1, 1, hud_rot, c_white, 1);
-draw_sprite_ext(s_hud, 1, x, y, 1, 1, image_angle, c_white, 1);
-draw_sprite_ext(s_hud, 2, x, y, 1, 1, direction, c_white, 1);
-draw_sprite_ext(s_hud, 4, x, y, 1, 1, point_direction(x, y, sonar_point.x, sonar_point.y), c_white, 1);
+if (!docked)
+{
+    hud_rot += (rot_speed * hud_rot_koeff);
+    var hud_width, hud_height;
+    hud_width = sprite_get_width(s_hud);
+    hud_height = sprite_get_height(s_hud);
+    draw_sprite_ext(s_hud, 0, x, y, 1, 1, hud_rot, c_white, 1);
+    draw_sprite_ext(s_hud, 1, x, y, 1, 1, image_angle, c_white, 1);
+    draw_sprite_ext(s_hud, 2, x, y, 1, 1, direction, c_white, 1);
+    draw_sprite_ext(s_hud, 4, x, y, 1, 1, point_direction(x, y, sonar_point.x, sonar_point.y), c_white, 1);
+}
 
-/*draw_set_alpha(0.3);
-draw_set_colour(c_red);
-draw_rectangle(x - view_xview * 2, y - view_yview * 2, 
-view_xview * 3, view_yview * 3, 0);*/
-
-for (var i = 0; i &lt; ds_list_size(tractor_list); i++)
+/*for (var i = 0; i &lt; ds_list_size(tractor_list); i++)
 {
     draw_set_colour(c_white);
     draw_text(x, y + i * 25, tractor_list[| i]);
-}
+}*/
 </string>
           </argument>
         </arguments>

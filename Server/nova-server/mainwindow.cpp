@@ -764,6 +764,30 @@ void MainWindow::slotReadClient()
                 }
                 break;
             }
+            case NET_DOCK:
+            {
+                qint32 flags = GetInt32((unsigned char *)data, 1);
+                QString login_ship = GetString(data, 5);
+                for (int i = 0; i < SHIPS.size(); i++)
+                {
+                    if (SHIPS[i]->login == login_ship)
+                    {
+                        if (SHIPS[i]->pilotSocket > 0)
+                        {
+                            net_send_dock(SClients[SHIPS[i]->pilotSocket], clientSocket->parentShip, SHIPS[i], flags);
+                        }
+                        if (SHIPS[i]->navSocket > 0)
+                        {
+                            net_send_dock(SClients[SHIPS[i]->navSocket], clientSocket->parentShip, SHIPS[i], flags);
+                        }
+                        if (SHIPS[i]->engSocket > 0)
+                        {
+                            net_send_dock(SClients[SHIPS[i]->engSocket], clientSocket->parentShip, SHIPS[i], flags);
+                        }
+                    }
+                }
+                break;
+            }
         }
     }
 }

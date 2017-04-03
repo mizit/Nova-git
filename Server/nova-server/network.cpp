@@ -234,3 +234,17 @@ void net_send_text(MySocket* socket, QString str, qint32 flags, qint32 chn, qint
     data[1] = (unsigned char)((runner & 0xFF00) << 8);
     socket->MyWrite((char*)data, runner - 2);
 }
+
+void net_send_dock(MySocket* socket, CShip* ship1, CShip* ship2, qint32 flags)
+{
+    QDataStream net_data(socket);
+    unsigned char data[512];
+    data[2] = NET_DOCK;
+    int runner = 3;
+    runner = SetToRawData(data, runner, ship1->login);
+    runner = SetToRawData(data, runner, ship2->login);
+    runner = SetToRawData(data, runner, flags);
+    data[0] = (unsigned char)(runner & 0xFF);
+    data[1] = (unsigned char)((runner & 0xFF00) << 8);
+    socket->MyWrite((char*)data, runner - 2);
+}

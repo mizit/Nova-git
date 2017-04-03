@@ -25,6 +25,7 @@
 #define NET_SHELL       7
 #define NET_SHIP_DATA   8
 #define NET_TEXT        9
+#define NET_DOCK        10
 
 #define PT_PILOT        1
 #define PT_NAVIGATION   2
@@ -73,5 +74,6 @@ void net_send_shell(MySocket* socket, CShell* shell);
 void net_send_engine(MySocket* socket, CShip* ship);
 void net_send_navigation(MySocket* socket, CShip* ship);
 void net_send_text(MySocket* socket, QString str, qint32 flags, qint32 chn, qint32 distance);
+void net_send_dock(MySocket* socket, CShip* ship1, CShip* ship2, qint32 flags);
 
 #endif // NETWORK_H

@@ -182,5 +182,38 @@ switch (l_command)
         }
         break;
     }
+    case NET_DOCK:
+    {
+        var l_ship = buffer_read(l_buf, buffer_string);
+        buffer_read(l_buf, buffer_string);
+        var l_flag = buffer_read(l_buf, buffer_u32);
+        var l_test = noone;
+        with (obj_enemy_ship)
+        {
+            if (l_ship == name)
+            {
+                l_test = id; 
+            }
+        }
+        if (l_flag & 1)
+        {
+            if (instance_exists(obj_ship))
+            {
+                obj_ship.rot_speed = 0;
+                obj_ship.docked = 1;
+                obj_ship.dock_cnt = l_flag >> 1;
+                obj_ship.my_docks[| 0].docked = l_test.my_docks[| 0];
+            }
+        }
+        else
+        {
+            if (instance_exists(obj_ship))
+            {
+                obj_ship.docked = 0;
+                obj_ship.my_docks[| 0].docked = noone;
+            }
+        }
+        break;
+    }
 }
 buffer_delete(l_buf);
