@@ -130,6 +130,8 @@ if (bubble_alpha &gt; 0)
         draw_text(d_x + lengthdir_x(xoffset, bubble_angle) +
         lengthdir_x(yoffset, bubble_angle + 90), d_y + lengthdir_y(xoffset, bubble_angle) +
         lengthdir_y(yoffset, bubble_angle + 90), my_text);
+        draw_set_halign(fa_left);
+        draw_set_valign(fa_top);
     }
 }
     

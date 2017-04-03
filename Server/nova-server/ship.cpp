@@ -66,9 +66,11 @@ CCell::CCell()
 
 }
 
-qint32 point_distance(QPoint* point1, QPoint* point2)
+qint64 point_distance(QPoint* point1, QPoint* point2)
 {
-    qint64 x = (point1->rx() - point2->rx()) * (point1->rx() - point2->rx());
-    qint64 y = (point1->ry() - point2->ry()) * (point1->ry() - point2->ry());
-    return sqrt(x + y);
+    qint64 x1 = point1->rx() / 1000;
+    qint64 x2 = point2->rx() / 1000;
+    qint64 y1 = point1->ry() / 1000;
+    qint64 y2 = point2->ry() / 1000;
+    return static_cast <qint64> (sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
 }

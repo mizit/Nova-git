@@ -118,7 +118,14 @@ switch (l_command)
         var l_ch = buffer_read(l_buf, buffer_u32);
         var l_flags = buffer_read(l_buf, buffer_u32);
         var l_msg = buffer_read(l_buf, buffer_string);
-        var l_dis = buffer_read(l_buf, buffer_u32) / 100000;
+        var l_dis = buffer_read(l_buf, buffer_u32);// / 100000;
+        /*var tmp_ship;
+        with (obj_enemy_ship)
+        {
+            if (name == "Nova")
+            {tmp_ship = id;}
+        }
+        show_message(point_distance(obj_ship.x, obj_ship.y, tmp_ship.x, tmp_ship.y));*/
         with (obj_gui)
         {
             var l_test = 0;

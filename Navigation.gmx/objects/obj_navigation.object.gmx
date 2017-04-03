@@ -29,16 +29,16 @@
 view_visible[1] = 1;
 view_xview[1] = 0;
 view_yview[1] = 0;
-view_wport[1] = 1000;
-view_hport[1] = 1000;
+view_wport[1] = 500;
+view_hport[1] = 500;
 view_wview[1] = 250000;
 view_hview[1] = 250000;
 view_xview[0] = 260000;
 view_yview[0] = 260000;
 
-base = 1000;
+base = 500;
 min_scale = 1;
-max_scale = 250;
+max_scale = 500;
 scale = max_scale;
 step = scale / 10;
 

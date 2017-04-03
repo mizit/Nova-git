@@ -25,36 +25,36 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>chn_x_offset = 1037;
-chn_y_offset = 35;
-chn_x_step = 50;
-chn_y_step = 90;
+            <string>chn_x_offset = 518;
+chn_y_offset = 17;
+chn_x_step = 25;
+chn_y_step = 45;
 chn_num = 4;
 channels[0] = 0;
 channels[1] = 52;
 channels[2] = 118;
 channels[3] = 1745;
-btn_x_offset = 261020;
-btn_y_offset = 260005;
-chn_text_x_offset = 1226;
-chn_text_y_offset = 35;
+btn_x_offset = 260510;
+btn_y_offset = 260002;
+chn_text_x_offset = 613;
+chn_text_y_offset = 17;
 select = 0;
-sel_rect_x_off = 1223;
-sel_rect_y_off = 32;
-sel_rect_x_off_b = 261223;
-sel_rect_y_off_b = 260032;
-sel_rect_width = 123;
-sel_rect_height = 35;
-msg_x_offset = 1015;
-msg_y_offset = 377;
-msg_width = 370;
-msg_length = 115;
+sel_rect_x_off = 611;
+sel_rect_y_off = 16;
+sel_rect_x_off_b = 260611;
+sel_rect_y_off_b = 260016;
+sel_rect_width = 75;
+sel_rect_height = 17;
+msg_x_offset = 507;
+msg_y_offset = 188;
+msg_width = 185;
+msg_length = 77;
 msg_text = "";
 
-log_x = 1015;
-log_y = 517;
-log_width = 370;
-log_height = 468;
+log_x = 507;
+log_y = 268;
+log_width = 185;
+log_height = 234;
 log_surf = surface_create(log_width, log_height);
 log_buf_surf = surface_create(log_width, log_height);
 surface_set_target(log_surf);
@@ -64,6 +64,28 @@ surface_reset_target();
 //log_notes = ds_list_create();
 //log_max_notes = 20;
 
+coord_size = 10;
+surf_width = 10;
+surf_height = 20;
+draw_set_colour(c_white);
+draw_set_halign(fa_center);
+draw_set_valign(fa_middle);
+for (var i = 0; i &lt; coord_size; i++)
+{
+    surface_letter[i] = surface_create(surf_width, surf_height);
+    surface_set_target(surface_letter[i]);
+    draw_text(surf_width / 2, surf_height / 2, chr(i + 97));
+    surface_reset_target();
+}
+for (var i = 0; i &lt; coord_size; i++)
+{
+    surface_number[i] = surface_create(surf_width, surf_height);
+    surface_set_target(surface_number[i]);
+    draw_text(surf_width / 2, surf_height / 2, string(i));
+    surface_reset_target();
+}
+draw_set_halign(fa_left);
+draw_set_valign(fa_top);
 </string>
           </argument>
         </arguments>
@@ -133,7 +155,7 @@ if (mouse_check_button_pressed(mb_left))
 }
 draw_set_color(c_green);
 draw_set_font(f_radio);
-draw_sprite(s_hud, -1, 1000, 0);
+draw_sprite(s_hud, -1, 500, 0);
 for (var i = 0; i &lt; chn_num; i++)
 {
     for (var j = 0; j &lt; 4; j++)
@@ -165,6 +187,42 @@ if (!surface_exists(log_buf_surf))
     log_buf_surf = surface_create(log_width, log_height);
 }
 draw_surface(log_surf, log_x, log_y);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>draw_set_color(c_gray);
+
+for (var i = 0; i &lt; 10; i++)
+{
+    draw_line(0, i * 25000, room_width, i * 25000);
+    draw_line(i * 25000, 0, i * 25000, room_height);
+}
+for (var i = 0; i &lt; coord_size; i++)
+{
+    draw_surface_ext(surface_letter[i], room_width / coord_size * (i + 0.5), view_yview[1], 
+    obj_navigation.scale, obj_navigation.scale, 0, c_white, 1);
+    draw_surface_ext(surface_number[i], view_xview[1], room_height / coord_size * (i + 0.5),
+    obj_navigation.scale, obj_navigation.scale, 0, c_white, 1);
+}
 </string>
           </argument>
         </arguments>
