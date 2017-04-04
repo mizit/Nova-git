@@ -5,6 +5,8 @@
 #include <QPoint>
 #include <citem.h>
 #include <QSettings>
+#include <QLineEdit>
+#include <QValidator>
 
 #define PM_TUBE     0x01
 #define PM_POWER    0x02
@@ -14,6 +16,25 @@
 #define PM_LS       0x20
 
 #define GRID_SIZE   7
+
+class CAtribute
+{
+public:
+    CAtribute();
+    qint32 Calculation();
+    void setOutput(QLineEdit*);
+    void setInput(QLineEdit*);
+    void ClearEdit();
+public:
+    qint32 base;
+    qint32 bonus;
+    qint32 max;
+    qint32 min;
+    qint32 result;
+    QLineEdit* output;
+    QLineEdit* input_bonus;
+    QIntValidator* validator;
+};
 
 class CWeapon
 {
@@ -68,17 +89,21 @@ public:
     int *sockets[5];
     CShell *shell;
     QList <CItem*> item_list;
-    qint32 air_output;
-    qint32 air_bank;
-    qint32 safely;
-    qint32 radar_range;
-    qint32 radio_range;
-    qint32 system_level;
-    qint32 main_drive;
-    qint32 man_drive;
-    qint32 back_drive;
-    qint32 mass;
+    CAtribute air_output;
+    CAtribute air_bank;
+    CAtribute safely;
+    CAtribute radar_range;
+    CAtribute radio_range;
+    CAtribute system_level;
+    CAtribute main_drive;
+    CAtribute man_drive;
+    CAtribute back_drive;
+    CAtribute mass;
     QList <CWeapon*> weapons;
+    CAtribute max_hp;
+    CAtribute max_oxygen;
+    CAtribute hp;
+    CAtribute oxygen;
 public:
     CShip();
 };

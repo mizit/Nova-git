@@ -42,6 +42,7 @@ private slots:
     void SetPos();
     void ItemAdd();
     void ItemDel();
+    void UserChange();
 
 private:
     Ui::MainWindow *ui;

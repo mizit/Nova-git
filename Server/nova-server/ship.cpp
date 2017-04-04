@@ -1,5 +1,17 @@
 #include "ship.h"
 
+CAtribute::CAtribute()
+{
+    base = 0;
+    bonus = 0;
+    max = 1000000;
+    min = 1;
+    result = 0;
+    output = 0;
+    input_bonus = 0;
+    validator = new QIntValidator(-max, max);
+};
+
 CWeapon::CWeapon()
 {
     weapon = 0;
@@ -21,16 +33,8 @@ CShip::CShip()
     sockets[3] = &engSocket;
     sockets[4] = &batSocket;
     shell = new CShell();
-    air_output = 0;
-    air_bank = 0;
-    safely = 0;
-    radar_range = 0;
-    radio_range = 0;
-    system_level = 0;
-    main_drive = 0;
-    man_drive = 0;
-    back_drive = 0;
-    mass = 0;
+    safely.min = 0;
+    system_level.min = 0;
 }
 
 void CShell::loadgrid()
@@ -73,4 +77,41 @@ qint64 point_distance(QPoint* point1, QPoint* point2)
     qint64 y1 = point1->ry() / 1000;
     qint64 y2 = point2->ry() / 1000;
     return static_cast <qint64> (sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
+}
+
+qint32 CAtribute::Calculation()
+{
+    if (input_bonus > 0)
+    {
+        bonus = input_bonus->text().toInt();
+    }
+    result = base + bonus;
+    if (result > max)
+        result = max;
+    if (result < min)
+        result = min;
+    if (output > 0)
+    {
+        output->setText(QString("%1").arg(result));
+    }
+    return result;
+}
+
+void CAtribute::setInput(QLineEdit * edit)
+{
+    edit->setValidator(validator);
+    input_bonus = edit;
+    input_bonus->setText(QString("%1").arg(bonus));
+}
+
+void CAtribute::setOutput(QLineEdit * edit)
+{
+    edit->setValidator(validator);
+    output = edit;
+}
+
+void CAtribute::ClearEdit()
+{
+    input_bonus = 0;
+    output = 0;
 }

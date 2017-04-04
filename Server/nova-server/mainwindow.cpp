@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->btn_save, SIGNAL(clicked()), this, SLOT(DataSave()));
     connect(ui->btn_delItem, SIGNAL(clicked()), this, SLOT(ItemDel()));
 
+
     int num = 0;
     QVariant buf;
     QSettings load_shell("data/ships.ini", QSettings::IniFormat);
@@ -61,6 +62,22 @@ MainWindow::MainWindow(QWidget *parent) :
         ship->shell->pos->rot_speed = settPos.value("rot_speed").toInt();
         ship->shell->pos->speed = settPos.value("speed").toInt();
         ship->shell->loadgrid();
+
+        QSettings settBon(QString("save/%1/bonuses.ini").arg(ship->login), QSettings::IniFormat);
+        ship->air_output.bonus = settBon.value("air_output").toInt();
+        ship->air_bank.bonus = settBon.value("air_bank").toInt();
+        ship->safely.bonus = settBon.value("safely").toInt();
+        ship->radar_range.bonus = settBon.value("radar_range").toInt();
+        ship->radio_range.bonus = settBon.value("radio_range").toInt();
+        ship->system_level.bonus = settBon.value("system_level").toInt();
+        ship->main_drive.bonus = settBon.value("main_drive").toInt();
+        ship->man_drive.bonus = settBon.value("man_drive").toInt();
+        ship->back_drive.bonus = settBon.value("back_drive").toInt();
+        ship->mass.bonus = settBon.value("mass").toInt();
+        ship->max_hp.bonus = settBon.value("max_hp").toInt();
+        ship->max_oxygen.bonus = settBon.value("max_oxygen").toInt();
+        ship->hp.bonus = settBon.value("hp").toInt();
+        ship->oxygen.bonus = settBon.value("oxygen").toInt();
 
         QSettings settInv(QString("save/%1/inventory.ini").arg(ship->login), QSettings::IniFormat);
         settInv.beginGroup("General");
@@ -103,6 +120,9 @@ MainWindow::MainWindow(QWidget *parent) :
         space_items.append(tmp_item);
     }
 
+    connect(ui->combo_userpos, SIGNAL(currentIndexChanged(int)), this, SLOT(UserChange()));
+    UserChange();
+
     timer_update = new QTimer();
     connect(timer_update, SIGNAL(timeout()), this, SLOT(DataUpdate()));
     timer_update->start(500);
@@ -139,6 +159,63 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lview_items->addItem(ENGINE_T);
 
     connect(ui->button_add_item, SIGNAL(clicked()), this, SLOT(ItemAdd()));
+}
+
+void MainWindow::UserChange()
+{
+    QString name = ui->combo_userpos->currentText();
+    for (int i = 0; i < SHIPS.size(); i++)
+    {
+        if (SHIPS[i]->login == name)
+        {
+            SHIPS[i]->air_output.setOutput(ui->edit_air_output);
+            SHIPS[i]->air_bank.setOutput(ui->edit_air_bank);
+            SHIPS[i]->safely.setOutput(ui->edit_safely);
+            SHIPS[i]->radar_range.setOutput(ui->edit_radar_range);
+            SHIPS[i]->radio_range.setOutput(ui->edit_radio_range);
+            SHIPS[i]->system_level.setOutput(ui->edit_system_level);
+            SHIPS[i]->main_drive.setOutput(ui->edit_main_drive);
+            SHIPS[i]->man_drive.setOutput(ui->edit_man_drive);
+            SHIPS[i]->back_drive.setOutput(ui->edit_back_drive);
+            SHIPS[i]->mass.setOutput(ui->edit_mass);
+            SHIPS[i]->max_hp.setOutput(ui->edit_hp_max);
+            SHIPS[i]->max_oxygen.setOutput(ui->edit_oxygen_max);
+            SHIPS[i]->hp.setOutput(ui->edit_hp);
+            SHIPS[i]->oxygen.setOutput(ui->edit_oxygen);
+
+            SHIPS[i]->air_output.setInput(ui->edit_air_output_2);
+            SHIPS[i]->air_bank.setInput(ui->edit_air_bank_2);
+            SHIPS[i]->safely.setInput(ui->edit_safely_2);
+            SHIPS[i]->radar_range.setInput(ui->edit_radar_range_2);
+            SHIPS[i]->radio_range.setInput(ui->edit_radio_range_2);
+            SHIPS[i]->system_level.setInput(ui->edit_system_level_2);
+            SHIPS[i]->main_drive.setInput(ui->edit_main_drive_2);
+            SHIPS[i]->man_drive.setInput(ui->edit_man_drive_2);
+            SHIPS[i]->back_drive.setInput(ui->edit_back_drive_2);
+            SHIPS[i]->mass.setInput(ui->edit_mass_2);
+            SHIPS[i]->max_hp.setInput(ui->edit_hp_max_2);
+            SHIPS[i]->max_oxygen.setInput(ui->edit_oxygen_max_2);
+            SHIPS[i]->hp.setInput(ui->edit_hp_2);
+            SHIPS[i]->oxygen.setInput(ui->edit_oxygen_2);
+        }
+        else
+        {
+            SHIPS[i]->air_output.ClearEdit();
+            SHIPS[i]->air_bank.ClearEdit();
+            SHIPS[i]->safely.ClearEdit();
+            SHIPS[i]->radar_range.ClearEdit();
+            SHIPS[i]->radio_range.ClearEdit();
+            SHIPS[i]->system_level.ClearEdit();
+            SHIPS[i]->main_drive.ClearEdit();
+            SHIPS[i]->man_drive.ClearEdit();
+            SHIPS[i]->back_drive.ClearEdit();
+            SHIPS[i]->mass.ClearEdit();
+            SHIPS[i]->max_hp.ClearEdit();
+            SHIPS[i]->max_oxygen.ClearEdit();
+            SHIPS[i]->hp.ClearEdit();
+            SHIPS[i]->oxygen.ClearEdit();
+        }
+    }
 }
 
 void MainWindow::ItemDel()
@@ -277,6 +354,22 @@ void MainWindow::DataSave()
         settPos.setValue("rot_speed", SHIPS[i]->shell->pos->rot_speed);
         settPos.setValue("speed", SHIPS[i]->shell->pos->speed);
 
+        QSettings settBon(QString("save/%1/bonuses.ini").arg(SHIPS[i]->login), QSettings::IniFormat);
+        settBon.setValue("air_output", SHIPS[i]->air_output.bonus);
+        settBon.setValue("air_bank", SHIPS[i]->air_bank.bonus);
+        settBon.setValue("safely", SHIPS[i]->safely.bonus);
+        settBon.setValue("radar_range", SHIPS[i]->radar_range.bonus);
+        settBon.setValue("radio_range", SHIPS[i]->radio_range.bonus);
+        settBon.setValue("system_level", SHIPS[i]->system_level.bonus);
+        settBon.setValue("main_drive", SHIPS[i]->main_drive.bonus);
+        settBon.setValue("man_drive", SHIPS[i]->man_drive.bonus);
+        settBon.setValue("back_drive", SHIPS[i]->back_drive.bonus);
+        settBon.setValue("mass", SHIPS[i]->mass.bonus);
+        settBon.setValue("max_hp", SHIPS[i]->max_hp.bonus);
+        settBon.setValue("max_oxygen", SHIPS[i]->max_oxygen.bonus);
+        settBon.setValue("hp", SHIPS[i]->hp.bonus);
+        settBon.setValue("oxygen", SHIPS[i]->oxygen.bonus);
+
         file.setFileName(QString("save/%1/inventory.ini").arg(SHIPS[i]->login));
         file.remove();
         QSettings settInv(QString("save/%1/inventory.ini").arg(SHIPS[i]->login), QSettings::IniFormat);
@@ -388,16 +481,16 @@ void MainWindow::DataUpdate()
             {
                 ui->lview_inv->addItem(SHIPS[i]->item_list[j]->type + QString(" %1").arg(SHIPS[i]->item_list[j]->id));
             }
-            ui->edit_air_output->setText(QString("%1").arg(SHIPS[i]->air_output));
-            ui->edit_air_bank->setText(QString("%1").arg(SHIPS[i]->air_bank));
-            ui->edit_safely->setText(QString("%1").arg(SHIPS[i]->safely));
-            ui->edit_radar_range->setText(QString("%1").arg(SHIPS[i]->radar_range));
-            ui->edit_radio_range->setText(QString("%1").arg(SHIPS[i]->radio_range));
-            ui->edit_system_level->setText(QString("%1").arg(SHIPS[i]->system_level));
-            ui->edit_main_drive->setText(QString("%1").arg(SHIPS[i]->main_drive));
-            ui->edit_man_drive->setText(QString("%1").arg(SHIPS[i]->man_drive));
-            ui->edit_back_drive->setText(QString("%1").arg(SHIPS[i]->back_drive));
-            ui->edit_mass->setText(QString("%1").arg(SHIPS[i]->mass));
+            ui->edit_air_output->setText(QString("%1").arg(SHIPS[i]->air_output.Calculation()));
+            ui->edit_air_bank->setText(QString("%1").arg(SHIPS[i]->air_bank.Calculation()));
+            ui->edit_safely->setText(QString("%1").arg(SHIPS[i]->safely.Calculation()));
+            ui->edit_radar_range->setText(QString("%1").arg(SHIPS[i]->radar_range.Calculation()));
+            ui->edit_radio_range->setText(QString("%1").arg(SHIPS[i]->radio_range.Calculation()));
+            ui->edit_system_level->setText(QString("%1").arg(SHIPS[i]->system_level.Calculation()));
+            ui->edit_main_drive->setText(QString("%1").arg(SHIPS[i]->main_drive.Calculation()));
+            ui->edit_man_drive->setText(QString("%1").arg(SHIPS[i]->man_drive.Calculation()));
+            ui->edit_back_drive->setText(QString("%1").arg(SHIPS[i]->back_drive.Calculation()));
+            ui->edit_mass->setText(QString("%1").arg(SHIPS[i]->mass.Calculation()));
             ui->edit_weapon_num->setText(QString("%1").arg(SHIPS[i]->weapons.size()));
 
         }
@@ -703,16 +796,16 @@ void MainWindow::slotReadClient()
             }
             case NET_SHIP_DATA:
             {
-                clientSocket->parentShip->air_output = GetInt32((unsigned char*)data, 1);
-                clientSocket->parentShip->air_bank = GetInt32((unsigned char*)data, 5);
-                clientSocket->parentShip->safely = GetInt32((unsigned char*)data, 9);
-                clientSocket->parentShip->radar_range = GetInt32((unsigned char*)data, 13);
-                clientSocket->parentShip->radio_range = GetInt32((unsigned char*)data, 17);
-                clientSocket->parentShip->system_level = GetInt32((unsigned char*)data, 21);
-                clientSocket->parentShip->main_drive = GetInt32((unsigned char*)data, 25);
-                clientSocket->parentShip->man_drive = GetInt32((unsigned char*)data, 29);
-                clientSocket->parentShip->back_drive = GetInt32((unsigned char*)data, 33);
-                clientSocket->parentShip->mass = GetInt32((unsigned char*)data, 37);
+                clientSocket->parentShip->air_output.base = GetInt32((unsigned char*)data, 1);
+                clientSocket->parentShip->air_bank.base = GetInt32((unsigned char*)data, 5);
+                clientSocket->parentShip->safely.base = GetInt32((unsigned char*)data, 9);
+                clientSocket->parentShip->radar_range.base = GetInt32((unsigned char*)data, 13);
+                clientSocket->parentShip->radio_range.base = GetInt32((unsigned char*)data, 17);
+                clientSocket->parentShip->system_level.base = GetInt32((unsigned char*)data, 21);
+                clientSocket->parentShip->main_drive.base = GetInt32((unsigned char*)data, 25);
+                clientSocket->parentShip->man_drive.base = GetInt32((unsigned char*)data, 29);
+                clientSocket->parentShip->back_drive.base = GetInt32((unsigned char*)data, 33);
+                clientSocket->parentShip->mass.base = GetInt32((unsigned char*)data, 37);
                 qint32 weapon_num = GetInt32((unsigned char*)data, 41);
                 for (int i = 0; i < clientSocket->parentShip->weapons.size(); i++)
                 {
