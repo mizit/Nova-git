@@ -17,10 +17,30 @@
 
 #define GRID_SIZE   7
 
-class CAtribute
+#define NUM_ATR         17
+
+#define BN_AIR_OUTPUT   0
+#define BN_AIR_BANK     1
+#define BN_SAFELY       2
+#define BN_RADAR_RANGE  3
+#define BN_RADIO_RANGE  4
+#define BN_SYSTEM_LEVEL 5
+#define BN_MAIN_DRIVE   6
+#define BN_MAN_DRIVE    7
+#define BN_BACK_DRIVE   8
+#define BN_MASS         9
+#define BN_WEAPON_STR   10
+#define BN_WEAPON_RANGE 11
+#define BN_WEAPON_RAPID 12
+#define BN_MAX_HP       13
+#define BN_MAX_OXYGEN   14
+#define BN_HP           15
+#define BN_OXYGEN       16
+
+class CAttribute
 {
 public:
-    CAtribute();
+    CAttribute();
     qint32 Calculation();
     void setOutput(QLineEdit*);
     void setInput(QLineEdit*);
@@ -34,6 +54,7 @@ public:
     QLineEdit* output;
     QLineEdit* input_bonus;
     QIntValidator* validator;
+    QString name;
 };
 
 class CWeapon
@@ -89,7 +110,8 @@ public:
     int *sockets[5];
     CShell *shell;
     QList <CItem*> item_list;
-    CAtribute air_output;
+    CAttribute attribute[NUM_ATR];
+    /*CAtribute air_output;
     CAtribute air_bank;
     CAtribute safely;
     CAtribute radar_range;
@@ -103,7 +125,7 @@ public:
     CAtribute max_hp;
     CAtribute max_oxygen;
     CAtribute hp;
-    CAtribute oxygen;
+    CAtribute oxygen;*/
 public:
     CShip();
 };

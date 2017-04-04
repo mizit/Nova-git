@@ -29,9 +29,9 @@
 need_permission = PM_WEAPON;
 rot_step = 90;
 ec_koeff = 1;
-weapon = 0;
-shields = 0;
-electronic_warfare = 0;
+weapon_str = 0;
+weapon_range = 0;
+weapon_rapid = 0;
 </string>
           </argument>
         </arguments>
@@ -55,26 +55,48 @@ electronic_warfare = 0;
           <argument>
             <kind>1</kind>
             <string>event_inherited();
-weapon = 0;
-shields = 0;
-electronic_warfare = 0;
+weapon_str = 0;
+weapon_range = 100;
+weapon_rapid = 1;
 for (var i = 0; i &lt; ds_list_size(elements_list); i++)
 {
     switch (elements_list[| i].object_index)
     {
         case obj_element1:
         {
-            weapon++;
+            weapon_str++;
             break;
         }
         case obj_element2:
         {
-            shields++;
+            switch (weapon_range)
+            {
+                case 100:
+                {
+                    weapon_range = 300;
+                    break;
+                }
+                case 300:
+                {
+                    weapon_range = 600;
+                    break;
+                }
+                case 600:
+                {
+                    weapon_range = 800;
+                    break;
+                }
+                case 800:
+                {
+                    weapon_range = 900;
+                    break;
+                }
+            }
             break;
         }
         case obj_element3:
         {
-            electronic_warfare++;
+            weapon_rapid++;
             break;
         }
     }

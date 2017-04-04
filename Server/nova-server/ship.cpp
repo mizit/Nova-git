@@ -1,6 +1,6 @@
 #include "ship.h"
 
-CAtribute::CAtribute()
+CAttribute::CAttribute()
 {
     base = 0;
     bonus = 0;
@@ -10,6 +10,7 @@ CAtribute::CAtribute()
     output = 0;
     input_bonus = 0;
     validator = new QIntValidator(-max, max);
+    name = "";
 };
 
 CWeapon::CWeapon()
@@ -33,9 +34,29 @@ CShip::CShip()
     sockets[3] = &engSocket;
     sockets[4] = &batSocket;
     shell = new CShell();
-    safely.min = 0;
-    system_level.min = 0;
+    attribute[BN_SAFELY].min = 0;
+    attribute[BN_SYSTEM_LEVEL].min = 0;
+    attribute[BN_WEAPON_STR].min = 0;
+    attribute[BN_AIR_OUTPUT].name = "air_output";
+    attribute[BN_AIR_BANK].name = "air_bank";
+    attribute[BN_SAFELY].name = "safely";
+    attribute[BN_RADAR_RANGE].name = "radar_range";
+    attribute[BN_RADIO_RANGE].name = "radio_range";
+    attribute[BN_SYSTEM_LEVEL].name = "system_level";
+    attribute[BN_MAIN_DRIVE].name = "main_drive";
+    attribute[BN_MAN_DRIVE].name = "man_drive";
+    attribute[BN_BACK_DRIVE].name = "back_drive";
+    attribute[BN_MASS].name = "mass";
+    attribute[BN_WEAPON_STR].name = "weapon_str";
+    attribute[BN_WEAPON_RANGE].name = "weapon_range";
+    attribute[BN_WEAPON_RAPID].name = "weapon_rapid";
+    attribute[BN_MAX_HP].name = "max_hp";
+    attribute[BN_MAX_OXYGEN].name = "max_oxygen";
+    attribute[BN_HP].name = "hp";
+    attribute[BN_OXYGEN].name = "oxygen";
+
 }
+
 
 void CShell::loadgrid()
 {
@@ -79,7 +100,7 @@ qint64 point_distance(QPoint* point1, QPoint* point2)
     return static_cast <qint64> (sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
 }
 
-qint32 CAtribute::Calculation()
+qint32 CAttribute::Calculation()
 {
     if (input_bonus > 0)
     {
@@ -97,20 +118,20 @@ qint32 CAtribute::Calculation()
     return result;
 }
 
-void CAtribute::setInput(QLineEdit * edit)
+void CAttribute::setInput(QLineEdit * edit)
 {
     edit->setValidator(validator);
     input_bonus = edit;
     input_bonus->setText(QString("%1").arg(bonus));
 }
 
-void CAtribute::setOutput(QLineEdit * edit)
+void CAttribute::setOutput(QLineEdit * edit)
 {
     edit->setValidator(validator);
     output = edit;
 }
 
-void CAtribute::ClearEdit()
+void CAttribute::ClearEdit()
 {
     input_bonus = 0;
     output = 0;
