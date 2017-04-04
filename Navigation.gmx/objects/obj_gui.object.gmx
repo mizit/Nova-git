@@ -218,10 +218,40 @@ for (var i = 0; i &lt; 10; i++)
 }
 for (var i = 0; i &lt; coord_size; i++)
 {
-    draw_surface_ext(surface_letter[i], room_width / coord_size * (i + 0.5), view_yview[1], 
-    obj_navigation.scale, obj_navigation.scale, 0, c_white, 1);
-    draw_surface_ext(surface_number[i], view_xview[1], room_height / coord_size * (i + 0.5),
-    obj_navigation.scale, obj_navigation.scale, 0, c_white, 1);
+    if (surface_exists(surface_letter[i]))
+    {
+        draw_surface_ext(surface_letter[i], room_width / coord_size * (i + 0.5), view_yview[1], 
+        obj_navigation.scale, obj_navigation.scale, 0, c_white, 1);
+    }
+    else
+    {
+        draw_set_colour(c_white);
+        draw_set_halign(fa_center);
+        draw_set_valign(fa_middle);
+        surface_letter[i] = surface_create(surf_width, surf_height);
+        surface_set_target(surface_letter[i]);
+        draw_text(surf_width / 2, surf_height / 2, chr(i + 97));
+        surface_reset_target();
+        draw_set_halign(fa_left);
+        draw_set_valign(fa_top);
+    }
+    if (surface_exists(surface_number[i]))
+    {
+        draw_surface_ext(surface_number[i], view_xview[1], room_height / coord_size * (i + 0.5),
+        obj_navigation.scale, obj_navigation.scale, 0, c_white, 1);
+    }
+    else
+    {
+        draw_set_colour(c_white);
+        draw_set_halign(fa_center);
+        draw_set_valign(fa_middle);
+        surface_number[i] = surface_create(surf_width, surf_height);
+        surface_set_target(surface_number[i]);
+        draw_text(surf_width / 2, surf_height / 2, string(i));
+        surface_reset_target();
+        draw_set_halign(fa_left);
+        draw_set_valign(fa_top);
+    }
 }
 </string>
           </argument>
