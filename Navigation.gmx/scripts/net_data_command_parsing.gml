@@ -110,6 +110,10 @@ switch (l_command)
             obj_ship.mnvr_pwr = obj_ship.rot_pwr; 
             obj_ship.back_drive = buffer_read(l_buf, buffer_u32);
             obj_ship.mass = buffer_read(l_buf, buffer_u32);
+            obj_ship.max_hp = buffer_read(l_buf, buffer_u32);
+            obj_ship.max_oxygen = buffer_read(l_buf, buffer_u32);
+            obj_ship.hp = buffer_read(l_buf, buffer_u32);
+            obj_ship.oxygen = buffer_read(l_buf, buffer_u32);
         }
         break;
     }

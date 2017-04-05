@@ -53,6 +53,11 @@ net_send_first_load(obj_net.net_buf, obj_net.socket);
 radar_range = 0;
 radio_range = 0;
 system_level = 0;
+
+max_hp = 1;
+max_oxygen = 1;
+hp = 0;
+oxygen = 0;
 </string>
           </argument>
         </arguments>

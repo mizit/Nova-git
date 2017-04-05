@@ -26,6 +26,7 @@
 #define NET_SHIP_DATA   8
 #define NET_TEXT        9
 #define NET_DOCK        10
+#define NET_SUPPLIES    11
 
 #define PT_PILOT        1
 #define PT_NAVIGATION   2
@@ -34,6 +35,12 @@
 
 #define TX_MESSAGE      1
 #define TX_SYSTEM       2
+
+#define SP_HP_ADD       1
+#define SP_HP_SUB       2
+#define SP_OXYGEN_ADD   3
+#define SP_OXYGEN_SUB   4
+
 
 #define SPACE   "space"
 

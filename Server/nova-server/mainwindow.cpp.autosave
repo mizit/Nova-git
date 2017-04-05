@@ -835,6 +835,44 @@ void MainWindow::slotReadClient()
                 }
                 break;
             }
+            case NET_SUPPLIES:
+            {
+                qint32 flags = GetInt32((unsigned char *)data, 1);
+                qint32 number = GetInt32((unsigned char *)data, 1);
+                if (flags == SP_HP_ADD)
+                {
+                    SHIPS[i]->attribute[BN_HP].base += number;
+                    if (SHIPS[i]->attribute[BN_HP].base > SHIPS[i]->attribute[BN_MAX_HP].Calculation())
+                    {
+                        SHIPS[i]->attribute[BN_HP].base = SHIPS[i]->attribute[BN_MAX_HP].Calculation();
+                    }
+                }
+                if (flags == SP_HP_SUB)
+                {
+                    SHIPS[i]->attribute[BN_HP].base -= number;
+                    if (SHIPS[i]->attribute[BN_HP].base < 0)
+                    {
+                        SHIPS[i]->attribute[BN_HP].base = 0;
+                    }
+                }
+                if (flags == SP_OXYGEN_ADD)
+                {
+                    SHIPS[i]->attribute[BN_].base += number;
+                    if (SHIPS[i]->attribute[BN_HP].base > SHIPS[i]->attribute[BN_MAX_HP].Calculation())
+                    {
+                        SHIPS[i]->attribute[BN_HP].base = SHIPS[i]->attribute[BN_MAX_HP].Calculation();
+                    }
+                }
+                if (flags == SP_HP_SUB)
+                {
+                    SHIPS[i]->attribute[BN_HP].base -= number;
+                    if (SHIPS[i]->attribute[BN_HP].base < 0)
+                    {
+                        SHIPS[i]->attribute[BN_HP].base = 0;
+                    }
+                }
+                break;
+            }
         }
     }
 }

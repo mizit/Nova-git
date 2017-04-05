@@ -194,5 +194,13 @@ switch (l_command)
         }
         break;
     }
+    case NET_SHIP_DATA:
+    {
+        if (instance_exists(obj_grid))
+        {
+            obj_grid.cnt_hp = buffer_read(l_buf, buffer_u32);
+        }
+        break;
+    }
 }
 buffer_delete(l_buf);

@@ -46,6 +46,7 @@
     <sprite>sprites\s_smoke</sprite>
     <sprite>sprites\s_hud</sprite>
     <sprite>sprites\s_locked</sprite>
+    <sprite>sprites\s_tube</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\back_test</background>

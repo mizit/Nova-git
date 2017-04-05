@@ -62,6 +62,7 @@ buffer_write(l_buf, buffer_u32, obj_grid.mass);
 buffer_write(l_buf, buffer_u32, l_weapon_str);
 buffer_write(l_buf, buffer_u32, l_weapon_range);
 buffer_write(l_buf, buffer_u32, l_weapon_rapid);
+buffer_write(l_buf, buffer_u32, obj_grid.shell_mass);
 
 buffer_write_size(l_buf);
 network_send_raw(l_soc, l_buf, buffer_tell(l_buf));

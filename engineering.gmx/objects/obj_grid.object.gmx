@@ -55,6 +55,8 @@ alarm[0] = 1;
 alarm[1] = 60;
 mass = 0;
 shell_mass = 0;
+cnt_hp = 0;
+cnt_oxygen = 0;
 /*ini_open("ships.ini");
 for (var i = 0; i &lt; 7; i++)
 {

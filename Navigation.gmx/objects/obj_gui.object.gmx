@@ -86,6 +86,15 @@ for (var i = 0; i &lt; coord_size; i++)
 }
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
+
+hp_offset_x = 460;
+hp_offset_y = 8;
+oxy_offset_x = 420;
+oxy_offset_y = 8;
+tube_rect_left = 5;
+tube_rect_top = 6;
+tube_rect_right = 27;
+tube_rect_bottom = 89;
 </string>
           </argument>
         </arguments>
@@ -187,6 +196,17 @@ if (!surface_exists(log_buf_surf))
     log_buf_surf = surface_create(log_width, log_height);
 }
 draw_surface(log_surf, log_x, log_y);
+
+var hp_hight = (tube_rect_bottom - tube_rect_top) * obj_ship.hp / obj_ship.max_hp;
+var oxy_hight = (tube_rect_bottom - tube_rect_top) * obj_ship.oxygen / obj_ship.max_oxygen; 
+draw_set_colour(c_red);
+draw_rectangle(hp_offset_x + tube_rect_left, hp_offset_y + tube_rect_bottom, 
+hp_offset_x + tube_rect_right, hp_offset_y + tube_rect_bottom - hp_hight, 0);
+draw_set_colour(c_blue);
+draw_rectangle(oxy_offset_x + tube_rect_left, oxy_offset_y + tube_rect_bottom, 
+oxy_offset_x + tube_rect_right, oxy_offset_y + tube_rect_bottom - oxy_hight, 0);
+draw_sprite(s_tube, -1, hp_offset_x, hp_offset_y);
+draw_sprite(s_tube, -1, oxy_offset_x, oxy_offset_y);
 </string>
           </argument>
         </arguments>
