@@ -69,6 +69,7 @@
         <script>scripts\net_send_im_out.gml</script>
         <script>scripts\net_send_position.gml</script>
         <script>scripts\net_send_shot.gml</script>
+        <script>scripts\net_send_damage.gml</script>
         <script>scripts\net_send_item_get_num.gml</script>
         <script>scripts\net_send_item_drop.gml</script>
         <script>scripts\net_send_item_pickup.gml</script>
@@ -107,7 +108,7 @@
     <room>rooms\r_authorization</room>
     <room>rooms\room0</room>
   </rooms>
-  <constants number="22">
+  <constants number="27">
     <constant name="NET_GOOD_DAY">1</constant>
     <constant name="NET_POSITION">2</constant>
     <constant name="NET_FIRST_LOAD">3</constant>
@@ -116,6 +117,7 @@
     <constant name="NET_ITEM">6</constant>
     <constant name="NET_SHIP_DATA">8</constant>
     <constant name="NET_DOCK">10</constant>
+    <constant name="NET_SUPPLIES">11</constant>
     <constant name="NET_SHOT">12</constant>
     <constant name="PT_PILOT">1</constant>
     <constant name="PT_NAVIGATION">2</constant>
@@ -130,6 +132,10 @@
     <constant name="ITEM_PICKUP">5</constant>
     <constant name="ITEM_NUM">16</constant>
     <constant name="ITEM_ID">32</constant>
+    <constant name="SP_HP_ADD">1</constant>
+    <constant name="SP_HP_SUB">2</constant>
+    <constant name="SP_OXYGEN_ADD">3</constant>
+    <constant name="SP_OXYFEN_SUB">4</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>
