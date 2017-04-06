@@ -196,12 +196,17 @@ void MainWindow::UserChange()
             SHIPS[i]->attribute[BN_WEAPON_STR].setInput(ui->edit_weapon_str_2);
             SHIPS[i]->attribute[BN_WEAPON_RANGE].setInput(ui->edit_weapon_range_2);
             SHIPS[i]->attribute[BN_WEAPON_RAPID].setInput(ui->edit_weapon_rapid_2);
+
+            for (int j = 0; j < NUM_ATR; j++)
+            {
+                SHIPS[i]->attribute[j].input_bonus->setText(QString("%1").arg(SHIPS[i]->attribute[j].bonus));
+            }
         }
         else
         {
             for (int j = 0; j < NUM_ATR; j++)
             {
-                SHIPS[i]->attribute[i].ClearEdit();
+                SHIPS[i]->attribute[j].ClearEdit();
             }
         }
     }
@@ -830,6 +835,69 @@ void MainWindow::slotReadClient()
                         if (SHIPS[i]->engSocket > 0)
                         {
                             net_send_dock(SClients[SHIPS[i]->engSocket], clientSocket->parentShip, SHIPS[i], flags);
+                        }
+                    }
+                }
+                break;
+            }
+            case NET_SUPPLIES:
+            {
+                qint32 flags = GetInt32((unsigned char *)data, 1);
+                qint32 number = GetInt32((unsigned char *)data, 5);
+                if (flags == SP_HP_ADD)
+                {
+                    clientSocket->parentShip->attribute[BN_HP].base += number;
+                    if (clientSocket->parentShip->attribute[BN_HP].base > clientSocket->parentShip->attribute[BN_MAX_HP].Calculation())
+                    {
+                        clientSocket->parentShip->attribute[BN_HP].base = clientSocket->parentShip->attribute[BN_MAX_HP].Calculation();
+                    }
+                }
+                if (flags == SP_HP_SUB)
+                {
+                    clientSocket->parentShip->attribute[BN_HP].base -= number;
+                    if (clientSocket->parentShip->attribute[BN_HP].base < 0)
+                    {
+                        clientSocket->parentShip->attribute[BN_HP].base = 0;
+                    }
+                }
+                if (flags == SP_OXYGEN_ADD)
+                {
+                    clientSocket->parentShip->attribute[BN_OXYGEN].base += number;
+                    if (clientSocket->parentShip->attribute[BN_OXYGEN].base > clientSocket->parentShip->attribute[BN_MAX_OXYGEN].Calculation())
+                    {
+                        clientSocket->parentShip->attribute[BN_OXYGEN].base = clientSocket->parentShip->attribute[BN_MAX_OXYGEN].Calculation();
+                    }
+                }
+                if (flags == SP_OXYGEN_SUB)
+                {
+                    clientSocket->parentShip->attribute[BN_OXYGEN].base -= number;
+                    if (clientSocket->parentShip->attribute[BN_OXYGEN].base < 0)
+                    {
+                        clientSocket->parentShip->attribute[BN_OXYGEN].base = 0;
+                    }
+                }
+                break;
+            }
+            case NET_SHOT:
+            {
+                SShot shot;
+                shot.x = GetInt32((unsigned char *)data, 1);
+                shot.y = GetInt32((unsigned char *)data, 5);
+                shot.speed = GetInt32((unsigned char *)data, 9);
+                shot.direction = GetInt32((unsigned char *)data, 13);
+                shot.damage = GetInt32((unsigned char *)data, 17);
+                shot.ttl = GetInt32((unsigned char *)data, 21);
+                for (int i = 0; i < SHIPS.size(); i++)
+                {
+                    if (SHIPS[i] != clientSocket->parentShip)
+                    {
+                        if (SHIPS[i]->pilotSocket > 0)
+                        {
+                            net_send_shot(SClients[SHIPS[i]->pilotSocket], shot);
+                        }
+                        if (SHIPS[i]->navSocket > 0)
+                        {
+                            net_send_shot(SClients[SHIPS[i]->navSocket], shot);
                         }
                     }
                 }

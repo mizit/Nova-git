@@ -26,6 +26,8 @@
 #define NET_SHIP_DATA   8
 #define NET_TEXT        9
 #define NET_DOCK        10
+#define NET_SUPPLIES    11
+#define NET_SHOT        12
 
 #define PT_PILOT        1
 #define PT_NAVIGATION   2
@@ -34,6 +36,12 @@
 
 #define TX_MESSAGE      1
 #define TX_SYSTEM       2
+
+#define SP_HP_ADD       1
+#define SP_HP_SUB       2
+#define SP_OXYGEN_ADD   3
+#define SP_OXYGEN_SUB   4
+
 
 #define SPACE   "space"
 
@@ -76,5 +84,6 @@ void net_send_navigation(MySocket* socket, CShip* ship);
 void net_send_text(MySocket* socket, QString str, qint32 flags, qint32 chn, qint32 distance);
 void net_send_dock(MySocket* socket, CShip* ship1, CShip* ship2, qint32 flags);
 void net_send_hp(MySocket* socket, CShip* ship);
+void net_send_shot(MySocket* socket, SShot shot);
 
 #endif // NETWORK_H

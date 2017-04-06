@@ -141,6 +141,35 @@ dock_show_distance = 700;
 docked = 0;
 dock_time = 1800;
 dock_cnt = 0;
+
+weapon_str = 0;
+weapon_range = 0;
+weapon_rapid = 0;
+weapon_time = 0;
+weapon_reload = 0;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="3">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>weapon_reload = 0;
 </string>
           </argument>
         </arguments>
@@ -394,6 +423,7 @@ if (keyboard_check_pressed(dock_key))
             {
                 rot_speed = 0;
                 speed = other_dock.owner.speed;
+                direction = other_dock.owner.direction;
                 docked = 1;
                 tmp_dock.docked = other_dock;
                 other_dock.docked = tmp_dock;
@@ -434,6 +464,26 @@ if (docked)
 else
 {
     dock_cnt = 0;
+}
+//Стрельба
+if (mouse_check_button_pressed(mb_left))
+{
+    if (weapon_str &gt; 0) &amp;&amp; (!weapon_reload)
+    {
+        weapon_reload = 1;
+        alarm[3] = weapon_time;
+        var tmp = instance_create(x, y, obj_shot);
+        with(tmp)
+        {
+            direction = point_direction(x, y, mouse_x, mouse_y);
+            image_angle = direction;
+            ttl = ceil(other.weapon_range / speed);
+            alarm[0] = ttl;
+            motion_add(other.direction, other.speed);
+            damage = other.weapon_str;
+        }
+        net_send_shot(obj_net.net_buf, obj_net.socket, tmp);
+    }
 }
 </string>
           </argument>

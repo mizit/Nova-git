@@ -1,0 +1,14 @@
+///net_send_shot(buffer, socket, shot);
+var l_buf = argument0;
+var l_soc = argument1;
+var l_shot = argument2;
+buffer_seek(l_buf, buffer_seek_start, 2 );
+buffer_write(l_buf, buffer_u8, NET_SHOT);
+buffer_write(l_buf, buffer_u32, l_shot.x);
+buffer_write(l_buf, buffer_u32, l_shot.y);
+buffer_write(l_buf, buffer_u32, l_shot.speed);
+buffer_write(l_buf, buffer_u32, l_shot.direction);
+buffer_write(l_buf, buffer_u32, l_shot.damage);
+buffer_write(l_buf, buffer_u32, l_shot.ttl);
+buffer_write_size(l_buf);
+network_send_raw(l_soc, l_buf, buffer_tell(l_buf));

@@ -179,6 +179,10 @@ switch (l_command)
             obj_ship.rot_pwr = obj_ship.mnvr_pwr
             obj_ship.back_pwr = buffer_read(l_buf, buffer_u32) / 10;
             obj_ship.mass = buffer_read(l_buf, buffer_u32);
+            obj_ship.weapon_str = buffer_read(l_buf, buffer_u32);
+            obj_ship.weapon_range = buffer_read(l_buf, buffer_u32); 
+            obj_ship.wepon_rapid = buffer_read(l_buf, buffer_u32);
+            obj_ship.weapon_time = ceil(300 / obj_ship.wepon_rapid);
         }
         break;
     }
@@ -213,6 +217,19 @@ switch (l_command)
                 obj_ship.my_docks[| 0].docked = noone;
             }
         }
+        break;
+    }
+    case NET_SHOT:
+    {
+        var l_tmp = instance_create(0, 0, obj_enemy_shot);
+        l_tmp.x = buffer_read(l_buf, buffer_u32);
+        l_tmp.y = buffer_read(l_buf, buffer_u32);
+        l_tmp.speed = buffer_read(l_buf, buffer_u32);
+        l_tmp.direction = buffer_read(l_buf, buffer_u32);
+        l_tmp.damage = buffer_read(l_buf, buffer_u32);
+        l_tmp.ttl = buffer_read(l_buf, buffer_u32);
+        l_tmp.alarm[0] = l_tmp.ttl;
+        l_tmp.image_angle = l_tmp.direction;
         break;
     }
 }

@@ -37,6 +37,16 @@
 #define BN_HP           15
 #define BN_OXYGEN       16
 
+struct SShot
+{
+    qint32 x;
+    qint32 y;
+    qint32 speed;
+    qint32 direction;
+    qint32 damage;
+    qint32 ttl;
+};
+
 class CAttribute
 {
 public:
