@@ -198,13 +198,32 @@ if (!surface_exists(log_buf_surf))
 draw_surface(log_surf, log_x, log_y);
 
 var hp_hight = (tube_rect_bottom - tube_rect_top) * obj_ship.hp / obj_ship.max_hp;
-var oxy_hight = (tube_rect_bottom - tube_rect_top) * obj_ship.oxygen / obj_ship.max_oxygen; 
+var oxy_hight = (tube_rect_bottom - tube_rect_top) * min(1, obj_ship.oxygen / obj_ship.max_oxygen); 
+
 draw_set_colour(c_red);
 draw_rectangle(hp_offset_x + tube_rect_left, hp_offset_y + tube_rect_bottom, 
 hp_offset_x + tube_rect_right, hp_offset_y + tube_rect_bottom - hp_hight, 0);
 draw_set_colour(c_blue);
 draw_rectangle(oxy_offset_x + tube_rect_left, oxy_offset_y + tube_rect_bottom, 
 oxy_offset_x + tube_rect_right, oxy_offset_y + tube_rect_bottom - oxy_hight, 0);
+
+
+if (obj_ship.oxygen &gt; obj_ship.max_oxygen)
+{
+    var oxy_hight_yellow = (tube_rect_bottom - tube_rect_top) * obj_ship.max_oxygen / obj_ship.oxygen; 
+    var oxy_hight_red = (tube_rect_bottom - tube_rect_top) * 50 / obj_ship.oxygen; 
+    draw_set_colour(c_yellow);
+    draw_line(oxy_offset_x + tube_rect_left, oxy_offset_y + tube_rect_bottom - oxy_hight_yellow,
+    oxy_offset_x + tube_rect_right, oxy_offset_y + tube_rect_bottom - oxy_hight_yellow);
+}
+else
+{
+    var oxy_hight_red = (tube_rect_bottom - tube_rect_top) * 50 / obj_ship.max_oxygen; 
+}
+draw_set_colour(c_red);
+draw_line(oxy_offset_x + tube_rect_left, oxy_offset_y + tube_rect_bottom - oxy_hight_red,
+oxy_offset_x + tube_rect_right, oxy_offset_y + tube_rect_bottom - oxy_hight_red);
+
 draw_sprite(s_tube, -1, hp_offset_x, hp_offset_y);
 draw_sprite(s_tube, -1, oxy_offset_x, oxy_offset_y);
 </string>

@@ -222,6 +222,8 @@ void net_send_navigation(MySocket* socket, CShip* ship)
     runner = SetToRawData(data, runner, ship->attribute[BN_MAX_OXYGEN].Calculation());
     runner = SetToRawData(data, runner, ship->attribute[BN_HP].Calculation());
     runner = SetToRawData(data, runner, ship->attribute[BN_OXYGEN].Calculation());
+    runner = SetToRawData(data, runner, ship->attribute[BN_AIR_OUTPUT].Calculation());
+    runner = SetToRawData(data, runner, ship->attribute[BN_SAFELY].Calculation());
     data[0] = (unsigned char)(runner & 0xFF);
     data[1] = (unsigned char)((runner & 0xFF00) << 8);
     socket->MyWrite((char*)data, runner - 2);

@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(pbtn()));
     connect(ui->btn_save, SIGNAL(clicked()), this, SLOT(DataSave()));
     connect(ui->btn_delItem, SIGNAL(clicked()), this, SLOT(ItemDel()));
+    connect(ui->btn_hp, SIGNAL(clicked()), this, SLOT(HpRestore()));
+    connect(ui->btn_oxygen, SIGNAL(clicked()), this, SLOT(OxyRestore()));
 
 
     int num = 0;
@@ -74,6 +76,7 @@ MainWindow::MainWindow(QWidget *parent) :
         int item_num = settInv.value("num").toInt();
         ship->attribute[BN_HP].base = settInv.value("hp", ship->attribute[BN_MAX_HP].Calculation()).toInt();
         ship->attribute[BN_OXYGEN].base = settInv.value("oxygen", ship->attribute[BN_MAX_OXYGEN].Calculation()).toInt();
+        ship->attribute[BN_MAX_OXYGEN].base = 50;
         settInv.endGroup();
         for (int j = 0; j < item_num; j++)
         {
@@ -153,6 +156,30 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->button_add_item, SIGNAL(clicked()), this, SLOT(ItemAdd()));
 }
 
+void MainWindow::HpRestore()
+{
+    QString name = ui->combo_userpos->currentText();
+    for (int i = 0; i < SHIPS.size(); i++)
+    {
+        if (SHIPS[i]->login == name)
+        {
+            SHIPS[i]->attribute[BN_HP].base =  SHIPS[i]->attribute[BN_MAX_HP].Calculation();
+        }
+    }
+}
+
+void MainWindow::OxyRestore()
+{
+    QString name = ui->combo_userpos->currentText();
+    for (int i = 0; i < SHIPS.size(); i++)
+    {
+        if (SHIPS[i]->login == name)
+        {
+            SHIPS[i]->attribute[BN_OXYGEN].base =  SHIPS[i]->attribute[BN_MAX_OXYGEN].Calculation();
+        }
+    }
+}
+
 void MainWindow::UserChange()
 {
     QString name = ui->combo_userpos->currentText();
@@ -190,7 +217,7 @@ void MainWindow::UserChange()
             SHIPS[i]->attribute[BN_BACK_DRIVE].setInput(ui->edit_back_drive_2);
             SHIPS[i]->attribute[BN_MASS].setInput(ui->edit_mass_2);
             SHIPS[i]->attribute[BN_MAX_HP].setInput(ui->edit_hp_max_2);
-            SHIPS[i]->attribute[BN_MAX_OXYGEN].setInput(ui->edit_oxygen_max_2);
+            SHIPS[i]->attribute[BN_MAX_OXYGEN].setInput(ui->edit_air_bank);
             SHIPS[i]->attribute[BN_HP].setInput(ui->edit_hp_2);
             SHIPS[i]->attribute[BN_OXYGEN].setInput(ui->edit_oxygen_2);
             SHIPS[i]->attribute[BN_WEAPON_STR].setInput(ui->edit_weapon_str_2);

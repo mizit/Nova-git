@@ -37,6 +37,7 @@ CShip::CShip()
     attribute[BN_SAFELY].min = 0;
     attribute[BN_SYSTEM_LEVEL].min = 0;
     attribute[BN_WEAPON_STR].min = 0;
+    attribute[BN_AIR_BANK].min = 0;
     attribute[BN_AIR_OUTPUT].name = "air_output";
     attribute[BN_AIR_BANK].name = "air_bank";
     attribute[BN_SAFELY].name = "safely";

@@ -6,7 +6,7 @@ buffer_seek(l_buf, buffer_seek_start, 2 );
 buffer_write(l_buf, buffer_u8, NET_ITEM );
 buffer_write(l_buf, buffer_u8, ITEM_DROP | ITEM_ID);
 buffer_write(l_buf, buffer_u64, l_item.net_id);
-buffer_write(l_buf, buffer_string, object_get_name(l_item.object_index));
+buffer_write(l_buf, buffer_string, l_item.name);
 buffer_write(l_buf, buffer_u32, 0);
 buffer_write(l_buf, buffer_u32, 0);
 buffer_write(l_buf, buffer_u32, l_item.image_angle);

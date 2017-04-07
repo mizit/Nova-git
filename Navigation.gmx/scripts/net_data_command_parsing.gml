@@ -114,6 +114,8 @@ switch (l_command)
             obj_ship.max_oxygen = buffer_read(l_buf, buffer_u32);
             obj_ship.hp = buffer_read(l_buf, buffer_u32);
             obj_ship.oxygen = buffer_read(l_buf, buffer_u32);
+            obj_ship.oxygen_output = buffer_read(l_buf, buffer_u32);
+            obj_ship.safely = buffer_read(l_buf, buffer_u32);
         }
         break;
     }

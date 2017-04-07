@@ -63,6 +63,8 @@
         <script>scripts\net_send_position.gml</script>
         <script>scripts\net_send_mark.gml</script>
         <script>scripts\net_send_msg.gml</script>
+        <script>scripts\net_send_oxygen_out.gml</script>
+        <script>scripts\net_send_oxygen_up.gml</script>
       </scripts>
       <script>scripts\net_data_command_parsing.gml</script>
       <script>scripts\net_data_parsing.gml</script>
@@ -94,12 +96,13 @@
     <object>objects\obj_ship</object>
     <object>objects\obj_moving_parent</object>
     <object>objects\obj_smoke</object>
+    <object>objects\obj_radiation</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_authorization</room>
     <room>rooms\room0</room>
   </rooms>
-  <constants number="17">
+  <constants number="22">
     <constant name="NET_GOOD_DAY">1</constant>
     <constant name="NET_POSITION">2</constant>
     <constant name="NET_FIRST_LOAD">3</constant>
@@ -107,6 +110,7 @@
     <constant name="NET_MARK">5</constant>
     <constant name="NET_SHIP_DATA">8</constant>
     <constant name="NET_TEXT">9</constant>
+    <constant name="NET_SUPPLIES">11</constant>
     <constant name="PT_PILOT">1</constant>
     <constant name="PT_NAVIGATION">2</constant>
     <constant name="YES">1</constant>
@@ -117,6 +121,10 @@
     <constant name="TX_SYSTEM">2</constant>
     <constant name="NOTE_COLOR">0</constant>
     <constant name="NOTE_MSG">1</constant>
+    <constant name="SP_HP_ADD">1</constant>
+    <constant name="SP_HP_SUB">2</constant>
+    <constant name="SP_OXY_ADD">3</constant>
+    <constant name="SP_OXY_SUB">4</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

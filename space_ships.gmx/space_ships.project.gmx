@@ -98,6 +98,7 @@
     <objects name="items">
       <object>objects\obj_item</object>
       <object>objects\obj_money_case</object>
+      <object>objects\obj_box</object>
     </objects>
     <object>objects\obj_dock</object>
     <object>objects\obj_ship_parent</object>

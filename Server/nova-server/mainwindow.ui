@@ -848,16 +848,6 @@
         </rect>
        </property>
       </widget>
-      <widget class="QLineEdit" name="edit_oxygen_max_2">
-       <property name="geometry">
-        <rect>
-         <x>220</x>
-         <y>240</y>
-         <width>51</width>
-         <height>20</height>
-        </rect>
-       </property>
-      </widget>
       <widget class="QLineEdit" name="edit_hp_max_2">
        <property name="geometry">
         <rect>
@@ -975,6 +965,32 @@
        </property>
        <property name="text">
         <string>weapon_rapid</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_hp">
+       <property name="geometry">
+        <rect>
+         <x>240</x>
+         <y>240</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>HP</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_oxygen">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>240</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>OXYGEN</string>
        </property>
       </widget>
      </widget>

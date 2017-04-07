@@ -110,7 +110,6 @@ public:
     QLineEdit *edit_hp_max;
     QLineEdit *edit_oxygen;
     QLineEdit *edit_oxygen_max;
-    QLineEdit *edit_oxygen_max_2;
     QLineEdit *edit_hp_max_2;
     QLineEdit *edit_oxygen_2;
     QLineEdit *edit_weapon_str_2;
@@ -122,6 +121,8 @@ public:
     QLineEdit *edit_weapon_rapid_2;
     QLineEdit *edit_weapon_rapid;
     QLabel *label_22;
+    QPushButton *btn_hp;
+    QPushButton *btn_oxygen;
     QPushButton *pushButton;
     QPushButton *btn_save;
     QMenuBar *menuBar;
@@ -360,9 +361,6 @@ public:
         edit_oxygen_max = new QLineEdit(groupBox_4);
         edit_oxygen_max->setObjectName(QStringLiteral("edit_oxygen_max"));
         edit_oxygen_max->setGeometry(QRect(160, 240, 51, 20));
-        edit_oxygen_max_2 = new QLineEdit(groupBox_4);
-        edit_oxygen_max_2->setObjectName(QStringLiteral("edit_oxygen_max_2"));
-        edit_oxygen_max_2->setGeometry(QRect(220, 240, 51, 20));
         edit_hp_max_2 = new QLineEdit(groupBox_4);
         edit_hp_max_2->setObjectName(QStringLiteral("edit_hp_max_2"));
         edit_hp_max_2->setGeometry(QRect(370, 200, 51, 20));
@@ -396,6 +394,12 @@ public:
         label_22 = new QLabel(groupBox_4);
         label_22->setObjectName(QStringLiteral("label_22"));
         label_22->setGeometry(QRect(10, 180, 81, 16));
+        btn_hp = new QPushButton(groupBox_4);
+        btn_hp->setObjectName(QStringLiteral("btn_hp"));
+        btn_hp->setGeometry(QRect(240, 240, 75, 23));
+        btn_oxygen = new QPushButton(groupBox_4);
+        btn_oxygen->setObjectName(QStringLiteral("btn_oxygen"));
+        btn_oxygen->setGeometry(QRect(330, 240, 75, 23));
         tabWidget->addTab(tab_3, QString());
         pushButton = new QPushButton(centralWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
@@ -463,6 +467,8 @@ public:
         label_16->setText(QApplication::translate("MainWindow", "weapon_str", 0));
         label_21->setText(QApplication::translate("MainWindow", "weapon_range", 0));
         label_22->setText(QApplication::translate("MainWindow", "weapon_rapid", 0));
+        btn_hp->setText(QApplication::translate("MainWindow", "HP", 0));
+        btn_oxygen->setText(QApplication::translate("MainWindow", "OXYGEN", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QApplication::translate("MainWindow", "\320\240\320\260\321\201\320\277\320\276\320\273\320\276\320\266\320\265\320\275\320\270\320\265", 0));
         pushButton->setText(QApplication::translate("MainWindow", "PushButton", 0));
         btn_save->setText(QApplication::translate("MainWindow", "Save", 0));

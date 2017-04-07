@@ -78,6 +78,7 @@
     <instance objName="obj_navigation" x="64" y="32" name="inst_52A2C727" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_ship" x="192" y="160" name="inst_D74A9037" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_smoke" x="224" y="320" name="inst_F5E0B2A3" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_radiation" x="159904" y="89952" name="inst_B2F153CF" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

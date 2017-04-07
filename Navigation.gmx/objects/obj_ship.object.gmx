@@ -58,6 +58,58 @@ max_hp = 1;
 max_oxygen = 1;
 hp = 0;
 oxygen = 0;
+oxygen_output = 0;
+safely = 0;
+
+time_oxygen_out = 300;
+alarm[0] = time_oxygen_out;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>alarm[0] = time_oxygen_out;
+var step = 10;
+var oxygen_out = ceil((1 - (hp / max_hp)) * step) + 1;
+oxygen_out -= (oxygen_output / 10);
+var radiation = 0;
+with (obj_radiation)
+{
+    if (point_distance(x, y, other.x, other.y) &lt; radius)
+    {
+        if (radiation &lt; level)
+        {
+            radiation = level;
+        }
+    }
+}
+radiation -= safely / 50;
+oxygen_out += radiation * 3;
+if (oxygen_out &gt; 0)
+{
+    net_send_oxygen_out(obj_net.net_buf, obj_net.socket, oxygen_out);
+}
+if (oxygen_out &lt; 0)
+{
+    net_send_oxygen_up(obj_net.net_buf, obj_net.socket, -oxygen_out);
+}
 </string>
           </argument>
         </arguments>

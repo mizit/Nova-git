@@ -43,6 +43,8 @@ private slots:
     void ItemAdd();
     void ItemDel();
     void UserChange();
+    void HpRestore();
+    void OxyRestore();
 
 private:
     Ui::MainWindow *ui;
