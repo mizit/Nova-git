@@ -56,6 +56,7 @@ private:
     QTimer *timer_save;
     CIdGen *idgen;
     QList <CItem*> space_items;
+    QList <CItem*> irl_items;
 };
 
 

@@ -61,6 +61,7 @@
 #define ITEM_ADD    0x03
 #define ITEM_DROP   0x04
 #define ITEM_PICKUP 0x05
+#define ITEM_DEL    0x06
 #define ITEM_NUM    0x10
 #define ITEM_ID     0x20
 
@@ -72,10 +73,10 @@ public:
     qint64 id;
     QString owner;
     QPoint pos;
-    int image_angle;
+    qint32 image_angle;
     QString type;
-    int hp;
-    int power;
+    qint32 hp;
+    qint32 power;
 };
 
 class CIdGen
@@ -86,6 +87,7 @@ public:
     quint64 IdGen(quint8 type, quint8 power);
     quint64 outputs(quint8 x, quint8 y, quint8 out);
     CItem* createItem(QString type, quint8 it = 0);
+    CItem* createItem(QString type, quint64 id);
 public:
     QList <CItem*> item_list;
     QList <quint16> free_num;

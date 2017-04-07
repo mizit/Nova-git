@@ -109,7 +109,7 @@
     <room>rooms\r_authorization</room>
     <room>rooms\room0</room>
   </rooms>
-  <constants number="27">
+  <constants number="28">
     <constant name="NET_GOOD_DAY">1</constant>
     <constant name="NET_POSITION">2</constant>
     <constant name="NET_FIRST_LOAD">3</constant>
@@ -131,6 +131,7 @@
     <constant name="ITEM_ADD">3</constant>
     <constant name="ITEM_DROP">4</constant>
     <constant name="ITEM_PICKUP">5</constant>
+    <constant name="ITEM_DEL">6</constant>
     <constant name="ITEM_NUM">16</constant>
     <constant name="ITEM_ID">32</constant>
     <constant name="SP_HP_ADD">1</constant>

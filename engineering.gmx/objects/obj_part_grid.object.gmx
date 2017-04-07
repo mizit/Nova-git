@@ -116,9 +116,16 @@ if (ds_list_size(elements_list) &gt; ser_num)
             draw_set_alpha(1);
             if (ds_list_size(elements_list) &gt; ser_num)
             {
-                draw_sprite (elements_list[| ser_num].sprite_index, 0, 
-                lx + cell_size / 2 + dx + (2 * dx + cell_size) * i, 
-                ly + cell_size / 2 + dy + (2 * dy + cell_size) * j);
+                if (instance_exists(elements_list[| ser_num]))
+                {
+                    draw_sprite (elements_list[| ser_num].sprite_index, 0, 
+                    lx + cell_size / 2 + dx + (2 * dx + cell_size) * i, 
+                    ly + cell_size / 2 + dy + (2 * dy + cell_size) * j);
+                }
+                else
+                {
+                    ds_list_delete(elements_list, ser_num);
+                }
             }
             draw_set_alpha(0.6);
         }

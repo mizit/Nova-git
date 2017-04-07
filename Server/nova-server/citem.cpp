@@ -45,3 +45,21 @@ CItem* CIdGen::createItem(QString type, quint8 it)
     item_list.append(item);
     return item;
 }
+
+CItem* CIdGen::createItem(QString type, quint64 id)
+{
+    CItem* item;
+    item = new CItem();
+    item->id = id;
+    item->type = type;
+    item_list.append(item);
+    for (int i = 0; i < free_num.size(); i++)
+    {
+        if (free_num[i] == id)
+        {
+            free_num.removeAt(i);
+            break;
+        }
+    }
+    return item;
+}

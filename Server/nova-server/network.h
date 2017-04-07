@@ -44,6 +44,7 @@
 
 
 #define SPACE   "space"
+#define IRL     "irl"
 
 class MyServer : public QTcpServer
 {

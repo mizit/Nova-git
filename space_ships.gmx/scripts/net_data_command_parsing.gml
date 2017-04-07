@@ -124,6 +124,7 @@ switch (l_command)
             }
             
             var l_net_id = buffer_read(l_buf, buffer_u32);
+            l_net_id += (buffer_read(l_buf, buffer_u32) << 32);
             var l_obj = noone;
             with (l_name)
             {
@@ -138,7 +139,6 @@ switch (l_command)
                 l_obj.net_id = l_net_id;
             }
             l_obj.name = l_str;
-            buffer_read(l_buf, buffer_u32);
             l_obj.x = buffer_read(l_buf, buffer_u32) / 1000;
             l_obj.y = buffer_read(l_buf, buffer_u32) / 1000;
             l_obj.image_angle = buffer_read(l_buf, buffer_s32) / 1000;
@@ -149,7 +149,7 @@ switch (l_command)
                 obj_ship.item_counter++;
             }
         }
-        if ((l_com & $0F) == ITEM_PICKUP)
+        if (((l_com & $0F) == ITEM_PICKUP) || ((l_com & $0F) == ITEM_DEL))
         {
             var l_str = buffer_read(l_buf, buffer_string);
             var l_name = asset_get_index(l_str);
@@ -158,6 +158,7 @@ switch (l_command)
                 l_name = obj_box;
             }
             var l_net_id = buffer_read(l_buf, buffer_u32);
+            l_net_id += (buffer_read(l_buf, buffer_u32) << 32);
             var l_obj = noone;
             with (l_name)
             {
@@ -166,7 +167,6 @@ switch (l_command)
                     instance_destroy();
                 }
             }
-            buffer_read(l_buf, buffer_u32);
             buffer_read(l_buf, buffer_u32);
             buffer_read(l_buf, buffer_u32);
             buffer_read(l_buf, buffer_s32);

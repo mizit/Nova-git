@@ -31,6 +31,28 @@ MainWindow::MainWindow(QWidget *parent) :
 
     int num = 0;
     QVariant buf;
+
+    QSettings settIrl("save/irl.ini", QSettings::IniFormat);
+    settIrl.beginGroup("general");
+    int item_num = settIrl.value("num").toInt();
+    settIrl.endGroup();
+    for (int i = 0; i < item_num; i++)
+    {
+        settIrl.beginGroup(QString("item%1").arg(i));
+        CItem* tmp_item;
+        QString type = settIrl.value("type").toString();
+        tmp_item = idgen->createItem(type, (quint64) settIrl.value("id").toFloat());
+        tmp_item->owner = IRL;
+        tmp_item->pos.setX(settIrl.value("x").toFloat());
+        tmp_item->pos.setY(settIrl.value("y").toFloat());
+        tmp_item->hp = settIrl.value("hp").toFloat();
+        tmp_item->power = settIrl.value("x").toFloat();
+        tmp_item->image_angle = settIrl.value("image_angle").toFloat();
+        settIrl.endGroup();
+        irl_items.append(tmp_item);
+    }
+
+
     QSettings load_shell("data/ships.ini", QSettings::IniFormat);
     load_shell.beginGroup("Base");
     num = load_shell.value("number").toFloat();
@@ -97,7 +119,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->combo_userpos->addItem(SPACE);
     QSettings settInv("save/space.ini", QSettings::IniFormat);
     settInv.beginGroup("general");
-    int item_num = settInv.value("num").toInt();
+    item_num = settInv.value("num").toInt();
     settInv.endGroup();
     for (int i = 0; i < item_num; i++)
     {
@@ -113,7 +135,8 @@ MainWindow::MainWindow(QWidget *parent) :
         tmp_item->image_angle = settInv.value("image_angle").toFloat();
         settInv.endGroup();
         space_items.append(tmp_item);
-    }
+    } 
+    ui->combo_userpos->addItem(IRL);
 
     connect(ui->combo_userpos, SIGNAL(currentIndexChanged(int)), this, SLOT(UserChange()));
     UserChange();
@@ -242,20 +265,44 @@ void MainWindow::UserChange()
 void MainWindow::ItemDel()
 {
     QString name = ui->combo_userpos->currentText();
-    for (int i = 0; i < SHIPS.size(); i++)
+    int num;
+    num = ui->lview_inv->currentRow();
+    if (num >= 0)
     {
-        if (SHIPS[i]->login == name)
+        for (int i = 0; i < SHIPS.size(); i++)
         {
-            int num;
-            num = ui->lview_inv->currentRow();
-            deleteItem(SHIPS[i]->item_list[num]);
+            if (SHIPS[i]->login == name)
+            {
+                if (SHIPS[i]->engSocket > 0)
+                {
+                    net_send_item(SClients[SHIPS[i]->engSocket], SHIPS[i]->item_list[num], ITEM_DEL|ITEM_ID);
+                }
+                deleteItem(SHIPS[i]->item_list[num]);
+            }
         }
-    }
-    if (name == SPACE)
-    {
-        int num;
-        num = ui->lview_inv->currentRow();
-        deleteItem(space_items[num]);
+        if (name == SPACE)
+        {
+            for (int i = 0; i < SHIPS.size(); i++)
+            {
+                if (SHIPS[i]->pilotSocket > 0)
+                {
+                    net_send_item(SClients[SHIPS[i]->pilotSocket], space_items[num], ITEM_DEL|ITEM_ID);
+                }
+                if (SHIPS[i]->navSocket > 0)
+                {
+                    net_send_item(SClients[SHIPS[i]->navSocket], space_items[num], ITEM_DEL|ITEM_ID);
+                }
+                if (SHIPS[i]->engSocket > 0)
+                {
+                    net_send_item(SClients[SHIPS[i]->engSocket], space_items[num], ITEM_DEL|ITEM_ID);
+                }
+            }
+            deleteItem(space_items[num]);
+        }
+        if (name == IRL)
+        {
+            deleteItem(irl_items[num]);
+        }
     }
     DataUpdate();
 }
@@ -263,40 +310,51 @@ void MainWindow::ItemDel()
 void MainWindow::ItemAdd()
 {
     //quint8 pos = ui->lview_items->currentRow();
-    QString type = ui->lview_items->currentItem()->text();
-    QString name = ui->combo_userpos->currentText();
-    for (int i = 0; i < SHIPS.size(); i++)
+    if (ui->lview_items->currentRow() >= 0)
     {
-        if (SHIPS[i]->login == name)
+        QString type = ui->lview_items->currentItem()->text();
+        QString name = ui->combo_userpos->currentText();
+        for (int i = 0; i < SHIPS.size(); i++)
+        {
+            if (SHIPS[i]->login == name)
+            {
+                CItem *item;
+                item = idgen->createItem(type);
+                SHIPS[i]->item_list.append(item);
+                item->owner = SHIPS[i]->login;
+                ui->lview_inv->addItem(type + QString(" %1").arg(item->id));
+                if (SHIPS[i]->engSocket > 0)
+                {
+                    net_send_item(SClients[SHIPS[i]->engSocket], item, ITEM_SET | ITEM_ID);
+                }
+            }
+        }
+        if (name == SPACE)
         {
             CItem *item;
             item = idgen->createItem(type);
-            SHIPS[i]->item_list.append(item);
-            item->owner = SHIPS[i]->login;
+            space_items.append(item);
+            item->owner = SPACE;
             ui->lview_inv->addItem(type + QString(" %1").arg(item->id));
-            if (SHIPS[i]->engSocket > 0)
+            for (int i = 0; i < SHIPS.size(); i++)
             {
-                net_send_item(SClients[SHIPS[i]->engSocket], item, ITEM_SET | ITEM_ID);
+                if (SHIPS[i]->pilotSocket > 0)
+                {
+                    net_send_item(SClients[SHIPS[i]->pilotSocket], item, ITEM_SET | ITEM_ID);
+                }
+                if (SHIPS[i]->navSocket > 0)
+                {
+                    net_send_item(SClients[SHIPS[i]->navSocket], item, ITEM_SET | ITEM_ID);
+                }
             }
         }
-    }
-    if (name == SPACE)
-    {
-        CItem *item;
-        item = idgen->createItem(type);
-        space_items.append(item);
-        item->owner = SPACE;
-        ui->lview_inv->addItem(type + QString(" %1").arg(item->id));
-        for (int i = 0; i < SHIPS.size(); i++)
+        if (name == IRL)
         {
-            if (SHIPS[i]->pilotSocket > 0)
-            {
-                net_send_item(SClients[SHIPS[i]->pilotSocket], item, ITEM_SET | ITEM_ID);
-            }
-            if (SHIPS[i]->navSocket > 0)
-            {
-                net_send_item(SClients[SHIPS[i]->navSocket], item, ITEM_SET | ITEM_ID);
-            }
+            CItem *item;
+            item = idgen->createItem(type);
+            irl_items.append(item);
+            item->owner = IRL;
+            ui->lview_inv->addItem(type + QString(" %1").arg(item->id));
         }
     }
 }
@@ -314,6 +372,10 @@ void MainWindow::deleteItem(CItem* item)
     if (item->owner == SPACE)
     {
         space_items.removeOne(item);
+    }
+    if (item->owner == IRL)
+    {
+        irl_items.removeOne(item);
     }
     delete item;
 }
@@ -419,6 +481,25 @@ void MainWindow::DataSave()
         settInv.setValue("image_angle", space_items[i]->image_angle);
         settInv.endGroup();
     }
+
+    QFile fileIrl("save/irl.ini");
+    fileIrl.remove();
+    QSettings settIrl("save/irl.ini", QSettings::IniFormat);
+    settIrl.beginGroup("general");
+    settIrl.setValue("num", irl_items.size());
+    settIrl.endGroup();
+    for (int i = 0; i < irl_items.size(); i++)
+    {
+        settIrl.beginGroup(QString("item%1").arg(i));
+        settIrl.setValue("id", irl_items[i]->id);
+        settIrl.setValue("type", irl_items[i]->type);
+        settIrl.setValue("x", irl_items[i]->pos.rx());
+        settIrl.setValue("y", irl_items[i]->pos.ry());
+        settIrl.setValue("hp", irl_items[i]->hp);
+        settIrl.setValue("power", irl_items[i]->power);
+        settIrl.setValue("image_angle", irl_items[i]->image_angle);
+        settIrl.endGroup();
+    }
 }
 
 void MainWindow::pbtn()
@@ -507,6 +588,14 @@ void MainWindow::DataUpdate()
         for (int j = 0; j < space_items.size(); j++)
         {
             ui->lview_inv->addItem(space_items[j]->type + QString(" %1").arg(space_items[j]->id));
+        }
+    }
+    if (name == IRL)
+    {
+        ui->lview_inv->clear();
+        for (int j = 0; j < irl_items.size(); j++)
+        {
+            ui->lview_inv->addItem(irl_items[j]->type + QString(" %1").arg(irl_items[j]->id));
         }
     }
 }

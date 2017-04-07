@@ -266,9 +266,16 @@ for (var i = 0; i &lt; instance_number(obj_global_item); i++)
             {
                 var tmp = a[| CELL_PS_LIST];
                 tmp = tmp[| k];
-                if (tmp.shut_down == 0)
+                if (instance_exists(tmp))
                 {
-                    test = 1;
+                    if (tmp.shut_down == 0)
+                    {
+                        test = 1;
+                    }
+                }
+                else
+                {
+                    ds_list_delete(a[| CELL_PS_LIST], k);
                 }
             }
             if (test)

@@ -60,6 +60,7 @@ switch (l_command)
             if ((l_com & $0F) == ITEM_SET)
             {
                 var l_id = buffer_read(l_buf, buffer_u32);
+                l_id += (buffer_read(l_buf, buffer_u32) << 32);
                 var l_obj = noone;
                 with(obj_global_item)
                 {
@@ -72,7 +73,6 @@ switch (l_command)
                 {
                     l_obj = instance_create(0, 0, l_name);
                 }
-                buffer_read(l_buf, buffer_u32);
                 var l_x = buffer_read(l_buf, buffer_u32);
                 var l_y = buffer_read(l_buf, buffer_u32);
                 l_obj.net_id = l_id;
@@ -139,12 +139,12 @@ switch (l_command)
             if ((l_com & $0F) == ITEM_PICKUP)
             {
                 var l_id = buffer_read(l_buf, buffer_u32);
+                l_id += (buffer_read(l_buf, buffer_u32) << 32);
                 var l_obj = noone;
                 with(obj_global_item)
                 {
                     if (net_id == l_id)
                     {
-                        buffer_read(l_buf, buffer_u32);
                         buffer_read(l_buf, buffer_u32);
                         buffer_read(l_buf, buffer_u32);
                         buffer_read(l_buf, buffer_s32);
@@ -153,7 +153,6 @@ switch (l_command)
                     }
                 }
                 l_obj = instance_create(0, 0, l_name);
-                buffer_read(l_buf, buffer_u32);
                 var l_x = buffer_read(l_buf, buffer_u32);
                 var l_y = buffer_read(l_buf, buffer_u32);
                 l_obj.net_id = l_id;
@@ -168,6 +167,7 @@ switch (l_command)
             if ((l_com & $0F) == ITEM_DROP)
             {
                 var l_id = buffer_read(l_buf, buffer_u32);
+                l_id += (buffer_read(l_buf, buffer_u32) << 32);
                 var l_obj = noone;
                 with(obj_global_item)
                 {
@@ -184,6 +184,39 @@ switch (l_command)
                         instance_destroy();
                     }
                     ds_list_delete(obj_space.items_list, l_pos);
+                }
+            }
+            if ((l_com & $0F) == ITEM_DEL)
+            {
+                var l_id = buffer_read(l_buf, buffer_u32);
+                l_id += (buffer_read(l_buf, buffer_u32) << 32);
+                var l_obj = noone;
+                with(obj_global_item)
+                {
+                    if (net_id == l_id)
+                    {
+                        l_obj = id;
+                    }
+                }
+                if (l_obj)
+                {
+                    var l_pos = ds_list_find_index(obj_space.items_list, l_obj);
+                    if (l_pos >= 0)
+                    {
+                        ds_list_delete(obj_space.items_list, l_pos);
+                    }
+                    with (obj_inv)
+                    {
+                        l_pos = ds_list_find_index(items_list, l_obj);
+                        if (l_pos >= 0)
+                        {
+                            ds_list_delete(items_list, l_pos);
+                        }
+                    }
+                    with (l_obj)
+                    {
+                        instance_destroy();
+                    }
                 }
             }
         }
