@@ -235,5 +235,37 @@ switch (l_command)
         }
         break;
     }
+    case NET_DOCK:
+    {
+        var l_ship1 = buffer_read(l_buf, buffer_string);
+        var l_ship2 = buffer_read(l_buf, buffer_string);
+        var l_flag = buffer_read(l_buf, buffer_u32);
+        var l_another_ship = noone;
+        if (l_ship1 == login)
+        {
+            l_another_ship = l_ship2;
+        }
+        if (l_ship2 == login)
+        {
+            l_another_ship = l_ship1;
+        }
+        if (l_another_ship != noone)
+        {
+            if (l_flag == 1)
+            {
+                ds_list_add(obj_out.points_list, l_another_ship);
+            }
+            if (l_flag == 0)
+            {
+                var l_pos = ds_list_find_index(obj_out.points_list, l_another_ship);
+                while (l_pos >= 0)
+                {
+                    ds_list_delete(obj_out.points_list, l_pos);
+                    var l_pos = ds_list_find_index(obj_out.points_list, l_another_ship);
+                }
+            }
+        }
+        break;
+    }
 }
 buffer_delete(l_buf);

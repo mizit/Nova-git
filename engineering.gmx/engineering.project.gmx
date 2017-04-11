@@ -55,6 +55,9 @@
     <sprites name="items">
       <sprite>sprites\s_money_case</sprite>
     </sprites>
+    <sprite>sprites\s_numpad</sprite>
+    <sprite>sprites\s_string</sprite>
+    <sprite>sprites\s_out</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -191,6 +194,9 @@
     </objects>
     <object>objects\obj_global_item</object>
     <object>objects\obj_info</object>
+    <object>objects\obj_numpad</object>
+    <object>objects\obj_string</object>
+    <object>objects\obj_out</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_authorization</room>

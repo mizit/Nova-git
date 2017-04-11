@@ -948,9 +948,17 @@ void MainWindow::slotReadClient()
                         {
                             net_send_dock(SClients[SHIPS[i]->navSocket], clientSocket->parentShip, SHIPS[i], flags);
                         }
+                        if (clientSocket->parentShip->navSocket > 0)
+                        {
+                            net_send_dock(SClients[clientSocket->parentShip->navSocket], clientSocket->parentShip, SHIPS[i], flags);
+                        }
                         if (SHIPS[i]->engSocket > 0)
                         {
                             net_send_dock(SClients[SHIPS[i]->engSocket], clientSocket->parentShip, SHIPS[i], flags);
+                        }
+                        if (clientSocket->parentShip->engSocket > 0)
+                        {
+                            net_send_dock(SClients[clientSocket->parentShip->engSocket], clientSocket->parentShip, SHIPS[i], flags);
                         }
                     }
                 }
