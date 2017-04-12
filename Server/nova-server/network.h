@@ -28,6 +28,7 @@
 #define NET_DOCK        10
 #define NET_SUPPLIES    11
 #define NET_SHOT        12
+#define NET_TRADE       13
 
 #define PT_PILOT        1
 #define PT_NAVIGATION   2

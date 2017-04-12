@@ -120,6 +120,7 @@
         <script>scripts\net_send_im_out.gml</script>
         <script>scripts\net_send_mark.gml</script>
         <script>scripts\net_send_position.gml</script>
+        <script>scripts\net_send_trade.gml</script>
       </scripts>
     </scripts>
   </scripts>

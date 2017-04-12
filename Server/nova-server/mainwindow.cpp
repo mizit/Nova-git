@@ -1027,6 +1027,39 @@ void MainWindow::slotReadClient()
                 }
                 break;
             }
+            case NET_TRADE:
+            {
+                qint64 id = GetInt64((unsigned char *)data, 1);
+                QString goal = GetString((char *)data, 9);
+                CItem *item;
+                for (int i = 0; i < idgen->item_list.size(); i++)
+                {
+                    if (idgen->item_list[i]->id == id)
+                    {
+                        item = idgen->item_list[i];
+                    }
+                }
+                if (goal == "IRL")
+                {
+                    clientSocket->parentShip->item_list.removeAt(clientSocket->parentShip->item_list.indexOf(item));
+                    irl_items.append(item);
+                }
+                else
+                {
+                    for (int i = 0; i < SHIPS.size(); i++)
+                    {
+                        if (SHIPS[i]->login == goal)
+                        {
+                            clientSocket->parentShip->item_list.removeAt(clientSocket->parentShip->item_list.indexOf(item));
+                            SHIPS[i]->item_list.append(item);
+                            if (SHIPS[i]->engSocket > 0)
+                            {
+                                net_send_item(SClients[SHIPS[i]->engSocket], item, ITEM_ID|ITEM_SET);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
