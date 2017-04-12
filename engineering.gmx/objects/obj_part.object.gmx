@@ -136,24 +136,32 @@ mass = 10;
             <kind>1</kind>
             <string>if (dragging)
 {
-    var crnt_grid = grid_find_active();
-    if (crnt_grid)
+    if (place_meeting(x, y, obj_out))
     {
-        var g_x, g_y;
-        g_x = floor((mouse_x - crnt_grid.x) / crnt_grid.cell_size); 
-        g_y = floor((mouse_y - crnt_grid.y) / crnt_grid.cell_size);
-        if (!part_set(crnt_grid, g_x, g_y, 1))
+        net_send_trade(obj_net.net_buf, obj_net.socket, id);
+        instance_destroy();
+    }
+    else
+    {
+        var crnt_grid = grid_find_active();
+        if (crnt_grid)
         {
-            inv_item_add(id);
-            dragging = 0;
-        
-            /*instance_destroy();
-            var i_cell = inv_cell_with_object(object_index);
-            i_cell.number ++;*/
-        }
-        else
-        {
-            part_set_selected(1);
+            var g_x, g_y;
+            g_x = floor((mouse_x - crnt_grid.x) / crnt_grid.cell_size); 
+            g_y = floor((mouse_y - crnt_grid.y) / crnt_grid.cell_size);
+            if (!part_set(crnt_grid, g_x, g_y, 1))
+            {
+                inv_item_add(id);
+                dragging = 0;
+            
+                /*instance_destroy();
+                var i_cell = inv_cell_with_object(object_index);
+                i_cell.number ++;*/
+            }
+            else
+            {
+                part_set_selected(1);
+            }
         }
     }
 }

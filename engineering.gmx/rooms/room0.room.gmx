@@ -92,6 +92,7 @@ inv_item_add(instance_create(0, 0, obj_navigation));*/</code>
     <instance objName="obj_numpad" x="800" y="704" name="inst_60BA74DE" locked="0" code="my_text = &quot;E&quot;;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_string" x="576" y="512" name="inst_819383D2" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_out" x="928" y="704" name="inst_AEBD9DA7" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_on" x="576" y="256" name="inst_8C58B32C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

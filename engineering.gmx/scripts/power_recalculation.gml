@@ -1,5 +1,17 @@
 ///power_recalculation(ds_grid);
 var l_grid = argument0;
+if (obj_on.image_index == 0)
+{
+    for (var l_i = 0; l_i < ds_grid_width(l_grid); l_i++)
+    {
+        for (var l_j = 0; l_j < ds_grid_height(l_grid); l_j++)
+        {
+            var l_a = l_grid[# l_i, l_j];
+            ds_list_clear(l_a[| CELL_PS_LIST]);
+        }
+    }
+    return 0;
+}
 var l_process_queue = ds_queue_create();
 for (var l_i = 0; l_i < ds_grid_width(l_grid); l_i++)
 {

@@ -30,6 +30,10 @@ with (obj_gridded_part)
         }
     }
 }
+if (obj_on.image_index == 0)
+{
+    return 0;
+}
 with (obj_power_parent)
 {
     if ((grd_x > 0) && (grd_y > 0))
