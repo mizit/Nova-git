@@ -121,6 +121,9 @@ if (ds_list_size(elements_list) &gt; ser_num)
                     draw_sprite (elements_list[| ser_num].sprite_index, 0, 
                     lx + cell_size / 2 + dx + (2 * dx + cell_size) * i, 
                     ly + cell_size / 2 + dy + (2 * dy + cell_size) * j);
+                    draw_set_colour(c_black);
+                    draw_text(lx + cell_size / 2 + dx + (2 * dx + cell_size) * i, 
+                    ly + cell_size / 2 + dy + (2 * dy + cell_size) * j, elements_list[| ser_num].hp);
                 }
                 else
                 {

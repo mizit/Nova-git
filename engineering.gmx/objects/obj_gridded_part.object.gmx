@@ -46,6 +46,42 @@ ec_koeff = 0;
 alarm[5] = 1;
 
 grid_outputs[# 0, 1] = LEFT|DOWN;
+
+corrupt_time_low = 5 * 60 * room_speed;
+corrupt_time_hight = 10 * 60 * room_speed;
+corrupt_str_low = 5;
+corrupt_str_hight = 35;
+alarm[6] = irandom_range(corrupt_time_low, corrupt_time_hight);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="6">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>alarm[6] = irandom_range(corrupt_time_low, corrupt_time_hight);
+if (part_check_electricity(id))
+{
+    for (var i = 0; i &lt; ds_list_size(elements_list); i++)
+    {
+        elements_list[| i].hp -= irandom_range(corrupt_str_low, corrupt_str_hight);
+    }
+}
 </string>
           </argument>
         </arguments>
