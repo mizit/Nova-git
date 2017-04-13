@@ -887,6 +887,10 @@ void MainWindow::slotReadClient()
                         }
                     }
                 }
+                if ((def_com &0x0F) == ITEM_DEL)
+                {
+                    deleteItem(tmp_item);
+                }
                 break;
             }
             case NET_SHIP_DATA:

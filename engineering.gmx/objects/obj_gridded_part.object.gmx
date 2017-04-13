@@ -79,7 +79,10 @@ if (part_check_electricity(id))
 {
     for (var i = 0; i &lt; ds_list_size(elements_list); i++)
     {
-        elements_list[| i].hp -= irandom_range(corrupt_str_low, corrupt_str_hight);
+        if (instance_exists(elements_list[| i]))
+        {
+            elements_list[| i].hp -= irandom_range(corrupt_str_low, corrupt_str_hight);
+        }
     }
 }
 </string>
