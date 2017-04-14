@@ -25,8 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>my_docks = ds_list_create();
-</string>
+            <string></string>
           </argument>
         </arguments>
       </action>

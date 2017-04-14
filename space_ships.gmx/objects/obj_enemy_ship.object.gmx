@@ -26,15 +26,11 @@
           <argument>
             <kind>1</kind>
             <string>event_inherited();
+//my_docks = ds_list_create();
 name = "";
 rot_speed = 0;
 
-var tmp_dock = instance_create(x, y, obj_dock);
-tmp_dock.xoff = 45;
-tmp_dock.yoff = 0;
-tmp_dock.owner = id;
-tmp_dock.image_alpha = 0;
-ds_list_add(my_docks, tmp_dock);
+
 </string>
           </argument>
         </arguments>

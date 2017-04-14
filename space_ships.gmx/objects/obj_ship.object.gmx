@@ -131,12 +131,7 @@ em[1] = part_emitter_create(ps);
 em[2] = part_emitter_create(ps);
 em[3] = part_emitter_create(ps);
 
-var tmp_dock = instance_create(x, y, obj_dock);
-tmp_dock.xoff = 45;
-tmp_dock.yoff = 0;
-tmp_dock.owner = id;
-tmp_dock.image_alpha = 0;
-ds_list_add(my_docks, tmp_dock);
+my_docks = ds_list_create();
 dock_show_distance = 700;
 docked = 0;
 dock_time = 1800;

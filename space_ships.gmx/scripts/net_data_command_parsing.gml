@@ -52,7 +52,46 @@ switch (l_command)
             if (asset_get_type(l_type) == asset_sprite)
             {
                 l_type = asset_get_index(l_type);
-                obj_ship.sprite_index = l_type;
+                if (obj_ship.sprite_index != l_type)
+                {
+                    obj_ship.sprite_index = l_type;
+
+                    switch (l_type)
+                    {
+                        case s_bazar:
+                        {
+                            var tmp_dock = instance_create(x, y, obj_dock);
+                            tmp_dock.xoff = 194;
+                            tmp_dock.yoff = 7;
+                            tmp_dock.owner = instance_find(obj_ship, 0);
+                            tmp_dock.angle_off = 0;
+                            ds_list_add(obj_ship.my_docks, tmp_dock);
+                            var tmp_dock = instance_create(x, y, obj_dock);
+                            tmp_dock.xoff = -192;
+                            tmp_dock.yoff = 5;
+                            tmp_dock.owner = instance_find(obj_ship, 0);
+                            tmp_dock.angle_off = 180;
+                            ds_list_add(obj_ship.my_docks, tmp_dock);
+                            var tmp_dock = instance_create(x, y, obj_dock);
+                            tmp_dock.xoff = 50;
+                            tmp_dock.yoff = 189;
+                            tmp_dock.owner = instance_find(obj_ship, 0);
+                            tmp_dock.angle_off = 75;
+                            ds_list_add(obj_ship.my_docks, tmp_dock);
+                            break;
+                        }
+                        default:
+                        {
+                            var tmp_dock = instance_create(x, y, obj_dock);
+                            tmp_dock.xoff = 45;
+                            tmp_dock.yoff = 0;
+                            tmp_dock.owner = instance_find(obj_ship, 0);
+                            tmp_dock.angle_off = 0;
+                            ds_list_add(obj_ship.my_docks, tmp_dock);
+                            break;
+                        }
+                    }
+                }
             }            
         }
         else
@@ -73,7 +112,45 @@ switch (l_command)
                     if (asset_get_type(l_type) == asset_sprite)
                     {
                         l_type = asset_get_index(l_type);
-                        sprite_index = l_type;
+                        if (obj_ship.sprite_index != l_type)
+                        {
+                            sprite_index = l_type;
+                            /*switch (l_type)
+                            {
+                                case s_bazar:
+                                {
+                                    var tmp_dock = instance_create(x, y, obj_dock);
+                                    tmp_dock.xoff = 194;
+                                    tmp_dock.yoff = 7;
+                                    tmp_dock.owner = id;
+                                    tmp_dock.angle_off = 0;
+                                    ds_list_add(my_docks, tmp_dock);
+                                    var tmp_dock = instance_create(x, y, obj_dock);
+                                    tmp_dock.xoff = -192;
+                                    tmp_dock.yoff = 5;
+                                    tmp_dock.owner = id;
+                                    tmp_dock.angle_off = 180;
+                                    ds_list_add(my_docks, tmp_dock);
+                                    var tmp_dock = instance_create(x, y, obj_dock);
+                                    tmp_dock.xoff = 50;
+                                    tmp_dock.yoff = 189;
+                                    tmp_dock.owner = id;
+                                    tmp_dock.angle_off = 75;
+                                    ds_list_add(my_docks, tmp_dock);
+                                    break;
+                                }
+                                default:
+                                {
+                                    var tmp_dock = instance_create(x, y, obj_dock);
+                                    tmp_dock.xoff = 45;
+                                    tmp_dock.yoff = 0;
+                                    tmp_dock.owner = id;
+                                    tmp_dock.angle_off = 0;
+                                    ds_list_add(my_docks, tmp_dock);
+                                    break;
+                                }
+                            }*/
+                        }
                     }     
                 }
             }
@@ -91,7 +168,47 @@ switch (l_command)
                 if (asset_get_type(l_type) == asset_sprite)
                 {
                     l_type = asset_get_index(l_type);
-                    l_ship.sprite_index = l_type;
+                    if (l_ship.sprite_index != l_type)
+                    {
+                       
+                        l_ship.sprite_index = l_type;
+                        l_ship.my_docks = ds_list_create();
+                        switch (l_type)
+                        {
+                            case s_bazar:
+                            {
+                                var tmp_dock = instance_create(x, y, obj_dock);
+                                tmp_dock.xoff = 194;
+                                tmp_dock.yoff = 7;
+                                tmp_dock.owner = l_ship;
+                                tmp_dock.angle_off = 0;
+                                ds_list_add(l_ship.my_docks, tmp_dock);
+                                var tmp_dock = instance_create(x, y, obj_dock);
+                                tmp_dock.xoff = -192;
+                                tmp_dock.yoff = 5;
+                                tmp_dock.owner = l_ship;
+                                tmp_dock.angle_off = 180;
+                                ds_list_add(l_ship.my_docks, tmp_dock);
+                                var tmp_dock = instance_create(x, y, obj_dock);
+                                tmp_dock.xoff = 50;
+                                tmp_dock.yoff = 189;
+                                tmp_dock.owner = l_ship;
+                                tmp_dock.angle_off = 75;
+                                ds_list_add(l_ship.my_docks, tmp_dock);
+                                break;
+                            }
+                            default:
+                            {
+                                var tmp_dock = instance_create(x, y, obj_dock);
+                                tmp_dock.xoff = 45;
+                                tmp_dock.yoff = 0;
+                                tmp_dock.owner = l_ship;
+                                tmp_dock.angle_off = 0;
+                                ds_list_add(l_ship.my_docks, tmp_dock);
+                                break;
+                            }
+                        }
+                    }
                 }     
             }
         }
