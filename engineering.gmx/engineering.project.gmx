@@ -114,6 +114,7 @@
         <script>scripts\net_send_shell.gml</script>
         <script>scripts\net_send_hello.gml</script>
         <script>scripts\net_send_item_get_num.gml</script>
+        <script>scripts\net_send_item_get_id.gml</script>
         <script>scripts\net_send_item_set_id.gml</script>
         <script>scripts\net_send_item_del.gml</script>
         <script>scripts\net_send_item_drop.gml</script>

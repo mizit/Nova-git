@@ -80,23 +80,21 @@ depth = -5;
             <kind>1</kind>
             <string>if (dragging)
 {
-    /*if (instance_place(x, y, obj_part_grid) &amp;&amp; 
-    (ds_list_size(obj_part_grid.elements_list) &lt; obj_part_grid.elements_max))
+    if (place_meeting(x, y, obj_out))
     {
-            ds_list_add(obj_part_grid.elements_list, id);
-            visible = false;
-            dragging = 0;
-            //instance_destroy();
+        if (obj_out.selected == 0)
+        {
+            obj_string.my_text = net_id;
+        }
+        net_send_trade(obj_net.net_buf, obj_net.socket, id);
+        instance_destroy();
     }
     else
-    {*/
+    {
         inv_item_add(id);
         dragging = 0;
         visible = false;
-        /*var cont = inv_cell_with_object(object_index);
-        cont.number++;
-        instance_destroy();*/
-    //}
+    }
 }
 </string>
           </argument>

@@ -793,7 +793,16 @@ void MainWindow::slotReadClient()
                     }
                     else
                     {
-                        net_send_item(clientSocket, tmp_item, ITEM_SET | ITEM_ID);
+                        if (tmp_item->owner == IRL)
+                        {
+                            irl_items.removeAt(irl_items.indexOf(tmp_item));
+                            clientSocket->parentShip->item_list.append(tmp_item);
+                            net_send_item(clientSocket, tmp_item, ITEM_SET | ITEM_ID);
+                        }
+                        if (tmp_item->owner == clientSocket->parentShip->login)
+                        {
+                            net_send_item(clientSocket, tmp_item, ITEM_SET | ITEM_ID);
+                        }
                     }
 
                 }

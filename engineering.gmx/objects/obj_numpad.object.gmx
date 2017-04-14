@@ -84,6 +84,10 @@ if (my_text == "C")
 {
     obj_string.my_text = "";
 }
+if (my_text == "E")
+{
+    net_send_item_get_id(obj_net.net_buf, obj_net.socket, real(obj_string.my_text));
+}
 </string>
           </argument>
         </arguments>
