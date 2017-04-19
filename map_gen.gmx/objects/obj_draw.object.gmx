@@ -46,6 +46,8 @@ part_type_life(pt, 10000, 10000);
 em = part_emitter_create(ps);
 part_emitter_region(ps, em, 0, room_width, 0, room_height, ps_shape_rectangle, ps_distr_linear);
 //part_emitter_burst(ps, em, pt, 160000);
+
+current_astr = 0;
 </string>
           </argument>
         </arguments>
@@ -76,9 +78,79 @@ if (mouse_wheel_up())
 {
     size = min(size + 1, 10);
 }
-if (keyboard_lastkey &gt; 48) &amp;&amp; (keyboard_lastkey &lt; 52)
+if (keyboard_lastkey &gt; 48) &amp;&amp; (keyboard_lastkey &lt; 55)
 {
     active = keyboard_lastkey - 48;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="6" enumb="54">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (active &gt; 3)
+{
+    var min_dist = 1000000;
+    var goal = noone;
+    for (var i = 0; i &lt; instance_number(obj_astr); i++)
+    {
+        var tmp = instance_find(obj_astr, i);
+        if (tmp.image_index == (active - 4))
+        {
+            if (point_distance(mouse_x, mouse_y, tmp.x, tmp.y) &lt; min_dist)
+            {
+                min_dist = point_distance(mouse_x, mouse_y, tmp.x, tmp.y);
+                goal = tmp;
+            }
+        }
+    }
+    with (goal)
+    {
+        instance_destroy();
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="6" enumb="53">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (active &gt; 3)
+{
+    var tmp = instance_create(mouse_x, mouse_y, obj_astr);
+    tmp.image_index = active - 4;
 }
 </string>
           </argument>
@@ -117,12 +189,15 @@ switch (active)
     default:
     exit;
 }
-surface_set_target(surf);
-draw_set_blend_mode(bm_subtract);
-draw_set_colour(c_white);
-draw_circle(mouse_x, mouse_y, base_size * size, 0);
-draw_set_blend_mode(bm_normal);
-surface_reset_target();
+if (active &lt; 4)
+{
+    surface_set_target(surf);
+    draw_set_blend_mode(bm_subtract);
+    draw_set_colour(c_white);
+    draw_circle(mouse_x, mouse_y, base_size * size, 0);
+    draw_set_blend_mode(bm_normal);
+    surface_reset_target();
+}
 </string>
           </argument>
         </arguments>
@@ -167,22 +242,25 @@ switch (active)
     default:
     exit;
 }
-surface_set_target(surf);
-draw_set_colour(c_white);
-draw_circle(mouse_x, mouse_y, base_size * size, 0);
-surface_reset_target();
-surface_set_target(surf_del1);
-draw_set_blend_mode(bm_subtract);
-draw_set_colour(c_white);
-draw_circle(mouse_x, mouse_y, base_size * size, 0);
-draw_set_blend_mode(bm_normal);
-surface_reset_target();
-surface_set_target(surf_del2);
-draw_set_blend_mode(bm_subtract);
-draw_set_colour(c_white);
-draw_circle(mouse_x, mouse_y, base_size * size, 0);
-draw_set_blend_mode(bm_normal);
-surface_reset_target();
+if (active &lt; 4)
+{
+    surface_set_target(surf);
+    draw_set_colour(c_white);
+    draw_circle(mouse_x, mouse_y, base_size * size, 0);
+    surface_reset_target();
+    surface_set_target(surf_del1);
+    draw_set_blend_mode(bm_subtract);
+    draw_set_colour(c_white);
+    draw_circle(mouse_x, mouse_y, base_size * size, 0);
+    draw_set_blend_mode(bm_normal);
+    surface_reset_target();
+    surface_set_target(surf_del2);
+    draw_set_blend_mode(bm_subtract);
+    draw_set_colour(c_white);
+    draw_circle(mouse_x, mouse_y, base_size * size, 0);
+    draw_set_blend_mode(bm_normal);
+    surface_reset_target();
+}
 </string>
           </argument>
         </arguments>
@@ -300,6 +378,28 @@ with(obj_ast_parent)
     file_text_write_real(file, y);
 }
 file_text_close(file);
+ini_open("asteroids.ini");
+ini_write_real("%General", "num", instance_number(obj_astr));
+var a_num = 0;
+with(obj_astr)
+{
+    ini_write_real("Asteroid" + string(a_num), "x", x);
+    ini_write_real("Asteroid" + string(a_num), "y", y);
+    ini_write_real("Asteroid" + string(a_num), "type", image_index);
+    ini_write_real("Asteroid" + string(a_num), "num", 100);
+    a_num++;
+}
+ini_close();
+/*file = file_text_open_write("asteroids_profit.dat");
+file_text_write_real(file, instance_number(obj_astr));
+with(obj_astr)
+{
+    file_text_write_real(file, x);
+    file_text_write_real(file, y);
+    file_text_write_real(file, image_index);
+    file_text_write_real(file, 100);
+}
+file_text_close(file);*/
 </string>
           </argument>
         </arguments>

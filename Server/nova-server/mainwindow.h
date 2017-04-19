@@ -13,6 +13,7 @@
 #include <citem.h>
 #include <QVariant>
 #include <QFile>
+#include <casteroid.h>
 
 #define SHIPS   table_model->ship_list
 
@@ -29,6 +30,9 @@ public:
     ~MainWindow();
     void LogAddString(QString str);
     void deleteItem(CItem*);
+    void ComplexDeleteItem(CItem*);
+    CDevourer* DevourerCreate(CItem*);
+    CItem* SpaceItemCreate(qint32, qint32, QString);
 
 private slots:
     void newUser();
@@ -45,6 +49,7 @@ private slots:
     void UserChange();
     void HpRestore();
     void OxyRestore();
+    void DevourerTimeout();
 
 private:
     Ui::MainWindow *ui;
@@ -57,6 +62,7 @@ private:
     CIdGen *idgen;
     QList <CItem*> space_items;
     QList <CItem*> irl_items;
+    QList <CAsteroid*> asteroids;
 };
 
 

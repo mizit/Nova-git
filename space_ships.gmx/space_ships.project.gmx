@@ -29,6 +29,9 @@
     <sprite>sprites\s_sonar</sprite>
     <sprite>sprites\s_asteroids</sprite>
     <sprite>sprites\s_asterod</sprite>
+    <sprite>sprites\s_astr_gold</sprite>
+    <sprite>sprites\s_astr_ruby</sprite>
+    <sprite>sprites\s_astr_emerald</sprite>
     <sprite>sprites\s_hud</sprite>
     <sprite>sprites\s_mark</sprite>
     <sprite>sprites\s_sp</sprite>
@@ -69,6 +72,7 @@
         <script>scripts\net_send_im_out.gml</script>
         <script>scripts\net_send_position.gml</script>
         <script>scripts\net_send_shot.gml</script>
+        <script>scripts\net_send_get_asteroid.gml</script>
         <script>scripts\net_send_damage.gml</script>
         <script>scripts\net_send_item_get_num.gml</script>
         <script>scripts\net_send_item_drop.gml</script>
@@ -105,12 +109,13 @@
     <object>objects\obj_ship_parent</object>
     <object>objects\obj_shot</object>
     <object>objects\obj_enemy_shot</object>
+    <object>objects\obj_asteroid_profit</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_authorization</room>
     <room>rooms\room0</room>
   </rooms>
-  <constants number="28">
+  <constants number="29">
     <constant name="NET_GOOD_DAY">1</constant>
     <constant name="NET_POSITION">2</constant>
     <constant name="NET_FIRST_LOAD">3</constant>
@@ -121,6 +126,7 @@
     <constant name="NET_DOCK">10</constant>
     <constant name="NET_SUPPLIES">11</constant>
     <constant name="NET_SHOT">12</constant>
+    <constant name="NET_ASTEROID">14</constant>
     <constant name="PT_PILOT">1</constant>
     <constant name="PT_NAVIGATION">2</constant>
     <constant name="YES">1</constant>

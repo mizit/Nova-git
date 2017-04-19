@@ -33,6 +33,10 @@
 #define TUBE_SPLITTER   "obj_tube_splitter"
 
 #define MONEY_CASE      "obj_money_case"
+#define DEVOURER        "obj_devourer"
+#define GOLD            "obj_gold"
+#define RUBY            "obj_ruby"
+#define EMERALD         "obj_emerald"
 
 #define POWER_BLOCK     "obj_power_block"
 #define POWER_BLOCK_T   "obj_small_power_block"

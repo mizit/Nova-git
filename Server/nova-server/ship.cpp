@@ -101,6 +101,15 @@ qint64 point_distance(QPoint* point1, QPoint* point2)
     return static_cast <qint64> (sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
 }
 
+qint64 point_distance(QPoint point1, qint32 x, qint32 y)
+{
+    qint64 x1 = point1.rx() / 1000;
+    qint64 x2 = x * 100;
+    qint64 y1 = point1.ry() / 1000;
+    qint64 y2 = y * 100;
+    return static_cast <qint64> (sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
+}
+
 qint32 CAttribute::Calculation()
 {
     if (input_bonus > 0)

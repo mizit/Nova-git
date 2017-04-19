@@ -23,7 +23,7 @@ MySocket::MySocket()
 qint64 MySocket::MyWrite(char* data, quint64 maxSize)
 {
     data[0] = (maxSize & 0xFF);
-    data[1] = (maxSize & 0xFF00) << 8;
+    data[1] = (maxSize & 0xFF00) >> 8;
     return write(data, maxSize + 2);
 }
 
@@ -132,7 +132,7 @@ void net_send_set_position(MySocket* socket, CShip* ship)
     runner = SetToRawData(data, runner, ship->shell->pos->direction);
     runner = SetToRawData(data, runner, ship->shell->name);
     data[0] = (unsigned char)(runner & 0xFF);
-    data[1] = (unsigned char)((runner & 0xFF00) << 8);
+    data[1] = (unsigned char)((runner & 0xFF00) >> 8);
     socket->MyWrite((char*)data, runner - 2);
 }
 
@@ -162,7 +162,7 @@ void net_send_item(MySocket* socket, CItem* item, qint32 com)
     runner = SetToRawData(data, runner, item->image_angle);
     runner = SetToRawData(data, runner, item->hp);
     data[0] = (unsigned char)(runner & 0xFF);
-    data[1] = (unsigned char)((runner & 0xFF00) << 8);
+    data[1] = (unsigned char)((runner & 0xFF00) >> 8);
     //socket->LogAddString(item->type);
     socket->MyWrite((char*)data, runner - 2);
 }
@@ -183,7 +183,7 @@ void net_send_shell(MySocket* socket, CShell* shell)
         }
     }
     data[0] = (unsigned char)(runner & 0xFF);
-    data[1] = (unsigned char)((runner & 0xFF00) << 8);
+    data[1] = (unsigned char)((runner & 0xFF00) >> 8);
     socket->MyWrite((char*)data, runner - 2);
 }
 
@@ -201,7 +201,7 @@ void net_send_engine(MySocket* socket, CShip* ship)
     runner = SetToRawData(data, runner, ship->attribute[BN_WEAPON_RANGE].Calculation());
     runner = SetToRawData(data, runner, ship->attribute[BN_WEAPON_RAPID].Calculation());
     data[0] = (unsigned char)(runner & 0xFF);
-    data[1] = (unsigned char)((runner & 0xFF00) << 8);
+    data[1] = (unsigned char)((runner & 0xFF00) >> 8);
     socket->MyWrite((char*)data, runner - 2);
 }
 
@@ -225,7 +225,7 @@ void net_send_navigation(MySocket* socket, CShip* ship)
     runner = SetToRawData(data, runner, ship->attribute[BN_AIR_OUTPUT].Calculation());
     runner = SetToRawData(data, runner, ship->attribute[BN_SAFELY].Calculation());
     data[0] = (unsigned char)(runner & 0xFF);
-    data[1] = (unsigned char)((runner & 0xFF00) << 8);
+    data[1] = (unsigned char)((runner & 0xFF00) >> 8);
     socket->MyWrite((char*)data, runner - 2);
 }
 
@@ -240,7 +240,7 @@ void net_send_text(MySocket* socket, QString str, qint32 flags, qint32 chn, qint
     runner = SetToRawData(data, runner, str);
     runner = SetToRawData(data, runner, distance);
     data[0] = (unsigned char)(runner & 0xFF);
-    data[1] = (unsigned char)((runner & 0xFF00) << 8);
+    data[1] = (unsigned char)((runner & 0xFF00) >> 8);
     socket->MyWrite((char*)data, runner - 2);
 }
 
@@ -254,7 +254,7 @@ void net_send_dock(MySocket* socket, CShip* ship1, CShip* ship2, qint32 flags)
     runner = SetToRawData(data, runner, ship2->login);
     runner = SetToRawData(data, runner, flags);
     data[0] = (unsigned char)(runner & 0xFF);
-    data[1] = (unsigned char)((runner & 0xFF00) << 8);
+    data[1] = (unsigned char)((runner & 0xFF00) >> 8);
     socket->MyWrite((char*)data, runner - 2);
 }
 
@@ -266,7 +266,7 @@ void net_send_hp(MySocket* socket, CShip* ship)
     int runner = 3;
     runner = SetToRawData(data, runner, ship->attribute[BN_HP].Calculation());
     data[0] = (unsigned char)(runner & 0xFF);
-    data[1] = (unsigned char)((runner & 0xFF00) << 8);
+    data[1] = (unsigned char)((runner & 0xFF00) >> 8);
     socket->MyWrite((char*)data, runner - 2);
 }
 
@@ -283,6 +283,42 @@ void net_send_shot(MySocket* socket, SShot shot)
     runner = SetToRawData(data, runner, shot.damage);
     runner = SetToRawData(data, runner, shot.ttl);
     data[0] = (unsigned char)(runner & 0xFF);
-    data[1] = (unsigned char)((runner & 0xFF00) << 8);
+    data[1] = (unsigned char)((runner & 0xFF00) >> 8);
+    socket->MyWrite((char*)data, runner - 2);
+}
+
+void net_send_asteroid(MySocket* socket, QList <CAsteroid*> asteroids)
+{
+    QDataStream net_data(socket);
+    unsigned char data[2048];
+    //data = new unsigned char[16 * asteroids.size() + 3];
+    data[2] = NET_ASTEROID;
+    int runner = 3;
+    runner = SetToRawData(data, runner, asteroids.size());
+    for (int i = 0; i < asteroids.size(); i++)
+    {
+        runner = SetToRawData(data, runner, asteroids[i]->x);
+        runner = SetToRawData(data, runner, asteroids[i]->y);
+        runner = SetToRawData(data, runner, asteroids[i]->type);
+        runner = SetToRawData(data, runner, asteroids[i]->num);
+    }
+    data[0] = (unsigned char)(runner & 0xFF);
+    data[1] = (unsigned char)((runner & 0xFF00) >> 8);
+    socket->MyWrite((char*)data, runner - 2);
+}
+
+void net_send_asteroid(MySocket* socket, CAsteroid* asteroids)
+{
+    QDataStream net_data(socket);
+    unsigned char data[255];
+    data[2] = NET_ASTEROID;
+    int runner = 3;
+    runner = SetToRawData(data, runner, qint32(1));
+    runner = SetToRawData(data, runner, asteroids->x);
+    runner = SetToRawData(data, runner, asteroids->y);
+    runner = SetToRawData(data, runner, asteroids->type);
+    runner = SetToRawData(data, runner, asteroids->num);
+    data[0] = (unsigned char)(runner & 0xFF);
+    data[1] = (unsigned char)((runner & 0xFF00) >> 8);
     socket->MyWrite((char*)data, runner - 2);
 }

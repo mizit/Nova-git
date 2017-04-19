@@ -141,5 +141,6 @@ public:
 };
 
 qint64 point_distance(QPoint* point1, QPoint* point2);
+qint64 point_distance(QPoint point1, qint32 x, qint32 y);
 
 #endif // SHIP_H

@@ -10,6 +10,7 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QStandardItem>
+#include <casteroid.h>
 
 #define NO      0
 #define YES     1
@@ -29,6 +30,7 @@
 #define NET_SUPPLIES    11
 #define NET_SHOT        12
 #define NET_TRADE       13
+#define NET_ASTEROID    14
 
 #define PT_PILOT        1
 #define PT_NAVIGATION   2
@@ -87,5 +89,7 @@ void net_send_text(MySocket* socket, QString str, qint32 flags, qint32 chn, qint
 void net_send_dock(MySocket* socket, CShip* ship1, CShip* ship2, qint32 flags);
 void net_send_hp(MySocket* socket, CShip* ship);
 void net_send_shot(MySocket* socket, SShot shot);
+void net_send_asteroid(MySocket* socket, QList <CAsteroid*> asteroids);
+void net_send_asteroid(MySocket* socket, CAsteroid* asteroids);
 
 #endif // NETWORK_H

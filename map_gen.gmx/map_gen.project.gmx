@@ -10,6 +10,7 @@
     <sprite>sprites\s_circle_high</sprite>
     <sprite>sprites\s_circle_middle</sprite>
     <sprite>sprites\s_circle_low</sprite>
+    <sprite>sprites\s_astr</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -20,6 +21,7 @@
     <object>objects\obj_ast_low</object>
     <object>objects\obj_spot</object>
     <object>objects\obj_ast_parent</object>
+    <object>objects\obj_astr</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

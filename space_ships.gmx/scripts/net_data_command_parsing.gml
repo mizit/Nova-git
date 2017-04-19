@@ -353,5 +353,40 @@ switch (l_command)
         l_tmp.image_angle = l_tmp.direction;
         break;
     }
+    case NET_ASTEROID:
+    {
+        var l_size = buffer_read(l_buf, buffer_u32);
+        for (var l_i = 0; l_i < l_size; l_i++)
+        {
+            var l_x = buffer_read(l_buf, buffer_u32) * 100;
+            var l_y = buffer_read(l_buf, buffer_u32) * 100;
+            var l_type = buffer_read(l_buf, buffer_u32);
+            var l_tmp = instance_position(l_x, l_y, obj_asteroid_profit);
+            if (!l_tmp)
+            {
+                l_tmp = instance_create(l_x, l_y, obj_asteroid_profit);
+            }
+            switch (l_type)
+            {
+                case 1:
+                {
+                    sprite_index = s_astr_gold;
+                    break;
+                }
+                case 2:
+                {
+                    sprite_index = s_astr_ruby;
+                    break;
+                }
+                case 3:
+                {
+                    sprite_index = s_astr_emerald;
+                    break;
+                }
+            }
+            l_tmp.num = buffer_read(l_buf, buffer_u32);
+        }
+        break;
+    }
 }
 buffer_delete(l_buf);

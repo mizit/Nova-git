@@ -117,6 +117,26 @@ MainWindow::MainWindow(QWidget *parent) :
         }
     }
     ui->combo_userpos->addItem(SPACE);
+
+    QSettings settAstr("data/asteroids.ini", QSettings::IniFormat);
+    settAstr.beginGroup("General");
+    item_num = settAstr.value("num").toFloat();
+    settAstr.endGroup();
+    for (int i = 0; i < item_num; i++)
+    {
+        settAstr.beginGroup(QString("Asteroid%1").arg(i));
+        CAsteroid* tmp_astr;
+        tmp_astr = new CAsteroid();
+        tmp_astr->x = settAstr.value("x", 1).toFloat();
+        tmp_astr->y = settAstr.value("y").toFloat();
+        tmp_astr->setType(settAstr.value("type").toFloat());
+        //tmp_astr->type = settAstr.value("type").toFloat();
+        tmp_astr->num = settAstr.value("num").toFloat();
+        LogAddString(QString("X - %1, Y - %2, Type - %3, Num - %4").arg(tmp_astr->x).arg(tmp_astr->y).arg(tmp_astr->type).arg(tmp_astr->num));
+        settAstr.endGroup();
+        asteroids.append(tmp_astr);
+    }
+
     QSettings settInv("save/space.ini", QSettings::IniFormat);
     settInv.beginGroup("general");
     item_num = settInv.value("num").toInt();
@@ -134,9 +154,16 @@ MainWindow::MainWindow(QWidget *parent) :
         tmp_item->power = settInv.value("x").toFloat();
         tmp_item->image_angle = settInv.value("image_angle").toFloat();
         settInv.endGroup();
+        if (tmp_item->type == DEVOURER)
+        {
+            DevourerCreate(tmp_item);
+        }
         space_items.append(tmp_item);
     } 
     ui->combo_userpos->addItem(IRL);
+
+
+
 
     connect(ui->combo_userpos, SIGNAL(currentIndexChanged(int)), this, SLOT(UserChange()));
     UserChange();
@@ -157,6 +184,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lview_items->addItem(TUBE_TEE);
     ui->lview_items->addItem(TUBE_SPLITTER);
     ui->lview_items->addItem(MONEY_CASE);
+    ui->lview_items->addItem(DEVOURER);
     ui->lview_items->addItem(POWER_BLOCK);
     ui->lview_items->addItem(POWER_BLOCK_S);
     ui->lview_items->addItem(POWER_BLOCK_T);
@@ -307,6 +335,47 @@ void MainWindow::ItemDel()
     DataUpdate();
 }
 
+void MainWindow::ComplexDeleteItem(CItem* item)
+{
+    QString name = item->owner;
+    for (int i = 0; i < SHIPS.size(); i++)
+    {
+        if (SHIPS[i]->login == name)
+        {
+            if (SHIPS[i]->engSocket > 0)
+            {
+
+                net_send_item(SClients[SHIPS[i]->engSocket], item, ITEM_DEL|ITEM_ID);
+            }
+            deleteItem(item);
+        }
+    }
+    if (name == SPACE)
+    {
+        for (int i = 0; i < SHIPS.size(); i++)
+        {
+            if (SHIPS[i]->pilotSocket > 0)
+            {
+                net_send_item(SClients[SHIPS[i]->pilotSocket], item, ITEM_DEL|ITEM_ID);
+            }
+            if (SHIPS[i]->navSocket > 0)
+            {
+                net_send_item(SClients[SHIPS[i]->navSocket], item, ITEM_DEL|ITEM_ID);
+            }
+            if (SHIPS[i]->engSocket > 0)
+            {
+                net_send_item(SClients[SHIPS[i]->engSocket], item, ITEM_DEL|ITEM_ID);
+            }
+        }
+        deleteItem(item);
+    }
+    if (name == IRL)
+    {
+        deleteItem(item);
+    }
+    DataUpdate();
+}
+
 void MainWindow::ItemAdd()
 {
     //quint8 pos = ui->lview_items->currentRow();
@@ -333,6 +402,10 @@ void MainWindow::ItemAdd()
         {
             CItem *item;
             item = idgen->createItem(type);
+            if (item->type == DEVOURER)
+            {
+                DevourerCreate(item);
+            }
             space_items.append(item);
             item->owner = SPACE;
             ui->lview_inv->addItem(type + QString(" %1").arg(item->id));
@@ -499,6 +572,22 @@ void MainWindow::DataSave()
         settIrl.setValue("power", irl_items[i]->power);
         settIrl.setValue("image_angle", irl_items[i]->image_angle);
         settIrl.endGroup();
+    }
+
+    QFile fileAstr("data/asteroids.ini");
+    fileAstr.remove();
+    QSettings settAstr("data/asteroids.ini", QSettings::IniFormat);
+    settAstr.beginGroup("general");
+    settAstr.setValue("num", asteroids.size());
+    settAstr.endGroup();
+    for (int i = 0; i < asteroids.size(); i++)
+    {
+        settAstr.beginGroup(QString("Asteroid%1").arg(i));
+        settAstr.setValue("x", asteroids[i]->x);
+        settAstr.setValue("y", asteroids[i]->y);
+        settAstr.setValue("type", asteroids[i]->code);
+        settAstr.setValue("num", asteroids[i]->num);
+        settAstr.endGroup();
     }
 }
 
@@ -828,6 +917,10 @@ void MainWindow::slotReadClient()
                                         break;
                                     }
                                 }
+                                if (tmp_item->type == DEVOURER)
+                                {
+                                    DevourerCreate(tmp_item);
+                                }
                                 space_items.append(tmp_item);
                                 for (int i = 0; i < SHIPS.size(); i++)
                                 {
@@ -899,6 +992,17 @@ void MainWindow::slotReadClient()
                 if ((def_com &0x0F) == ITEM_DEL)
                 {
                     deleteItem(tmp_item);
+                }
+                if ((def_com &0x0F) == ITEM_ADD)
+                {
+                    tmp_item = new CItem();
+                    tmp_item->type = GetString(data, 10);
+                    tmp_item->id = idgen->IdGen(0, 0);
+                    tmp_item->pos.setX(GetInt32((unsigned char*)data, 11 + tmp_item->type.length()));
+                    tmp_item->pos.setY(GetInt32((unsigned char*)data, 15 + tmp_item->type.length()));
+                    tmp_item->image_angle = GetInt32((unsigned char*)data, 19 + tmp_item->type.length());
+                    tmp_item->hp = GetInt32((unsigned char*)data, 23 + tmp_item->type.length());
+
                 }
                 break;
             }
@@ -1072,6 +1176,39 @@ void MainWindow::slotReadClient()
                         }
                     }
                 }
+                break;
+            }
+            case NET_ASTEROID:
+            {
+                qint32 x = GetInt32((unsigned char *)data, 1);
+                if (x == 0x7FFFFFFF)
+                {
+                    net_send_asteroid(clientSocket, asteroids);
+                    break;
+                }
+                qint32 y = GetInt32((unsigned char *)data, 5);
+                qint32 type = GetInt32((unsigned char *)data, 9);
+                qint32 num = GetInt32((unsigned char *)data, 13);
+                for (int i = 0; i < asteroids.size(); i++)
+                {
+                    if ((asteroids[i]->x == x) && (asteroids[i]->y == y))
+                    {
+                        asteroids[i]->type = type;
+                        asteroids[i]->num = num;
+                        for (int j = 0; j < SHIPS.size(); j++)
+                        {
+                            if (SHIPS[j]->pilotSocket > 0)
+                            {
+                                net_send_asteroid(SClients[SHIPS[j]->pilotSocket], asteroids[i]);
+                            }
+                            if (SHIPS[j]->navSocket > 0)
+                            {
+                                net_send_asteroid(SClients[SHIPS[j]->navSocket], asteroids[i]);
+                            }
+                        }
+                    }
+                }
+                break;
             }
         }
     }
@@ -1097,4 +1234,56 @@ void MainWindow::LogAddString(QString str)
     item->setText(str);
     log_model->appendRow(item);
     ui->log->scrollToBottom();
+}
+
+CDevourer* MainWindow::DevourerCreate(CItem* base)
+{
+    CDevourer* dev;
+    dev = new CDevourer();
+    connect(dev->timer, SIGNAL(timeout()), this, SLOT(DevourerTimeout()));
+    dev->base = base;
+    dev->nearest_asteroid = dev->FindNearestAsteroid(asteroids);
+    if (dev->CanDig())
+    {
+        dev->timer->start(10000);
+    }
+    else
+    {
+        delete dev;
+    }
+    return dev;
+}
+
+void MainWindow::DevourerTimeout()
+{
+    CDevourer* dev;
+    dev = ((CDevourerTimer*)sender())->owner;
+    for (int i = 0; i < 3; i++)
+    {
+        SpaceItemCreate(dev->base->pos.rx() + rand() % 200 - 100, dev->base->pos.ry() + rand() % 200 - 100, dev->nearest_asteroid->type);
+    }
+    ComplexDeleteItem(dev->base);
+    delete dev;
+}
+
+
+CItem* MainWindow::SpaceItemCreate(qint32 x, qint32 y, QString type)
+{
+    CItem* item;
+    item = idgen->createItem(type);
+    item->pos.setX(x);
+    item->pos.setY(y);
+    item->owner = SPACE;
+    space_items.append(item);
+    for (int i = 0; i < SHIPS.size(); i++)
+    {
+        if (SHIPS[i]->pilotSocket > 0)
+        {
+            net_send_item(SClients[SHIPS[i]->pilotSocket], item, ITEM_SET|ITEM_ID);
+        }
+        if (SHIPS[i]->navSocket > 0)
+        {
+            net_send_item(SClients[SHIPS[i]->navSocket], item, ITEM_SET|ITEM_ID);
+        }
+    }
 }
