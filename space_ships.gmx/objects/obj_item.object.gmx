@@ -27,6 +27,7 @@
             <kind>1</kind>
             <string>net_id = 0;
 speed_rot = random_range(-5, 5);
+hp = 100;
 name = "";
 </string>
           </argument>

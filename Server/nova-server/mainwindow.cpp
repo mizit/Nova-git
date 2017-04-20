@@ -888,6 +888,14 @@ void MainWindow::slotReadClient()
                             clientSocket->parentShip->item_list.append(tmp_item);
                             net_send_item(clientSocket, tmp_item, ITEM_SET | ITEM_ID);
                         }
+                        if (tmp_item->owner == SPACE)
+                        {
+                            if ((clientSocket->parentShip->pilotSocket == clientSocket->descriptor) ||
+                                (clientSocket->parentShip->navSocket == clientSocket->descriptor))
+                            {
+                                net_send_item(clientSocket, tmp_item, ITEM_SET | ITEM_ID);
+                            }
+                        }
                         if (tmp_item->owner == clientSocket->parentShip->login)
                         {
                             net_send_item(clientSocket, tmp_item, ITEM_SET | ITEM_ID);
@@ -1258,9 +1266,24 @@ void MainWindow::DevourerTimeout()
 {
     CDevourer* dev;
     dev = ((CDevourerTimer*)sender())->owner;
-    for (int i = 0; i < 3; i++)
+    if (dev->nearest_asteroid->num > 0)
     {
-        SpaceItemCreate(dev->base->pos.rx() + rand() % 200 - 100, dev->base->pos.ry() + rand() % 200 - 100, dev->nearest_asteroid->type);
+        for (int i = 0; i < 3; i++)
+        {
+            SpaceItemCreate(dev->base->pos.rx() + rand() % 200 - 100, dev->base->pos.ry() + rand() % 200 - 100, dev->nearest_asteroid->type);
+        }
+    }
+    dev->nearest_asteroid->num = 0;
+    for (int i = 0; i < SHIPS.size(); i++)
+    {
+        if (SHIPS[i]->pilotSocket > 0)
+        {
+            net_send_asteroid(SClients[SHIPS[i]->pilotSocket], dev->nearest_asteroid);
+        }
+        if (SHIPS[i]->navSocket > 0)
+        {
+            net_send_asteroid(SClients[SHIPS[i]->navSocket], dev->nearest_asteroid);
+        }
     }
     ComplexDeleteItem(dev->base);
     delete dev;

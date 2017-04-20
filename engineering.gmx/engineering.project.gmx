@@ -54,6 +54,10 @@
     <sprite>sprites\s_select_corner</sprite>
     <sprites name="items">
       <sprite>sprites\s_money_case</sprite>
+      <sprite>sprites\s_devourer</sprite>
+      <sprite>sprites\s_gold</sprite>
+      <sprite>sprites\s_ruby</sprite>
+      <sprite>sprites\s_emerald</sprite>
     </sprites>
     <sprite>sprites\s_numpad</sprite>
     <sprite>sprites\s_string</sprite>
@@ -194,6 +198,10 @@
     </objects>
     <objects name="items">
       <object>objects\obj_money_case</object>
+      <object>objects\obj_gold</object>
+      <object>objects\obj_ruby</object>
+      <object>objects\obj_emerald</object>
+      <object>objects\obj_devourer</object>
       <object>objects\obj_item</object>
     </objects>
     <object>objects\obj_global_item</object>

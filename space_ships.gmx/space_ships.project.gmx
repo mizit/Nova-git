@@ -56,6 +56,7 @@
     <sprite>sprites\s_box</sprite>
     <sprite>sprites\s_scrap</sprite>
     <sprite>sprites\s_shot</sprite>
+    <sprite>sprites\s_devourer</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\back_test</background>
@@ -77,6 +78,8 @@
         <script>scripts\net_send_item_get_num.gml</script>
         <script>scripts\net_send_item_drop.gml</script>
         <script>scripts\net_send_item_pickup.gml</script>
+        <script>scripts\net_send_item_del.gml</script>
+        <script>scripts\net_send_item_add.gml</script>
       </scripts>
       <script>scripts\net_data_parsing.gml</script>
       <script>scripts\net_data_command_parsing.gml</script>
@@ -104,6 +107,7 @@
       <object>objects\obj_item</object>
       <object>objects\obj_money_case</object>
       <object>objects\obj_box</object>
+      <object>objects\obj_devourer</object>
     </objects>
     <object>objects\obj_dock</object>
     <object>objects\obj_ship_parent</object>

@@ -360,28 +360,33 @@ switch (l_command)
         {
             var l_x = buffer_read(l_buf, buffer_u32) * 100;
             var l_y = buffer_read(l_buf, buffer_u32) * 100;
-            var l_type = buffer_read(l_buf, buffer_u32);
+            var l_type = buffer_read(l_buf, buffer_string);
             var l_tmp = instance_position(l_x, l_y, obj_asteroid_profit);
             if (!l_tmp)
             {
                 l_tmp = instance_create(l_x, l_y, obj_asteroid_profit);
             }
+            name = l_type;
             switch (l_type)
             {
-                case 1:
+                case "obj_gold":
                 {
-                    sprite_index = s_astr_gold;
+                    l_tmp.sprite_index = s_astr_gold;
                     break;
                 }
-                case 2:
+                case "obj_ruby":
                 {
-                    sprite_index = s_astr_ruby;
+                    l_tmp.sprite_index = s_astr_ruby;
                     break;
                 }
-                case 3:
+                case "obj_emerald":
                 {
-                    sprite_index = s_astr_emerald;
+                    l_tmp.sprite_index = s_astr_emerald;
                     break;
+                }
+                default:
+                {
+                    sprite_index = obj_great_ship;
                 }
             }
             l_tmp.num = buffer_read(l_buf, buffer_u32);
