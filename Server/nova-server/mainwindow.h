@@ -14,6 +14,7 @@
 #include <QVariant>
 #include <QFile>
 #include <casteroid.h>
+#include <cbot.h>
 
 #define SHIPS   table_model->ship_list
 
@@ -51,7 +52,7 @@ private slots:
     void OxyRestore();
     void DevourerTimeout();
 
-private:
+public:
     Ui::MainWindow *ui;
     MyServer *server;
     QMap<int, MySocket*> SClients;
@@ -63,6 +64,7 @@ private:
     QList <CItem*> space_items;
     QList <CItem*> irl_items;
     QList <CAsteroid*> asteroids;
+    CHyperMind *hyper_mind;
 };
 
 

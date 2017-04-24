@@ -393,5 +393,41 @@ switch (l_command)
         }
         break;
     }
+    case NET_BOT:
+    {
+        var l_name = buffer_read(l_buf, buffer_string);
+        var l_id = buffer_read(l_buf, buffer_u32);
+        var l_active = buffer_read(l_buf, buffer_u32);
+        var l_x = buffer_read(l_buf, buffer_u32);
+        var l_y = buffer_read(l_buf, buffer_u32);
+        var l_speed = buffer_read(l_buf, buffer_u32);
+        var l_direction = buffer_read(l_buf, buffer_u32);
+        var l_hp = buffer_read(l_buf, buffer_u32);
+        var l_com_type = buffer_read(l_buf, buffer_u32);
+        var l_bot = noone;
+        with (obj_bot_parent)
+        {
+            if (net_id == l_id)
+                l_bot = id;
+        }
+        if (l_bot == noone)
+        {
+            l_name = asset_get_index(l_name);
+            if (l_name == -1)
+            {
+                break;
+            }
+            l_bot = instance_create(l_x, l_y, l_name);
+            l_bot.net_id = l_id;
+        }
+        l_bot.active = l_active;
+        l_bot.x = l_x;
+        l_bot.y = l_y;
+        l_bot.speed = l_speed;
+        l_bot.direction = l_direction;
+        l_bot.hp = l_hp;
+        l_bot.com_type = l_com_type;
+        break;
+    }
 }
 buffer_delete(l_buf);

@@ -322,3 +322,31 @@ void net_send_asteroid(MySocket* socket, CAsteroid* asteroids)
     data[1] = (unsigned char)((runner & 0xFF00) >> 8);
     socket->MyWrite((char*)data, runner - 2);
 }
+
+
+void net_send_bot(MySocket* socket, CBot* bot)
+{
+    QDataStream net_data(socket);
+    unsigned char data[255];
+    data[2] = NET_BOT;
+    int runner = 3;
+    runner = SetToRawData(data, runner, bot->name);
+    runner = SetToRawData(data, runner, bot->net_id);
+    runner = SetToRawData(data, runner, bot->active);
+    runner = SetToRawData(data, runner, bot->x);
+    runner = SetToRawData(data, runner, bot->y);
+    runner = SetToRawData(data, runner, bot->speed);
+    runner = SetToRawData(data, runner, bot->direction);
+    runner = SetToRawData(data, runner, bot->hp);
+    if (bot->commands_list.size() > 0)
+    {
+        runner = SetToRawData(data, runner, bot->commands_list[0]->type);
+    }
+    else
+    {
+        runner = SetToRawData(data, runner, qint32(0));
+    }
+    data[0] = (unsigned char)(runner & 0xFF);
+    data[1] = (unsigned char)((runner & 0xFF00) >> 8);
+    socket->MyWrite((char*)data, runner - 2);
+}

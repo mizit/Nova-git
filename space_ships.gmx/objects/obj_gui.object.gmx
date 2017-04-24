@@ -32,7 +32,7 @@ if (object_exists(obj_ship.sonar_point))
 {
     draw_text(25, 75, "Distance to goal = " + string(point_distance(obj_ship.x, obj_ship.y, obj_ship.sonar_point.x, obj_ship.sonar_point.y)));
 }
-
+draw_text(25, 100, "bots = " + string(instance_number(obj_bot_parent))); 
 </string>
           </argument>
         </arguments>

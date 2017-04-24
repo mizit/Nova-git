@@ -1,0 +1,12 @@
+INPUT(
+./release\main.o
+./release\mainwindow.o
+./release\mytablemodel.o
+./release\ship.o
+./release\network.o
+./release\citem.o
+./release\casteroid.o
+./release\cbot.o
+./release\moc_mainwindow.o
+./release\moc_cbot.o
+);

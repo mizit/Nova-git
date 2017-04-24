@@ -110,6 +110,19 @@ qint64 point_distance(QPoint point1, qint32 x, qint32 y)
     return static_cast <qint64> (sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
 }
 
+qint64 point_distance(qint32 x1, qint32 y1, qint32 x2, qint32 y2)
+{
+    return static_cast <qint64> (sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
+}
+
+qint32 min(qint32 a1, qint32 a2)
+{
+    if (a1 < a2)
+        return a1;
+    else
+        return a2;
+}
+
 qint32 CAttribute::Calculation()
 {
     if (input_bonus > 0)

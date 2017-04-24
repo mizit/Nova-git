@@ -19,13 +19,15 @@ SOURCES += main.cpp\
     ship.cpp \
     network.cpp \
     citem.cpp \
-    casteroid.cpp
+    casteroid.cpp \
+    cbot.cpp
 
 HEADERS  += mainwindow.h \
     mytablemodel.h \
     ship.h \
     network.h \
     citem.h \
-    casteroid.h
+    casteroid.h \
+    cbot.h
 
 FORMS    += mainwindow.ui

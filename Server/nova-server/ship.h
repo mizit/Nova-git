@@ -121,26 +121,13 @@ public:
     CShell *shell;
     QList <CItem*> item_list;
     CAttribute attribute[NUM_ATR];
-    /*CAtribute air_output;
-    CAtribute air_bank;
-    CAtribute safely;
-    CAtribute radar_range;
-    CAtribute radio_range;
-    CAtribute system_level;
-    CAtribute main_drive;
-    CAtribute man_drive;
-    CAtribute back_drive;
-    CAtribute mass;
-    QList <CWeapon*> weapons;
-    CAtribute max_hp;
-    CAtribute max_oxygen;
-    CAtribute hp;
-    CAtribute oxygen;*/
 public:
     CShip();
 };
 
 qint64 point_distance(QPoint* point1, QPoint* point2);
 qint64 point_distance(QPoint point1, qint32 x, qint32 y);
+qint64 point_distance(qint32 x1, qint32 y1, qint32 x2, qint32 y2);
+qint32 min(qint32 a1, qint32 a2);
 
 #endif // SHIP_H

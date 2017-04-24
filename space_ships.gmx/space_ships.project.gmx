@@ -57,6 +57,13 @@
     <sprite>sprites\s_scrap</sprite>
     <sprite>sprites\s_shot</sprite>
     <sprite>sprites\s_devourer</sprite>
+    <sprites name="bots">
+      <sprite>sprites\s_hive_mind</sprite>
+      <sprite>sprites\s_miner</sprite>
+      <sprite>sprites\s_carryall</sprite>
+      <sprite>sprites\s_anomaly</sprite>
+      <sprite>sprites\s_finder</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\back_test</background>
@@ -114,12 +121,20 @@
     <object>objects\obj_shot</object>
     <object>objects\obj_enemy_shot</object>
     <object>objects\obj_asteroid_profit</object>
+    <objects name="bots">
+      <object>objects\obj_bot_parent</object>
+      <object>objects\obj_hyper_mind</object>
+      <object>objects\obj_miner</object>
+      <object>objects\obj_carryall</object>
+      <object>objects\obj_anomaly</object>
+      <object>objects\obj_finder</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_authorization</room>
     <room>rooms\room0</room>
   </rooms>
-  <constants number="29">
+  <constants number="30">
     <constant name="NET_GOOD_DAY">1</constant>
     <constant name="NET_POSITION">2</constant>
     <constant name="NET_FIRST_LOAD">3</constant>
@@ -131,6 +146,7 @@
     <constant name="NET_SUPPLIES">11</constant>
     <constant name="NET_SHOT">12</constant>
     <constant name="NET_ASTEROID">14</constant>
+    <constant name="NET_BOT">15</constant>
     <constant name="PT_PILOT">1</constant>
     <constant name="PT_NAVIGATION">2</constant>
     <constant name="YES">1</constant>

@@ -1,0 +1,12 @@
+INPUT(
+./debug\main.o
+./debug\mainwindow.o
+./debug\mytablemodel.o
+./debug\ship.o
+./debug\network.o
+./debug\citem.o
+./debug\casteroid.o
+./debug\cbot.o
+./debug\moc_mainwindow.o
+./debug\moc_cbot.o
+);

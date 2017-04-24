@@ -28,6 +28,27 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->btn_hp, SIGNAL(clicked()), this, SLOT(HpRestore()));
     connect(ui->btn_oxygen, SIGNAL(clicked()), this, SLOT(OxyRestore()));
 
+    hyper_mind = new CHyperMind();
+    connect(ui->btn_mine, SIGNAL(clicked()), hyper_mind, SLOT(MinerCreate()));
+    connect(ui->btn_carryall, SIGNAL(clicked()), hyper_mind, SLOT(CarryallCreate()));
+    connect(ui->btn_anomaly, SIGNAL(clicked()), hyper_mind, SLOT(AnomalyCreate()));
+    connect(ui->btn_finder, SIGNAL(clicked()), hyper_mind, SLOT(FinderCreate()));
+    connect(ui->btn_bot_back, SIGNAL(clicked()), hyper_mind, SLOT(ComAddBack()));
+    connect(ui->btn_bot_go, SIGNAL(clicked()), hyper_mind, SLOT(ComAddGo()));
+    connect(ui->btn_bot_drop, SIGNAL(clicked()), hyper_mind, SLOT(ComAddDrop()));
+    connect(ui->btn_bot_attack, SIGNAL(clicked()), hyper_mind, SLOT(ComAddAttack()));
+    hyper_mind->my_bots = ui->lview_bots;
+    for (int i = 0; i < SHIPS.size(); i++)
+    {
+        hyper_mind->ship_list[i] = SHIPS[i];
+    }
+    hyper_mind->space_list = &space_items;
+    hyper_mind->comx = ui->edit_com_x;
+    hyper_mind->comy = ui->edit_com_y;
+    hyper_mind->items_view = ui->lview_items2;
+
+    hyper_mind->setActive(1);
+
 
     int num = 0;
     QVariant buf;
@@ -687,6 +708,84 @@ void MainWindow::DataUpdate()
             ui->lview_inv->addItem(irl_items[j]->type + QString(" %1").arg(irl_items[j]->id));
         }
     }
+    for (int i = 0; i < hyper_mind->bots.size(); i++)
+    {
+        CBot* bot;
+        bot = hyper_mind->bots[i];
+        if (bot->commands_list.size() > 0)
+        {
+            if (bot->commands_list[0]->type == BC_DROP)
+            {
+                if (bot->item_list.size() > 0)
+                {
+                    CItem* item;
+                    item = bot->item_list[0];
+                    item->pos.setX(bot->x);
+                    item->pos.setY(bot->y);
+                    item->owner = SPACE;
+                    space_items.append(item);
+                    bot->item_list.removeFirst();
+                    for (int j = 0; j < SHIPS.size(); j++)
+                    {
+                        if (SHIPS[j]->pilotSocket > 0)
+                        {
+                            net_send_item(SClients[SHIPS[j]->pilotSocket], item, ITEM_ID|ITEM_SET);
+                        }
+                        if (SHIPS[j]->navSocket > 0)
+                        {
+                            net_send_item(SClients[SHIPS[j]->navSocket], item, ITEM_ID|ITEM_SET);
+                        }
+                    }
+                }
+                if (bot->cargo_bots.size() > 0)
+                {
+                    CBot* c_bot;
+                    c_bot = bot->cargo_bots[0];
+                    c_bot->x = bot->x;
+                    c_bot->y = bot->y;
+                    c_bot->setActive(1);
+                    for (int j = 0; j < SHIPS.size(); j++)
+                    {
+                        if (SHIPS[j]->pilotSocket > 0)
+                        {
+                            net_send_bot(SClients[SHIPS[j]->pilotSocket], c_bot);
+                        }
+                        if (SHIPS[j]->navSocket > 0)
+                        {
+                            net_send_bot(SClients[SHIPS[j]->navSocket], c_bot);
+                        }
+                    }
+                }
+            }
+        }
+        if (bot->ready_to_send)
+        {
+            bot->ready_to_send = 0;
+            for (int j = 0; j < SHIPS.size(); j++)
+            {
+                if (SHIPS[j]->pilotSocket > 0)
+                {
+                    net_send_bot(SClients[SHIPS[j]->pilotSocket], bot);
+                }
+                if (SHIPS[j]->navSocket > 0)
+                {
+                    net_send_bot(SClients[SHIPS[j]->navSocket], bot);
+                }
+            }
+        }
+    }
+    if (ui->lview_bots->currentRow() > -1)
+    {
+        CBot* bot = hyper_mind->bots[ui->lview_bots->currentRow()];
+        ui->lview_orders->clear();
+        for (int i = 0; i < bot->commands_list.size(); i++)
+        {
+            ui->lview_orders->addItem(QString("%1").arg(bot->commands_list[i]->type));
+        }
+        ui->edit_bot_x->setText(QString("%1").arg(bot->x));
+        ui->edit_bot_y->setText(QString("%1").arg(bot->y));
+        ui->edit_bot_speed->setText(QString("%1").arg(bot->speed));
+    }
 }
 
 void MainWindow::UserDisconnected()
@@ -1309,4 +1408,5 @@ CItem* MainWindow::SpaceItemCreate(qint32 x, qint32 y, QString type)
             net_send_item(SClients[SHIPS[i]->navSocket], item, ITEM_SET|ITEM_ID);
         }
     }
+    return item;
 }

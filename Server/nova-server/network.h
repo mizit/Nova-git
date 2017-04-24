@@ -11,6 +11,7 @@
 #include <QTcpSocket>
 #include <QStandardItem>
 #include <casteroid.h>
+#include <cbot.h>
 
 #define NO      0
 #define YES     1
@@ -31,6 +32,7 @@
 #define NET_SHOT        12
 #define NET_TRADE       13
 #define NET_ASTEROID    14
+#define NET_BOT         15
 
 #define PT_PILOT        1
 #define PT_NAVIGATION   2
@@ -91,5 +93,7 @@ void net_send_hp(MySocket* socket, CShip* ship);
 void net_send_shot(MySocket* socket, SShot shot);
 void net_send_asteroid(MySocket* socket, QList <CAsteroid*> asteroids);
 void net_send_asteroid(MySocket* socket, CAsteroid* asteroids);
+void net_send_bot(MySocket* socket, CBot* bot);
+
 
 #endif // NETWORK_H
