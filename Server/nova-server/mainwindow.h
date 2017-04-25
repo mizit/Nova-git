@@ -51,6 +51,7 @@ private slots:
     void HpRestore();
     void OxyRestore();
     void DevourerTimeout();
+    void SendMessage();
 
 public:
     Ui::MainWindow *ui;

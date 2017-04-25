@@ -26,6 +26,7 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableView>
+#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
 
@@ -151,6 +152,10 @@ public:
     QPushButton *btn_bot_del;
     QPushButton *btn_bot_del_2;
     QPushButton *btn_bot_add_item;
+    QWidget *tab_5;
+    QComboBox *cbox_ship_text;
+    QTextEdit *textEdit;
+    QPushButton *btn_send_msg;
     QPushButton *pushButton;
     QPushButton *btn_save;
     QMenuBar *menuBar;
@@ -513,6 +518,18 @@ public:
         btn_bot_add_item->setObjectName(QStringLiteral("btn_bot_add_item"));
         btn_bot_add_item->setGeometry(QRect(680, 160, 75, 23));
         tabWidget->addTab(tab_4, QString());
+        tab_5 = new QWidget();
+        tab_5->setObjectName(QStringLiteral("tab_5"));
+        cbox_ship_text = new QComboBox(tab_5);
+        cbox_ship_text->setObjectName(QStringLiteral("cbox_ship_text"));
+        cbox_ship_text->setGeometry(QRect(20, 20, 111, 22));
+        textEdit = new QTextEdit(tab_5);
+        textEdit->setObjectName(QStringLiteral("textEdit"));
+        textEdit->setGeometry(QRect(170, 20, 301, 311));
+        btn_send_msg = new QPushButton(tab_5);
+        btn_send_msg->setObjectName(QStringLiteral("btn_send_msg"));
+        btn_send_msg->setGeometry(QRect(480, 20, 75, 23));
+        tabWidget->addTab(tab_5, QString());
         pushButton = new QPushButton(centralWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
         pushButton->setGeometry(QRect(1090, 0, 75, 23));
@@ -533,7 +550,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(3);
+        tabWidget->setCurrentIndex(4);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -600,6 +617,8 @@ public:
         btn_bot_del_2->setText(QApplication::translate("MainWindow", "Delete", 0));
         btn_bot_add_item->setText(QApplication::translate("MainWindow", "Add Item", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_4), QApplication::translate("MainWindow", "\320\221\320\276\321\202\321\213", 0));
+        btn_send_msg->setText(QApplication::translate("MainWindow", "\320\236\321\202\320\276\321\201\320\273\320\260\321\202\321\214", 0));
+        tabWidget->setTabText(tabWidget->indexOf(tab_5), QApplication::translate("MainWindow", "\320\241\320\276\320\276\320\261\321\211\320\265\320\275\320\270\321\217", 0));
         pushButton->setText(QApplication::translate("MainWindow", "PushButton", 0));
         btn_save->setText(QApplication::translate("MainWindow", "Save", 0));
     } // retranslateUi

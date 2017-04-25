@@ -27,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->btn_delItem, SIGNAL(clicked()), this, SLOT(ItemDel()));
     connect(ui->btn_hp, SIGNAL(clicked()), this, SLOT(HpRestore()));
     connect(ui->btn_oxygen, SIGNAL(clicked()), this, SLOT(OxyRestore()));
+    connect(ui->btn_send_msg, SIGNAL(clicked()), this, SLOT(SendMessage()));
 
     hyper_mind = new CHyperMind();
     connect(ui->btn_mine, SIGNAL(clicked()), hyper_mind, SLOT(MinerCreate()));
@@ -99,6 +100,7 @@ MainWindow::MainWindow(QWidget *parent) :
         sett.endGroup();
         table_model->add_ship(ship);
         ui->combo_userpos->addItem(ship->login);
+        ui->cbox_ship_text->addItem(ship->login);
         QSettings settPos(QString("save/%1/position.ini").arg(ship->login), QSettings::IniFormat);
         ship->shell->pos->pos->setX(settPos.value("x").toInt());
         ship->shell->pos->pos->setY(settPos.value("y").toInt());
@@ -153,7 +155,7 @@ MainWindow::MainWindow(QWidget *parent) :
         tmp_astr->setType(settAstr.value("type").toFloat());
         //tmp_astr->type = settAstr.value("type").toFloat();
         tmp_astr->num = settAstr.value("num").toFloat();
-        LogAddString(QString("X - %1, Y - %2, Type - %3, Num - %4").arg(tmp_astr->x).arg(tmp_astr->y).arg(tmp_astr->type).arg(tmp_astr->num));
+        //LogAddString(QString("X - %1, Y - %2, Type - %3, Num - %4").arg(tmp_astr->x).arg(tmp_astr->y).arg(tmp_astr->type).arg(tmp_astr->num));
         settAstr.endGroup();
         asteroids.append(tmp_astr);
     }
@@ -226,6 +228,24 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lview_items->addItem(ENGINE_T);
 
     connect(ui->button_add_item, SIGNAL(clicked()), this, SLOT(ItemAdd()));
+}
+
+void MainWindow::SendMessage()
+{
+    CShip* ship;
+    for (int i = 0; i < SHIPS.size(); i++)
+    {
+        if (SHIPS[i]->login == ui->cbox_ship_text->currentText())
+        {
+            ship = SHIPS[i];
+            if (ship->navSocket > 0)
+            {
+                net_send_text(SClients[ship->navSocket], ui->textEdit->toPlainText(), TX_SYSTEM, 0, 0);
+            }
+            ui->textEdit->clear();
+        }
+    }
+
 }
 
 void MainWindow::HpRestore()
@@ -1150,6 +1170,7 @@ void MainWindow::slotReadClient()
             {
                 qint32 chn = GetInt32((unsigned char *)data, 1);
                 QString text = GetString(data, 5);
+                LogAddString(QString("[%1]:%2").arg(clientSocket->parentShip->login).arg(text));
                 for (int i = 0; i < SHIPS.size(); i++)
                 {
                     if (SHIPS[i]->navSocket > 0)
