@@ -61,8 +61,59 @@ oxygen = 0;
 oxygen_output = 0;
 safely = 0;
 
+
 time_oxygen_out = 300;
 alarm[0] = time_oxygen_out;
+
+alarm[1] = 1;
+item_counter = 0;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>net_send_get_asteroid(obj_net.net_buf, obj_net.socket);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>net_send_item_get_num(obj_net.net_buf, obj_net.socket, item_counter);
+alarm[4] = 1;
 </string>
           </argument>
         </arguments>
@@ -159,7 +210,7 @@ if (keyboard_check(sonar_key))
 {
     sonar_alpha = 1;
 }*/
-obj_navigation.max_mark = system_level;
+obj_globnav.max_mark = system_level;
 switch (system_level)
 {
     case 0:

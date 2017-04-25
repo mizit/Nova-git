@@ -28,8 +28,6 @@
     <sprite>sprites\s_ship_original</sprite>
     <sprite>sprites\s_sonar</sprite>
     <sprite>sprites\s_great_ship</sprite>
-    <sprite>sprites\s_asteroids</sprite>
-    <sprite>sprites\s_asterod</sprite>
     <sprite>sprites\s_bubble</sprite>
     <sprite>sprites\s_mark</sprite>
     <sprites name="ships">
@@ -47,6 +45,28 @@
     <sprite>sprites\s_hud</sprite>
     <sprite>sprites\s_locked</sprite>
     <sprite>sprites\s_tube</sprite>
+    <sprites name="items">
+      <sprite>sprites\s_box</sprite>
+      <sprite>sprites\s_money_case</sprite>
+      <sprite>sprites\s_scrap</sprite>
+      <sprite>sprites\s_emerald</sprite>
+      <sprite>sprites\s_gold</sprite>
+      <sprite>sprites\s_ruby</sprite>
+    </sprites>
+    <sprites name="asteroids">
+      <sprite>sprites\s_astr_emerald</sprite>
+      <sprite>sprites\s_astr_gold</sprite>
+      <sprite>sprites\s_astr_ruby</sprite>
+      <sprite>sprites\s_asterod</sprite>
+      <sprite>sprites\s_asteroids</sprite>
+    </sprites>
+    <sprites name="bots">
+      <sprite>sprites\s_anomaly</sprite>
+      <sprite>sprites\s_carryall</sprite>
+      <sprite>sprites\s_finder</sprite>
+      <sprite>sprites\s_hive_mind</sprite>
+      <sprite>sprites\s_miner</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\back_test</background>
@@ -65,6 +85,8 @@
         <script>scripts\net_send_msg.gml</script>
         <script>scripts\net_send_oxygen_out.gml</script>
         <script>scripts\net_send_oxygen_up.gml</script>
+        <script>scripts\net_send_item_get_num.gml</script>
+        <script>scripts\net_send_get_asteroid.gml</script>
       </scripts>
       <script>scripts\net_data_command_parsing.gml</script>
       <script>scripts\net_data_parsing.gml</script>
@@ -84,7 +106,7 @@
     <object>objects\obj_gui</object>
     <object>objects\obj_great_ship</object>
     <object>objects\obj_asteroid</object>
-    <object>objects\obj_navigation</object>
+    <object>objects\obj_globnav</object>
     <object>objects\obj_unit_parent</object>
     <object>objects\obj_net</object>
     <objects name="autorization">
@@ -97,20 +119,40 @@
     <object>objects\obj_moving_parent</object>
     <object>objects\obj_smoke</object>
     <object>objects\obj_radiation</object>
+    <objects name="items">
+      <object>objects\obj_box</object>
+      <object>objects\obj_item</object>
+      <object>objects\obj_money_case</object>
+      <object>objects\obj_gold</object>
+      <object>objects\obj_ruby</object>
+      <object>objects\obj_emerald</object>
+    </objects>
+    <object>objects\obj_asteroid_profit</object>
+    <objects name="bots">
+      <object>objects\obj_anomaly</object>
+      <object>objects\obj_bot_parent</object>
+      <object>objects\obj_carryall</object>
+      <object>objects\obj_finder</object>
+      <object>objects\obj_hyper_mind</object>
+      <object>objects\obj_miner</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_authorization</room>
     <room>rooms\room0</room>
   </rooms>
-  <constants number="22">
+  <constants number="33">
     <constant name="NET_GOOD_DAY">1</constant>
     <constant name="NET_POSITION">2</constant>
     <constant name="NET_FIRST_LOAD">3</constant>
     <constant name="NET_IM_OUT">4</constant>
     <constant name="NET_MARK">5</constant>
+    <constant name="NET_ITEM">6</constant>
     <constant name="NET_SHIP_DATA">8</constant>
     <constant name="NET_TEXT">9</constant>
     <constant name="NET_SUPPLIES">11</constant>
+    <constant name="NET_ASTEROID">14</constant>
+    <constant name="NET_BOT">15</constant>
     <constant name="PT_PILOT">1</constant>
     <constant name="PT_NAVIGATION">2</constant>
     <constant name="YES">1</constant>
@@ -125,6 +167,14 @@
     <constant name="SP_HP_SUB">2</constant>
     <constant name="SP_OXY_ADD">3</constant>
     <constant name="SP_OXY_SUB">4</constant>
+    <constant name="ITEM_SET">1</constant>
+    <constant name="ITEM_GET">2</constant>
+    <constant name="ITEM_ADD">3</constant>
+    <constant name="ITEM_DROP">4</constant>
+    <constant name="ITEM_PICKUP">5</constant>
+    <constant name="ITEM_DEL">6</constant>
+    <constant name="ITEM_NUM">16</constant>
+    <constant name="ITEM_ID">32</constant>
   </constants>
   <help>
     <rtf>help.rtf</rtf>

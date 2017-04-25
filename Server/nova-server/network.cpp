@@ -333,10 +333,10 @@ void net_send_bot(MySocket* socket, CBot* bot)
     runner = SetToRawData(data, runner, bot->name);
     runner = SetToRawData(data, runner, bot->net_id);
     runner = SetToRawData(data, runner, bot->active);
-    runner = SetToRawData(data, runner, bot->x);
-    runner = SetToRawData(data, runner, bot->y);
-    runner = SetToRawData(data, runner, bot->speed);
-    runner = SetToRawData(data, runner, bot->direction);
+    runner = SetToRawData(data, runner, static_cast <qint32> (bot->x));
+    runner = SetToRawData(data, runner, static_cast <qint32> (bot->y));
+    runner = SetToRawData(data, runner, static_cast <qint32> (bot->speed / (bot->time_update / 33)));
+    runner = SetToRawData(data, runner, static_cast <qint32> (360 - ((bot->direction * 180) / M_PI)));
     runner = SetToRawData(data, runner, bot->hp);
     if (bot->commands_list.size() > 0)
     {

@@ -47,7 +47,7 @@ void CBot::ExecuteCommand()
         switch (com->type)
         {
         case BC_RETURN:
-            direction = atan((boss->y - y) / (boss->x - x));
+            direction = point_direction(x, y, boss->x, boss->y);
             speed = min(max_speed, point_distance(x, y, boss->x, boss->y));
             x += cos(direction) * speed;
             y += sin(direction) * speed;
@@ -59,7 +59,7 @@ void CBot::ExecuteCommand()
             }
             break;
         case BC_GO:
-            direction = ((double)atan((com->y - y) / (com->x - x)) * 180) / M_PI;
+            direction =  point_direction(x, y, com->x, com->y);
             speed = min(max_speed, point_distance(x, y, com->x, com->y));
             x += cos(direction) * speed;
             y += sin(direction) * speed;
@@ -71,7 +71,7 @@ void CBot::ExecuteCommand()
             }
             break;
         case BC_ATTACK:
-            direction = atan((com->goal->shell->pos->pos->rx() - y) / (com->goal->shell->pos->pos->ry() - x));
+            direction =  point_direction(x, y, com->goal->shell->pos->pos->rx(), com->goal->shell->pos->pos->ry());
             speed = min(max_speed, point_distance(x, y, com->goal->shell->pos->pos->rx(), com->goal->shell->pos->pos->ry()));
             x += cos(direction) * speed;
             y += sin(direction) * speed;
@@ -176,8 +176,8 @@ CHyperMind::CHyperMind()
     hp = 100000;
     hp_add = 0;
     name = "obj_hyper_mind";
-    x = 0;
-    y = 0;
+    x = 165000;
+    y = 105000;
     bots.append(this);
 }
 
@@ -252,6 +252,7 @@ void CHyperMind::ComAddBack()
         bot = bots[my_bots->currentRow()];
         CBotCommand* com;
         com = new CBotCommand;
+        com->owner = bot;
         com->GoToBoss();
         bot->commands_list.append(com);
     }
@@ -265,6 +266,7 @@ void CHyperMind::ComAddGo()
         bot = bots[my_bots->currentRow()];
         CBotCommand* com;
         com = new CBotCommand;
+        com->owner = bot;
         com->GoToCoordinate(comx->text().toInt(), comy->text().toInt());
         bot->commands_list.append(com);
     }
@@ -276,6 +278,7 @@ void CHyperMind::ComAddDrop()
     bot = bots[my_bots->currentRow()];
     CBotCommand* com;
     com = new CBotCommand;
+    com->owner = bot;
     if (items_view->currentRow() > -1)
     {
         com->Drop(bot->item_list[items_view->currentRow()]);

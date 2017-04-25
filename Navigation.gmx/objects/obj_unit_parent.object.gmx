@@ -41,6 +41,9 @@ path_color = c_orange;
 path_length = 0;
 path_direction = direction;
 path_width = 3;
+
+thurst_pwr = 0;
+mass = 0;
 </string>
           </argument>
         </arguments>
@@ -74,8 +77,8 @@ else
 }
 //Расчёт координат отрисовки относительно вида
 var d_x, d_y;
-d_x = (x - view_xview[1]) / obj_navigation.scale;
-d_y = (y - view_yview[1]) / obj_navigation.scale;
+d_x = (x - view_xview[1]) / obj_globnav.scale;
+d_y = (y - view_yview[1]) / obj_globnav.scale;
 var b_size = max(sprite_get_height(my_bubble), sprite_get_width(my_bubble));
 if (d_x &lt; b_size) || (d_x &gt; (view_wport[1] - b_size)) || 
 (d_y &lt; b_size) || (d_y &gt; (view_hport[1] - b_size))
@@ -110,8 +113,8 @@ else
           <argument>
             <kind>1</kind>
             <string>var d_x, d_y;
-d_x = (x - view_xview[1]) / obj_navigation.scale;
-d_y = (y - view_yview[1]) / obj_navigation.scale;
+d_x = (x - view_xview[1]) / obj_globnav.scale;
+d_y = (y - view_yview[1]) / obj_globnav.scale;
 if (bubble_alpha &gt; 0)
 {
     draw_sprite_ext(my_bubble, -1, d_x, d_y, 1, 1, bubble_angle, c_white, bubble_alpha);
@@ -139,8 +142,8 @@ if (path_show)
 {
     draw_set_colour(path_color);
     var line_x, line_y;
-    line_x = ((x + lengthdir_x(path_length, path_direction)) - view_xview[1]) / obj_navigation.scale;
-    line_y = ((y + lengthdir_y(path_length, path_direction)) - view_yview[1]) / obj_navigation.scale;
+    line_x = ((x + lengthdir_x(path_length, path_direction)) - view_xview[1]) / obj_globnav.scale;
+    line_y = ((y + lengthdir_y(path_length, path_direction)) - view_yview[1]) / obj_globnav.scale;
     draw_line_width(d_x, d_y, line_x, line_y, path_width);
 }
 </string>

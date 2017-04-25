@@ -55,13 +55,13 @@ my_color[5] = make_colour_rgb(255, 0, 0);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>for (var i = 1; i &lt; 6; i++)
+            <string>/*for (var i = 1; i &lt; 6; i++)
 {
     if (keyboard_check(ord(string(i))))
     {
         level = i;
     }
-}
+}*/
 </string>
           </argument>
         </arguments>

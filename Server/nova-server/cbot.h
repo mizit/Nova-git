@@ -67,14 +67,14 @@ signals:
 public:
     qint32 net_id;
     qint32 hp;
-    qint32 speed;
+    double speed;
     qint32 max_speed;
-    qint32 direction;
+    double direction;
     qint32 vspeed;
     qint32 hspeed;
     qint32 type;
-    qint32 x;
-    qint32 y;
+    double x;
+    double y;
     qint32 active;
     CHyperMind* boss;
     QList <CItem*> item_list;

@@ -110,8 +110,12 @@ qint64 point_distance(QPoint point1, qint32 x, qint32 y)
     return static_cast <qint64> (sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
 }
 
-qint64 point_distance(qint32 x1, qint32 y1, qint32 x2, qint32 y2)
+qint64 point_distance(qint32 X1, qint32 Y1, qint32 X2, qint32 Y2)
 {
+    qint64 x1 = X1;
+    qint64 x2 = X2;
+    qint64 y1 = Y1;
+    qint64 y2 = Y2;
     return static_cast <qint64> (sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)));
 }
 
@@ -121,6 +125,32 @@ qint32 min(qint32 a1, qint32 a2)
         return a1;
     else
         return a2;
+}
+
+double point_direction(qint32 x1, qint32 y1, qint32 x2, qint32 y2)
+{
+    double additional = 0;
+    double x, y;
+    x = x2 - x1;
+    y = y2 - y1;
+    if ((x >= 0) && (y >= 0))
+    {
+        additional = 0;
+    }
+    else if ((x <= 0) && (y >= 0))
+    {
+        additional = M_PI / 2;
+    }
+    else if ((x <= 0) && (y <= 0))
+    {
+        additional = M_PI;
+    }
+    else if ((x >= 0) && (y <= 0))
+    {
+        additional = 3 * M_PI / 2;
+    }
+    double ans = (double)atan((double)abs(y)/(double)abs(x)) + additional;
+    return ans;
 }
 
 qint32 CAttribute::Calculation()

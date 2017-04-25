@@ -129,5 +129,6 @@ qint64 point_distance(QPoint* point1, QPoint* point2);
 qint64 point_distance(QPoint point1, qint32 x, qint32 y);
 qint64 point_distance(qint32 x1, qint32 y1, qint32 x2, qint32 y2);
 qint32 min(qint32 a1, qint32 a2);
+double point_direction(qint32 x1, qint32 y1, qint32 x2, qint32 y2);
 
 #endif // SHIP_H

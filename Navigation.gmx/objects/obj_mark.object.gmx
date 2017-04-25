@@ -75,16 +75,16 @@ distance = 100;
             <kind>1</kind>
             <string>event_inherited();
 var num = 0;
-for (var i = 0; i &lt; ds_list_size(obj_navigation.marks_list); i++)
+for (var i = 0; i &lt; ds_list_size(obj_globnav.marks_list); i++)
 {
-    if (obj_navigation.marks_list[| i] == id)
+    if (obj_globnav.marks_list[| i] == id)
     {
         num = i + 1;
     }
 }
 if (point_distance(x, y, obj_ship.x, obj_ship.y) &lt; distance)
 {
-    ds_list_delete(obj_navigation.marks_list, num - 1);
+    ds_list_delete(obj_globnav.marks_list, num - 1);
     instance_destroy();
 }
 my_text = string(num);

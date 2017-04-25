@@ -181,5 +181,149 @@ switch (l_command)
         }
         break;
     }
+    case NET_ITEM:
+    {
+        var l_com = buffer_read(l_buf, buffer_u32);
+        if (((l_com & $0F) == ITEM_SET) || ((l_com & $0F) == ITEM_DROP))
+        {
+            var l_str = buffer_read(l_buf, buffer_string);
+            if (l_str == "noone")
+            {
+                first_load = 0;
+                break;
+            }
+            var l_name = asset_get_index(l_str);
+            if (l_name == -1)
+            {
+                l_name = obj_box;
+            }
+            
+            var l_net_id = buffer_read(l_buf, buffer_u32);
+            l_net_id += (buffer_read(l_buf, buffer_u32) << 32);
+            var l_obj = noone;
+            with (l_name)
+            {
+                if (net_id == l_net_id)
+                {
+                    l_obj = id;
+                }
+            }
+            if !(l_obj)
+            {
+                l_obj = instance_create(0, 0, l_name);
+                l_obj.net_id = l_net_id;
+            }
+            l_obj.name = l_str;
+            l_obj.x = buffer_read(l_buf, buffer_u32) / 1000;
+            l_obj.y = buffer_read(l_buf, buffer_u32) / 1000;
+            l_obj.image_angle = buffer_read(l_buf, buffer_s32) / 1000;
+            l_obj.hp = buffer_read(l_buf, buffer_u32);
+            if (first_load)
+            {
+                net_send_item_get_num(obj_net.net_buf, obj_net.socket, obj_ship.item_counter);
+                obj_ship.item_counter++;
+            }
+        }
+        if (((l_com & $0F) == ITEM_PICKUP) || ((l_com & $0F) == ITEM_DEL))
+        {
+            var l_str = buffer_read(l_buf, buffer_string);
+            var l_name = asset_get_index(l_str);
+            if (l_name == -1)
+            {
+                l_name = obj_box;
+            }
+            var l_net_id = buffer_read(l_buf, buffer_u32);
+            l_net_id += (buffer_read(l_buf, buffer_u32) << 32);
+            var l_obj = noone;
+            with (l_name)
+            {
+                if (net_id == l_net_id)
+                {
+                    instance_destroy();
+                }
+            }
+            buffer_read(l_buf, buffer_u32);
+            buffer_read(l_buf, buffer_u32);
+            buffer_read(l_buf, buffer_s32);
+            buffer_read(l_buf, buffer_u32);
+        }
+        break;
+    }
+    case NET_ASTEROID:
+    {
+        var l_size = buffer_read(l_buf, buffer_u32);
+        for (var l_i = 0; l_i < l_size; l_i++)
+        {
+            var l_x = buffer_read(l_buf, buffer_u32) * 100;
+            var l_y = buffer_read(l_buf, buffer_u32) * 100;
+            var l_type = buffer_read(l_buf, buffer_string);
+            var l_tmp = instance_position(l_x, l_y, obj_asteroid_profit);
+            if (!l_tmp)
+            {
+                l_tmp = instance_create(l_x, l_y, obj_asteroid_profit);
+            }
+            name = l_type;
+            switch (l_type)
+            {
+                case "obj_gold":
+                {
+                    l_tmp.sprite_index = s_astr_gold;
+                    break;
+                }
+                case "obj_ruby":
+                {
+                    l_tmp.sprite_index = s_astr_ruby;
+                    break;
+                }
+                case "obj_emerald":
+                {
+                    l_tmp.sprite_index = s_astr_emerald;
+                    break;
+                }
+                default:
+                {
+                    sprite_index = obj_great_ship;
+                }
+            }
+            l_tmp.num = buffer_read(l_buf, buffer_u32);
+        }
+        break;
+    }
+    case NET_BOT:
+    {
+        var l_name = buffer_read(l_buf, buffer_string);
+        var l_id = buffer_read(l_buf, buffer_u32);
+        var l_active = buffer_read(l_buf, buffer_u32);
+        var l_x = buffer_read(l_buf, buffer_u32);
+        var l_y = buffer_read(l_buf, buffer_u32);
+        var l_speed = buffer_read(l_buf, buffer_u32);
+        var l_direction = buffer_read(l_buf, buffer_u32);
+        var l_hp = buffer_read(l_buf, buffer_u32);
+        var l_com_type = buffer_read(l_buf, buffer_u32);
+        var l_bot = noone;
+        with (obj_bot_parent)
+        {
+            if (net_id == l_id)
+                l_bot = id;
+        }
+        if (l_bot == noone)
+        {
+            l_name = asset_get_index(l_name);
+            if (l_name == -1)
+            {
+                break;
+            }
+            l_bot = instance_create(l_x, l_y, l_name);
+            l_bot.net_id = l_id;
+        }
+        l_bot.active = l_active;
+        l_bot.x = l_x;
+        l_bot.y = l_y;
+        l_bot.speed = l_speed;
+        l_bot.direction = l_direction;
+        l_bot.hp = l_hp;
+        l_bot.com_type = l_com_type;
+        break;
+    }
 }
 buffer_delete(l_buf);

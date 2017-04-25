@@ -226,6 +226,8 @@ oxy_offset_x + tube_rect_right, oxy_offset_y + tube_rect_bottom - oxy_hight_red)
 
 draw_sprite(s_tube, -1, hp_offset_x, hp_offset_y);
 draw_sprite(s_tube, -1, oxy_offset_x, oxy_offset_y);
+
+draw_text(50, 50, instance_number(obj_item));
 </string>
           </argument>
         </arguments>
@@ -260,7 +262,7 @@ for (var i = 0; i &lt; coord_size; i++)
     if (surface_exists(surface_letter[i]))
     {
         draw_surface_ext(surface_letter[i], room_width / coord_size * (i + 0.5), view_yview[1], 
-        obj_navigation.scale, obj_navigation.scale, 0, c_white, 1);
+        obj_globnav.scale, obj_globnav.scale, 0, c_white, 1);
     }
     else
     {
@@ -277,7 +279,7 @@ for (var i = 0; i &lt; coord_size; i++)
     if (surface_exists(surface_number[i]))
     {
         draw_surface_ext(surface_number[i], view_xview[1], room_height / coord_size * (i + 0.5),
-        obj_navigation.scale, obj_navigation.scale, 0, c_white, 1);
+        obj_globnav.scale, obj_globnav.scale, 0, c_white, 1);
     }
     else
     {

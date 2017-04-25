@@ -784,7 +784,11 @@ void MainWindow::DataUpdate()
         }
         ui->edit_bot_x->setText(QString("%1").arg(bot->x));
         ui->edit_bot_y->setText(QString("%1").arg(bot->y));
-        ui->edit_bot_speed->setText(QString("%1").arg(bot->speed));
+        if (bot->commands_list.size() > 0)
+        {
+            ui->edit_bot_speed->setText(QString("%1").arg(point_distance(bot->x, bot->y, bot->commands_list[0]->x, bot->commands_list[0]->y)));
+        }
+        ui->edit_bot_active->setText(QString("%1").arg(bot->direction));
     }
 }
 
