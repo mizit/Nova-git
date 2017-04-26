@@ -655,7 +655,7 @@
     <option_xbone_title_id>1234ABCD</option_xbone_title_id>
   </Options>
   <ConfigConstants>
-    <constants number="47">
+    <constants number="48">
       <constant name="CELL_OBJECT">0</constant>
       <constant name="CELL_ANGLE">1</constant>
       <constant name="CELL_PERMISSION">2</constant>
@@ -689,6 +689,7 @@
       <constant name="NET_SHELL">7</constant>
       <constant name="NET_SHIP_DATA">8</constant>
       <constant name="NET_DOCK">10</constant>
+      <constant name="NET_SHOT">12</constant>
       <constant name="NET_TRADE">13</constant>
       <constant name="PT_ENGINEERING">3</constant>
       <constant name="NO">0</constant>

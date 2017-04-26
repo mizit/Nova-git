@@ -267,5 +267,42 @@ switch (l_command)
         }
         break;
     }
+    case NET_SHOT:
+    {
+        var l_dmg = buffer_read(l_buf, buffer_u32);
+        while (l_dmg > 0) && (instance_number(obj_gridded_part) > 0)
+        {
+            var l_tmp = instance_find(obj_gridded_part, irandom(instance_number(obj_gridded_part) - 1));
+            var l_test = 0;
+            if (instance_exists(l_tmp))
+            {
+                for (var l_i = 0; l_i < ds_list_size(l_tmp.elements_list); l_i++)
+                {
+                    if (instance_exists(l_tmp.elements_list[| l_i]))
+                    {
+                        if (l_tmp.elements_list[| l_i].object_index == obj_element5)
+                        {
+                            l_test = 1;
+                            var l_delta = min(l_dmg, l_tmp.elements_list[| l_i].hp);
+                            l_tmp.elements_list[| l_i].hp -= l_delta;
+                            l_dmg -= l_delta;
+                        }
+                    }
+                }
+                if (!l_test) && (ds_list_size(l_tmp.elements_list) > 0)
+                {
+                    var l_tmp_el = l_tmp.elements_list[| irandom(ds_list_size(l_tmp.elements_list) - 1)];
+                    if (instance_exists(l_tmp_el))
+                    {
+                        var l_delta = min(l_dmg, l_tmp_el.hp);
+                        l_tmp_el.hp -= l_delta;
+                        l_dmg -= l_delta;
+                    }
+                }
+            }
+            l_dmg -= 10;
+        }
+        break;
+    }
 }
 buffer_delete(l_buf);

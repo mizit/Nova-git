@@ -94,6 +94,7 @@ void net_send_shot(MySocket* socket, SShot shot);
 void net_send_asteroid(MySocket* socket, QList <CAsteroid*> asteroids);
 void net_send_asteroid(MySocket* socket, CAsteroid* asteroids);
 void net_send_bot(MySocket* socket, CBot* bot);
+void net_send_damage(MySocket* socket, qint32 damage);
 
 
 #endif // NETWORK_H

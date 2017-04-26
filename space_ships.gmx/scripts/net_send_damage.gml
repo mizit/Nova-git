@@ -1,4 +1,4 @@
-///net_send_shot(buffer, socket, damage);
+///net_send_damage(buffer, socket, damage);
 var l_buf = argument0;
 var l_soc = argument1;
 var l_damage = argument2;

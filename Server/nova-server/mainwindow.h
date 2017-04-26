@@ -52,6 +52,7 @@ private slots:
     void OxyRestore();
     void DevourerTimeout();
     void SendMessage();
+    void BlindSend();
 
 public:
     Ui::MainWindow *ui;
@@ -66,6 +67,7 @@ public:
     QList <CItem*> irl_items;
     QList <CAsteroid*> asteroids;
     CHyperMind *hyper_mind;
+    QTimer *timer_blind_send;
 };
 
 

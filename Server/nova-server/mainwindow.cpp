@@ -199,6 +199,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(timer_save, SIGNAL(timeout()), this, SLOT(DataSave()));
     timer_save->start(300000);
 
+    timer_blind_send = new QTimer();
+    connect(timer_blind_send, SIGNAL(timeout()), this, SLOT(BlindSend()));
+    timer_blind_send->start(10000);
+
     connect(ui->button_lockpos, SIGNAL(clicked()), this, SLOT(LockPos()));
     connect(ui->button_setpos, SIGNAL(clicked()), this, SLOT(SetPos()));
 
@@ -228,6 +232,31 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lview_items->addItem(ENGINE_T);
 
     connect(ui->button_add_item, SIGNAL(clicked()), this, SLOT(ItemAdd()));
+}
+
+void MainWindow::BlindSend()
+{
+    for (int i = 0; i < SHIPS.size(); i++)
+    {
+        if (SHIPS[i]->pilotSocket > 0)
+        {
+            net_send_asteroid(SClients[SHIPS[i]->pilotSocket], asteroids);
+            net_send_engine(SClients[SHIPS[i]->pilotSocket], SHIPS[i]);
+            for (int j = 0; j < SHIPS.size(); j++)
+            {
+                net_send_set_position(SClients[SHIPS[i]->pilotSocket], SHIPS[j]);
+            }
+        }
+        if (SHIPS[i]->navSocket > 0)
+        {
+            net_send_asteroid(SClients[SHIPS[i]->navSocket], asteroids);
+            net_send_navigation(SClients[SHIPS[i]->pilotSocket], SHIPS[i]);
+            for (int j = 0; j < SHIPS.size(); j++)
+            {
+                net_send_set_position(SClients[SHIPS[i]->navSocket], SHIPS[j]);
+            }
+        }
+    }
 }
 
 void MainWindow::SendMessage()
@@ -1231,6 +1260,10 @@ void MainWindow::slotReadClient()
                     if (clientSocket->parentShip->attribute[BN_HP].base < 0)
                     {
                         clientSocket->parentShip->attribute[BN_HP].base = 0;
+                    }
+                    if (clientSocket->parentShip->engSocket > 0)
+                    {
+                        net_send_damage(SClients[clientSocket->parentShip->engSocket], number);
                     }
                 }
                 if (flags == SP_OXYGEN_ADD)

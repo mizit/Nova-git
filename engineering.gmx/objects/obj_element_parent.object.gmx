@@ -113,10 +113,12 @@ if (must_set_up)
 }
 if (old_hp != hp)
 {
-    if (hp &lt; 0)
+    if (hp &lt;= 0)
     {
         net_send_item_del(obj_net.net_buf, obj_net.socket, id);
         instance_destroy();
+        load_recalculation();
+        power_recalculation(obj_grid);
     }
     else
     {
