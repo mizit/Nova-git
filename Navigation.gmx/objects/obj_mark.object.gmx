@@ -27,7 +27,7 @@
             <kind>1</kind>
             <string>event_inherited();
 my_bubble = s_mark;
-distance = 100;
+distance = 500;
 </string>
           </argument>
         </arguments>
