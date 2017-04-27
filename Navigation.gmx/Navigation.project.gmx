@@ -31,15 +31,16 @@
     <sprite>sprites\s_bubble</sprite>
     <sprite>sprites\s_mark</sprite>
     <sprites name="ships">
+      <sprite>sprites\s_bazar</sprite>
       <sprite>sprites\s_abigail</sprite>
       <sprite>sprites\s_balamut</sprite>
+      <sprite>sprites\s_cargo_ship</sprite>
       <sprite>sprites\s_discovery</sprite>
       <sprite>sprites\s_kraizenshtern</sprite>
       <sprite>sprites\s_nova</sprite>
       <sprite>sprites\s_nova_boat</sprite>
       <sprite>sprites\s_solar_queen</sprite>
       <sprite>sprites\s_stellias</sprite>
-      <sprite>sprites\s_bazar</sprite>
     </sprites>
     <sprite>sprites\s_smoke</sprite>
     <sprite>sprites\s_hud</sprite>
@@ -95,6 +96,7 @@
       <script>scripts\note_create.gml</script>
       <script>scripts\note_corrupt.gml</script>
     </scripts>
+    <script>scripts\LogAddString.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\f_menu</font>

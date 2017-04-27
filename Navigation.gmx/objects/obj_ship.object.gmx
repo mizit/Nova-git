@@ -67,6 +67,11 @@ alarm[0] = time_oxygen_out;
 
 alarm[1] = 1;
 item_counter = 0;
+
+crew_hp = 500;
+crew_timer = 300;
+alarm[2] = crew_timer;
+crew_state = 5;
 </string>
           </argument>
         </arguments>
@@ -90,6 +95,69 @@ item_counter = 0;
           <argument>
             <kind>1</kind>
             <string>net_send_get_asteroid(obj_net.net_buf, obj_net.socket);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (oxygen &lt; 50)
+{
+    var delta = 50 - oxygen;
+    crew_hp -= delta;
+    if (crew_state == 5)
+    {
+        LogAddString("*Система жизнеобеспечения не справляется. Вы чувствуете удушье.*");
+        crew_state = 4;
+    }
+    if (crew_state == 4) &amp;&amp; (crew_hp &lt; 400)
+    {
+        LogAddString("*Удушье усиливается*");
+        crew_state = 3;
+    }
+    if (crew_state == 3) &amp;&amp; (crew_hp &lt; 300)
+    {
+        LogAddString("*Команда с трудом может дышать. Снимите клетку с уровня жизни лёгких*.");
+        crew_state = 2;
+    }
+    if (crew_state == 2) &amp;&amp; (crew_hp &lt; 200)
+    {
+        LogAddString("*Команда с трудом сохраняет сознание. Снимите две клетки с уровня жизни лёгких.*");
+        crew_state = 1;
+    }
+    if (crew_state == 1) &amp;&amp; (crew_hp &lt; 100)
+    {
+        LogAddString("*Команда на грани смерти. Снимите три клетки с уровня жизни лёгких.*");
+        crew_state = 0;
+    }
+    if (crew_state == 0) &amp;&amp; (crew_hp &lt; 0)
+    {
+        LogAddString("*Весь экипаж погиб от удушья.*");
+        crew_state = 0;
+    }
+}
+else
+{
+    crew_state = 5;
+    crew_hp = 500;
+}
+alarm[2] = crew_timer;
 </string>
           </argument>
         </arguments>

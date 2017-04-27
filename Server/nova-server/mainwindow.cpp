@@ -253,7 +253,7 @@ void MainWindow::BlindSend()
         if (SHIPS[i]->navSocket > 0)
         {
             net_send_asteroid(SClients[SHIPS[i]->navSocket], asteroids);
-            net_send_navigation(SClients[SHIPS[i]->pilotSocket], SHIPS[i]);
+            //net_send_navigation(SClients[SHIPS[i]->pilotSocket], SHIPS[i]);
             for (int j = 0; j < SHIPS.size(); j++)
             {
                 if (SHIPS[j]->pilotSocket <= 0)
