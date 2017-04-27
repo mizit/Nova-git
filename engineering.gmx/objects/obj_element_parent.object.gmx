@@ -35,6 +35,7 @@ hp = 100;
 old_hp = hp;
 must_set_up = 0;
 energy_consumption = 0;
+owner = noone;
 </string>
           </argument>
         </arguments>
@@ -82,6 +83,7 @@ if (must_set_up)
                     other.grd_x = grd_x;
                     other.grd_y = grd_y;
                     other.must_set_up = 0;
+                    other.owner = id;
                     event_perform(ev_other, ev_user2);
                     var l_tmp = other;
                     with (obj_inv)
@@ -115,10 +117,16 @@ if (old_hp != hp)
 {
     if (hp &lt;= 0)
     {
+        //if (owner != noone)
+        //{
+            ds_list_delete(owner.elements_list, ds_list_find_index(owner.elements_list, id));
+            with (owner)
+            {
+                event_perform(ev_other, ev_user2);
+            }
+        //}
         net_send_item_del(obj_net.net_buf, obj_net.socket, id);
         instance_destroy();
-        load_recalculation();
-        power_recalculation(obj_grid);
     }
     else
     {
@@ -170,6 +178,7 @@ if (old_hp != hp)
                 grd_x = obj_part_grid.base.grd_x;
                 grd_y = obj_part_grid.base.grd_y;
                 must_set_up = 0;
+                owner = obj_part_grid.base;
                 with(obj_part_grid.base)
                 {
                     event_perform(ev_other, ev_user2);
@@ -185,6 +194,7 @@ if (old_hp != hp)
             grd_x = -1;
             grd_y = -1;
             must_set_up = 0;
+            owner = noone;
             net_send_item_set_id(obj_net.net_buf, obj_net.socket, id);
             /*var cont = inv_cell_with_object(object_index);
             cont.number++;

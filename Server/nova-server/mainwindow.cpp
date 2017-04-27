@@ -241,10 +241,13 @@ void MainWindow::BlindSend()
         if (SHIPS[i]->pilotSocket > 0)
         {
             net_send_asteroid(SClients[SHIPS[i]->pilotSocket], asteroids);
-            net_send_engine(SClients[SHIPS[i]->pilotSocket], SHIPS[i]);
+            //net_send_engine(SClients[SHIPS[i]->pilotSocket], SHIPS[i]);
             for (int j = 0; j < SHIPS.size(); j++)
             {
-                net_send_set_position(SClients[SHIPS[i]->pilotSocket], SHIPS[j]);
+                if (SHIPS[j]->pilotSocket <= 0)
+                {
+                    net_send_set_position(SClients[SHIPS[i]->pilotSocket], SHIPS[j]);
+                }
             }
         }
         if (SHIPS[i]->navSocket > 0)
@@ -253,7 +256,10 @@ void MainWindow::BlindSend()
             net_send_navigation(SClients[SHIPS[i]->pilotSocket], SHIPS[i]);
             for (int j = 0; j < SHIPS.size(); j++)
             {
-                net_send_set_position(SClients[SHIPS[i]->navSocket], SHIPS[j]);
+                if (SHIPS[j]->pilotSocket <= 0)
+                {
+                    net_send_set_position(SClients[SHIPS[i]->navSocket], SHIPS[j]);
+                }
             }
         }
     }

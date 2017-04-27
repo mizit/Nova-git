@@ -73,6 +73,7 @@ if (ds_list_size(elements_list) &gt; ser_num)
     }
     cont.visible = true;
     cont.dragging = 1;
+    cont.owner = noone;
     //instance_create(mouse_x, mouse_y, cont);
 }
 </string>
@@ -124,6 +125,7 @@ if (ds_list_size(elements_list) &gt; ser_num)
                     draw_set_colour(c_black);
                     draw_text(lx + cell_size / 2 + dx + (2 * dx + cell_size) * i, 
                     ly + cell_size / 2 + dy + (2 * dy + cell_size) * j, elements_list[| ser_num].hp);
+                    draw_set_colour(c_green);
                 }
                 else
                 {
