@@ -53,13 +53,19 @@ CItem* CIdGen::createItem(QString type, quint64 id)
     item->id = id;
     item->type = type;
     item_list.append(item);
+    bool test = false;
     for (int i = 0; i < free_num.size(); i++)
     {
         if (free_num[i] == id)
         {
             free_num.removeAt(i);
+            test = true;
             break;
         }
+    }
+    if (!test)
+    {
+        item->id = IdGen(0, 0);
     }
     return item;
 }

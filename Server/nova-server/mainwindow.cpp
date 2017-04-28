@@ -128,7 +128,7 @@ MainWindow::MainWindow(QWidget *parent) :
             settInv.beginGroup(QString("item%1").arg(j));
             CItem* tmp_item;
             QString type = settInv.value("type").toString();
-            tmp_item = idgen->createItem(type);
+            tmp_item = idgen->createItem(type, (quint64) settInv.value("id").toFloat());
             tmp_item->owner = ship->login;
             tmp_item->pos.setX(settInv.value("x").toFloat());
             tmp_item->pos.setY(settInv.value("y").toFloat());
@@ -169,7 +169,7 @@ MainWindow::MainWindow(QWidget *parent) :
         settInv.beginGroup(QString("item%1").arg(i));
         CItem* tmp_item;
         QString type = settInv.value("type").toString();
-        tmp_item = idgen->createItem(type);
+        tmp_item = idgen->createItem(type, (quint64) settInv.value("id").toFloat());
         tmp_item->owner = SPACE;
         tmp_item->pos.setX(settInv.value("x").toFloat());
         tmp_item->pos.setY(settInv.value("y").toFloat());
@@ -604,6 +604,7 @@ void MainWindow::DataSave()
         {
             settInv.beginGroup(QString("item%1").arg(j));
             settInv.setValue("type", SHIPS[i]->item_list[j]->type);
+            settInv.setValue("id", SHIPS[i]->item_list[j]->id);
             settInv.setValue("x", SHIPS[i]->item_list[j]->pos.rx());
             settInv.setValue("y", SHIPS[i]->item_list[j]->pos.ry());
             settInv.setValue("hp", SHIPS[i]->item_list[j]->hp);
@@ -623,6 +624,7 @@ void MainWindow::DataSave()
     {
         settInv.beginGroup(QString("item%1").arg(i));
         settInv.setValue("type", space_items[i]->type);
+        settInv.setValue("id", space_items[i]->id);
         settInv.setValue("x", space_items[i]->pos.rx());
         settInv.setValue("y", space_items[i]->pos.ry());
         settInv.setValue("hp", space_items[i]->hp);
