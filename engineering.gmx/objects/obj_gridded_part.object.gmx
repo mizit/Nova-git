@@ -52,6 +52,11 @@ corrupt_time_hight = 10 * 60 * room_speed;
 corrupt_str_low = 5;
 corrupt_str_hight = 35;
 alarm[6] = irandom_range(corrupt_time_low, corrupt_time_hight);
+
+capacitor = 0;
+cap_step = 30;
+charged = 0;
+charge_cnt = 0;
 </string>
           </argument>
         </arguments>

@@ -101,6 +101,11 @@ for (var i = 0; i &lt; ds_list_size(elements_list); i++)
             weapon_rapid++;
             break;
         }
+        case obj_element4:
+        {
+            capacitor += cap_step;
+            break;
+        }
     }
 }
 </string>
