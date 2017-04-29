@@ -68,6 +68,12 @@
       <sprite>sprites\s_hive_mind</sprite>
       <sprite>sprites\s_miner</sprite>
     </sprites>
+    <sprites name="keyboard">
+      <sprite>sprites\s_key</sprite>
+      <sprite>sprites\s_double_key</sprite>
+      <sprite>sprites\s_space</sprite>
+      <sprite>sprites\s_keyboard</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\back_test</background>
@@ -138,6 +144,8 @@
       <object>objects\obj_hyper_mind</object>
       <object>objects\obj_miner</object>
     </objects>
+    <object>objects\obj_keyboard</object>
+    <object>objects\obj_key</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_authorization</room>
