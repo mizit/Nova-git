@@ -25,11 +25,20 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>ip=get_string("Айпи: ","127.0.0.1");
+            <string>network_set_config(network_config_connect_timeout, 3000);
+ip=get_string("Айпи: ","127.0.0.1");
 socket = network_create_socket(network_socket_tcp);
 isConnected = network_connect_raw(socket, ip, 63258);
-net_buf = buffer_create(1024, buffer_fixed, 1);
+if (isConnected &lt; 0)
+{
+    show_message("Сервер не обнаружен");
+    game_restart();
+}
+net_buf = buffer_create(2048, buffer_fixed, 1);
 fifo = ds_queue_create();
+login =get_string("Login: ", "");
+password = get_string("Password: ", "");
+net_send_hello(net_buf, socket);
 </string>
           </argument>
         </arguments>
