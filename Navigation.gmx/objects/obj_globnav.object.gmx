@@ -42,7 +42,8 @@ max_scale = 500;
 scale = max_scale;
 step = scale / 10;
 
-right_pressed = 0;
+left_pressed = 0;
+old_length = -1;
 drag_x = 0;
 drag_y = 0;
 var file;
@@ -85,20 +86,57 @@ max_mark = 0;
           <argument>
             <kind>1</kind>
             <string>step = scale / 10;
-if (right_pressed)
+if (left_pressed)
 {
-    view_xview[1] = max(min(view_xview[1] + (drag_x - display_mouse_get_x())* scale, room_width - view_wview[1]), 0);
-    view_yview[1] = max(min(view_yview[1] + (drag_y - display_mouse_get_y())* scale, room_height - view_hview[1]), 0);
+    view_xview[1] = max(min(view_xview[1] + (drag_x - device_mouse_raw_x(0))* scale, room_width - view_wview[1]), 0);
+    view_yview[1] = max(min(view_yview[1] + (drag_y - device_mouse_raw_y(0))* scale, room_height - view_hview[1]), 0);
 }
-if (mouse_check_button(mb_right))
+if (device_mouse_check_button(0, mb_left))
 {
-    drag_x = display_mouse_get_x();
-    drag_y = display_mouse_get_y();
-    right_pressed = 1;
+    drag_x = device_mouse_raw_x(0);
+    drag_y = device_mouse_raw_y(0);
+    left_pressed = 1;
 }
 else
 {
-    right_pressed = 0;
+    left_pressed = 0;
+}
+if (device_mouse_check_button(0, mb_left) &amp;&amp; device_mouse_check_button(1, mb_left))
+{
+    var tmp_length = point_distance(device_mouse_raw_x(0), device_mouse_raw_y(0), 
+    device_mouse_raw_x(1), device_mouse_raw_y(1));
+    if (old_length = -1)
+    {
+        old_length = tmp_length;
+    }
+    if ((tmp_length - old_length) &gt; 20)
+    {
+        var k_w, k_h;
+        k_w = (mouse_x - view_xview[1]) / view_wview[1];
+        k_h = (mouse_y - view_yview[1]) / view_hview[1];
+        scale = max(scale - step, min_scale);
+        view_wview[1] = scale * base;
+        view_hview[1] = scale * base;
+        view_xview[1] = min(max(0, mouse_x - view_wview[1] * k_w), room_width - view_wview[1]);
+        view_yview[1] = min(max(0, mouse_y - view_hview[1] * k_h), room_height - view_hview[1]);
+        old_length = tmp_length;
+    }
+    if ((tmp_length - old_length) &lt; -20)
+    {
+        var k_w, k_h;
+        k_w = (mouse_x - view_xview[1]) / view_wview[1];
+        k_h = (mouse_y - view_yview[1]) / view_hview[1];
+        scale = min(scale + step, max_scale);
+        view_wview[1] = scale * base;
+        view_hview[1] = scale * base;
+        view_xview[1] = min(max(0, mouse_x - view_wview[1] * k_w), room_width - view_wview[1]);
+        view_yview[1] = min(max(0, mouse_y - view_hview[1] * k_h), room_height - view_hview[1]);
+        old_length = tmp_length;
+    }
+}
+else
+{
+    old_length = -1;
 }
 </string>
           </argument>
@@ -165,7 +203,7 @@ view_yview[1] = min(max(0, mouse_y - view_hview[1] * k_h), room_height - view_hv
         </arguments>
       </action>
     </event>
-    <event eventtype="6" enumb="53">
+    <event eventtype="6" enumb="54">
       <action>
         <libid>1</libid>
         <id>603</id>

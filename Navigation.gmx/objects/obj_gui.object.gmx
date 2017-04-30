@@ -47,9 +47,13 @@ sel_rect_width = 75;
 sel_rect_height = 17;
 msg_x_offset = 507;
 msg_y_offset = 188;
+msg_x_offset_b = 260507;
+msg_y_offset_b = 260188;
 msg_width = 185;
+msg_height = 61;
 msg_length = 77;
 msg_text = "";
+
 
 log_x = 507;
 log_y = 268;
@@ -57,6 +61,7 @@ log_width = 185;
 log_height = 234;
 log_surf = surface_create(log_width, log_height);
 log_buf_surf = surface_create(log_width, log_height);
+log_sprite = noone;
 surface_set_target(log_surf);
 draw_set_colour(c_black);
 draw_rectangle(0, 0, log_width, log_height, 0);
@@ -95,6 +100,55 @@ tube_rect_left = 5;
 tube_rect_top = 6;
 tube_rect_right = 27;
 tube_rect_bottom = 89;
+
+display_set_gui_size(700, 500);
+device_mouse_dbclick_enable(true);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (os_is_paused())
+{
+    if (log_sprite == noone)
+    {
+        log_sprite = sprite_create_from_surface(log_surf, 0, 0,
+        log_width, log_height, 0, 0, 0, 0);
+        
+    }
+}
+else
+{
+    if (!surface_exists(log_surf))
+    {
+        log_surf = surface_create(log_width, log_height);
+        if (log_sprite != noone)
+        {  
+            surface_set_target(log_surf);
+            draw_sprite(log_sprite, 0, 0, 0);
+            surface_reset_target();
+            sprite_delete(log_sprite);
+            log_sprite = noone;
+        }
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -125,7 +179,6 @@ if (object_exists(obj_ship.sonar_point))
 {
     draw_text(25, 75, "Distance to goal = " + string(point_distance(obj_ship.x, obj_ship.y, obj_ship.sonar_point.x, obj_ship.sonar_point.y)));
 }*/
-
 if (mouse_check_button_pressed(mb_left))
 {
     for (var i = 0; i &lt; chn_num; i++)
@@ -161,7 +214,18 @@ if (mouse_check_button_pressed(mb_left))
             select = i;
         }
     }
+    if (point_in_rectangle(mouse_x, mouse_y, msg_x_offset_b, msg_y_offset_b, 
+    msg_x_offset_b + msg_width, msg_y_offset_b + msg_height))
+    {
+        var tmp_str = get_string("Message", "");
+        if (string_length(tmp_str) &gt; 0)
+        {
+            msg_text = string_copy(tmp_str, 0, msg_length);
+            net_send_msg(obj_net.net_buf, obj_net.socket);
+        }
+    }
 }
+
 draw_set_color(c_green);
 draw_set_font(f_radio);
 draw_sprite(s_hud, -1, 500, 0);
@@ -189,13 +253,18 @@ draw_text_ext(msg_x_offset, msg_y_offset, msg_text, -1, msg_width);
 
 if (!surface_exists(log_surf))
 {
-    log_surf = surface_create(log_width, log_height);
+    //log_surf = surface_create(log_width, log_height);
+    //show_message("draw");
+}
+else
+{
+    draw_surface(log_surf, log_x, log_y);
 }
 if (!surface_exists(log_buf_surf))
 {
     log_buf_surf = surface_create(log_width, log_height);
 }
-draw_surface(log_surf, log_x, log_y);
+
 
 var hp_hight = (tube_rect_bottom - tube_rect_top) * obj_ship.hp / obj_ship.max_hp;
 var oxy_hight = (tube_rect_bottom - tube_rect_top) * min(1, obj_ship.oxygen / obj_ship.max_oxygen); 
@@ -226,8 +295,7 @@ oxy_offset_x + tube_rect_right, oxy_offset_y + tube_rect_bottom - oxy_hight_red)
 
 draw_sprite(s_tube, -1, hp_offset_x, hp_offset_y);
 draw_sprite(s_tube, -1, oxy_offset_x, oxy_offset_y);
-
-draw_text(50, 50, instance_number(obj_item));
+//draw_text(50, 50, instance_number(obj_item));
 </string>
           </argument>
         </arguments>
@@ -294,6 +362,7 @@ for (var i = 0; i &lt; coord_size; i++)
         draw_set_valign(fa_top);
     }
 }
+
 </string>
           </argument>
         </arguments>

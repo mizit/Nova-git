@@ -90,6 +90,8 @@ else
 {
     bubble_angle = common_angle;
 }
+
+
 </string>
           </argument>
         </arguments>
@@ -146,6 +148,7 @@ if (path_show)
     line_y = ((y + lengthdir_y(path_length, path_direction)) - view_yview[1]) / obj_globnav.scale;
     draw_line_width(d_x, d_y, line_x, line_y, path_width);
 }
+
 </string>
           </argument>
         </arguments>
