@@ -550,6 +550,20 @@ while (place_meeting(x, y, other))
     y += lengthdir_y(1, ast_dir);
 }
 speed *= 0.9;
+
+if (docked)
+{
+    dock_cnt = 0;
+    docked = 0;
+    if (ds_list_size(my_docks) == 1)
+    {
+        if (my_docks[| 0].docked)
+        {
+            net_send_dock(obj_net.net_buf, obj_net.socket, 0, my_docks[| 0].docked.owner);
+            my_docks[| 0].docked = noone;
+        }
+    }
+}
 </string>
           </argument>
         </arguments>

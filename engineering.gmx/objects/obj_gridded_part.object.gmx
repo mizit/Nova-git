@@ -395,11 +395,38 @@ if ((crnt_grid) &amp;&amp; (visible))
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>energy_consumption = 0;
-for (var i = 0; i &lt; ds_list_size(elements_list); i++)
+            <string>event_inherited();
+rot_step = 90;
+need_permission = PM_POWER;
+//outputs = LEFT|RIGHT;
+dragging = 0;
+width = 2;
+height = 2;
+grid_size = max(width, height);
+grid_outputs = ds_grid_create(grid_size, grid_size);
+for (var i = 0; i &lt; grid_size; i++)
 {
-    energy_consumption += elements_list[| i].energy_consumption * ec_koeff;
+    for (var j = 0; j &lt; grid_size; j++)
+    {
+        grid_outputs[# i, j] = 0;
+    }
 }
+energy_consumption = 0;
+ec_koeff = 0;
+alarm[5] = 1;
+
+grid_outputs[# 0, 1] = LEFT|DOWN;
+
+corrupt_time_low = 5 * 60 * room_speed;
+corrupt_time_hight = 10 * 60 * room_speed;
+corrupt_str_low = 5;
+corrupt_str_hight = 35;
+alarm[6] = irandom_range(corrupt_time_low, corrupt_time_hight);
+
+capacitor = 0;
+cap_step = 30;
+charged = 0;
+charge_cnt = 0;
 </string>
           </argument>
         </arguments>
