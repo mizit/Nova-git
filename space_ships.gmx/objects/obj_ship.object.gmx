@@ -433,7 +433,7 @@ else
     }
 }
 //стыкуемся
-if (keyboard_check_pressed(dock_key))
+if (keyboard_check_pressed(dock_key) &amp;&amp; !(docked))
 {
     if (ds_list_size(my_docks) == 1)
     {
