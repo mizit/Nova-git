@@ -144,7 +144,6 @@ switch (l_command)
             }
             if ((l_test) || (l_flags & TX_SYSTEM))
             {
-                surface_set_target(log_buf_surf);
                 var l_clr = c_white;
                 if (l_flags & TX_MESSAGE)
                 {
@@ -158,6 +157,8 @@ switch (l_command)
                     l_clr = c_red;
                     l_msg = "*" + l_msg + "*";
                 }
+                LogAddString(l_msg);
+                /*
                 if (!surface_exists(log_surf))
                 {
                     log_surf = surface_create(log_width, log_height);
@@ -166,6 +167,7 @@ switch (l_command)
                 {
                     log_buf_surf = surface_create(log_width, log_height);
                 }
+                surface_set_target(log_buf_surf);
                 draw_surface(log_surf, 0, -string_height_ext(l_msg, -1, log_width));
                 draw_set_colour(c_black);
                 draw_rectangle(0, log_height - string_height_ext(l_msg, -1, log_width), 
@@ -176,7 +178,7 @@ switch (l_command)
                 surface_reset_target();
                 surface_set_target(log_surf);
                 draw_surface(log_buf_surf, 0, 0);
-                surface_reset_target();
+                surface_reset_target();*/
             }
         }
         break;

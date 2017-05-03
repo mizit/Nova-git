@@ -2,6 +2,14 @@
 var l_str = argument0;
 with (obj_gui)
 {
+    ds_list_add(log_data, l_str);
+    if (ds_list_size(log_data) > log_size)
+    {
+        ds_list_delete(log_data, 0);
+    }
+}
+/*with (obj_gui)
+{
         if (!surface_exists(log_surf))
         {
             log_surf = surface_create(log_width, log_height);
@@ -22,4 +30,4 @@ with (obj_gui)
         surface_set_target(log_surf);
         draw_surface(log_buf_surf, 0, 0);
         surface_reset_target();
-}
+}*/

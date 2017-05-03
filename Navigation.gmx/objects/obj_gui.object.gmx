@@ -62,6 +62,8 @@ log_height = 234;
 log_surf = surface_create(log_width, log_height);
 log_buf_surf = surface_create(log_width, log_height);
 log_sprite = noone;
+log_data = ds_list_create();
+log_size = 20;
 surface_set_target(log_surf);
 draw_set_colour(c_black);
 draw_rectangle(0, 0, log_width, log_height, 0);
@@ -101,6 +103,8 @@ tube_rect_top = 6;
 tube_rect_right = 27;
 tube_rect_bottom = 89;
 
+
+
 display_set_gui_size(700, 500);
 device_mouse_dbclick_enable(true);
 </string>
@@ -125,7 +129,7 @@ device_mouse_dbclick_enable(true);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (os_is_paused())
+            <string>/*if (os_is_paused())
 {
     if (log_sprite == noone)
     {
@@ -148,6 +152,50 @@ else
             log_sprite = noone;
         }
     }
+}*/
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (surface_exists(log_surf))
+{
+    surface_set_target(log_surf);
+    draw_set_colour(c_black);
+    draw_rectangle(0, 0, log_width, log_height, 0);
+    var tmp_off = 0;
+    for (var i = (ds_list_size(log_data) - 1); i &gt;= 0; i--)
+    {
+        if (string_char_at(log_data[| i], 0) == "*")
+        {
+            draw_set_colour(c_red);
+        }
+        else
+        {
+            draw_set_colour(c_green);
+        }
+        draw_text_ext(0, log_height - tmp_off - string_height_ext(log_data[| i], -1, log_width),
+        log_data[| i], -1, log_width);
+        tmp_off += string_height_ext(log_data[| i], -1, log_width);
+    }
+    surface_reset_target();
 }
 </string>
           </argument>
@@ -253,7 +301,7 @@ draw_text_ext(msg_x_offset, msg_y_offset, msg_text, -1, msg_width);
 
 if (!surface_exists(log_surf))
 {
-    //log_surf = surface_create(log_width, log_height);
+    log_surf = surface_create(log_width, log_height);
     //show_message("draw");
 }
 else
