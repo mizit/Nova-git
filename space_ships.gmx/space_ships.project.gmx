@@ -64,6 +64,21 @@
       <sprite>sprites\s_anomaly</sprite>
       <sprite>sprites\s_finder</sprite>
     </sprites>
+    <sprites name="wreck">
+      <sprite>sprites\s_desert_rose</sprite>
+      <sprite>sprites\s_ghost_ship</sprite>
+      <sprite>sprites\s_momotaro</sprite>
+      <sprite>sprites\s_wreck1</sprite>
+      <sprite>sprites\s_wreck2</sprite>
+      <sprite>sprites\s_wreck3</sprite>
+      <sprite>sprites\s_wreck4</sprite>
+      <sprite>sprites\s_demetra</sprite>
+      <sprite>sprites\s_astr_wreck</sprite>
+      <sprite>sprites\s_astr_demetra</sprite>
+      <sprite>sprites\s_hearsteroid</sprite>
+      <sprite>sprites\s_bluesteroid</sprite>
+      <sprite>sprites\s_moonsteroid</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\back_test</background>
@@ -129,6 +144,7 @@
       <object>objects\obj_anomaly</object>
       <object>objects\obj_finder</object>
     </objects>
+    <object>objects\obj_wreck</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_authorization</room>
