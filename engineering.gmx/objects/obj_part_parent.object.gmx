@@ -110,7 +110,9 @@ if (selected)
     + abs(lengthdir_y(sprite_yoffset, image_angle)), y + abs(lengthdir_y(sprite_xoffset, image_angle))
     + abs(lengthdir_x(sprite_yoffset, image_angle)), -1, -1, 0, c_white, 1);
 }
-
+/*draw_rectangle(x - (width / 2) * obj_grid.cell_size,
+y - (height / 2) * obj_grid.cell_size, 
+x + (width / 2) * obj_grid.cell_size + width, y + (height / 2) * obj_grid.cell_size, 1);*/
 </string>
           </argument>
         </arguments>

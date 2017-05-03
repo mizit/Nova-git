@@ -234,7 +234,7 @@ if (mouse_x &lt; 250000)
 {
     var tmp = instance_create(mouse_x, mouse_y, obj_mark);
     ds_list_add(marks_list, tmp);
-    if (ds_list_size(marks_list) &gt; max_mark)
+    while (ds_list_size(marks_list) &gt; max_mark)
     {
         var tmp = marks_list[| 0]
         ds_list_delete(marks_list, 0);
@@ -243,10 +243,7 @@ if (mouse_x &lt; 250000)
             instance_destroy();
         }
     }
-    else
-    {
-        net_send_mark(obj_net.net_buf, obj_net.socket);
-    }
+    net_send_mark(obj_net.net_buf, obj_net.socket);
 }
 </string>
           </argument>

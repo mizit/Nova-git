@@ -33,6 +33,7 @@
 //4)Данных по активным выходам
 //5)Списка подключённых модулей питания
 //6)Флагов пересчёта
+randomize();
 width = 7;
 height = 7;
 ship_grid = ds_grid_create(width, height);

@@ -14,7 +14,7 @@ while (ds_queue_size(l_fifo) > 0)       //если очередь не нуле�
             l_len = buffer_read(l_buf, buffer_u16);    //вычитываем длину
             if (l_len == 0)
             {
-                show_message("Нулевая длина пакета");
+                //show_message("Нулевая длина пакета");
                 return 0;
             }
             if (l_len <= (buffer_get_size(l_buf) - buffer_tell(l_buf))) //если длина меньше расстояния до конца буфера, значит получили команду целиком
@@ -40,7 +40,7 @@ while (ds_queue_size(l_fifo) > 0)       //если очередь не нуле�
         }
         else
         {
-            show_message("net carry-on");
+            //show_message("net carry-on");
             if (l_rem <= (buffer_get_size(l_buf) - buffer_tell(l_buf)))
             {
                 buffer_copy(l_com_buf, l_len - l_rem, l_rem, l_buf, buffer_tell(l_buf));
@@ -53,7 +53,7 @@ while (ds_queue_size(l_fifo) > 0)       //если очередь не нуле�
             }
             else
             {
-                show_message("net strange carry-on");
+                //show_message("net strange carry-on");
                 var tmp_rem = l_len - l_rem - (buffer_get_size(l_buf) - buffer_tell(l_buf));
                 buffer_copy(l_com_buf, l_len - l_rem, l_rem - tmp_rem, l_buf, buffer_tell(l_buf));
                 break;

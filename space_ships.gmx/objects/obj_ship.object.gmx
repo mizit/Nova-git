@@ -322,26 +322,26 @@ if (!docked)
             part_emitter_burst(ps, em[1], pt3, m_num);
             part_emitter_burst(ps, em[2], pt2, m_num);
         }
-        if (keyboard_check(mnvr_left_key))
+        if (keyboard_check(mnvr_left_key) || keyboard_check(vk_left))
         {
             motion_add(image_angle + 90, mnvr_pwr / mass);
             part_emitter_burst(ps, em[0], pt2, m_num);
             part_emitter_burst(ps, em[2], pt2, m_num);
         }
-        if (keyboard_check(mnvr_right_key))
+        if (keyboard_check(mnvr_right_key) || keyboard_check(vk_right))
         {
             motion_add(image_angle - 90, mnvr_pwr / mass);
             part_emitter_burst(ps, em[1], pt3, m_num);
             part_emitter_burst(ps, em[3], pt3, m_num);
         }
-        if (keyboard_check(mnvr_up_key))
+        if (keyboard_check(mnvr_up_key) || keyboard_check(vk_up))
         {
             motion_add(image_angle, mnvr_pwr / mass);
             part_type_direction(pt2, min(image_angle - 180 + m_d, image_angle - 180 - m_d), max(image_angle - 180 - m_d, image_angle - 180 + m_d), 0, 0);
             part_emitter_burst(ps, em[2], pt2, m_num);
             part_emitter_burst(ps, em[3], pt2, m_num);
         }
-        if (keyboard_check(mnvr_down_key))
+        if (keyboard_check(mnvr_down_key) || keyboard_check(vk_down))
         {
             motion_add(image_angle + 180, mnvr_pwr / mass);
             part_type_direction(pt2, min(image_angle - m_d, image_angle + m_d), max(image_angle - m_d, image_angle + m_d), 0, 0);
