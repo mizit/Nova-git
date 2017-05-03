@@ -6,7 +6,7 @@ buffer_write(l_buf, buffer_u8, NET_POSITION );
 buffer_write(l_buf, buffer_u32, obj_ship.x * 1000);
 buffer_write(l_buf, buffer_u32, obj_ship.y * 1000);
 buffer_write(l_buf, buffer_u32, obj_ship.image_angle * 1000);
-buffer_write(l_buf, buffer_u32, obj_ship.speed * 1000);
+buffer_write(l_buf, buffer_u32, round(obj_ship.speed * 1000));
 buffer_write(l_buf, buffer_u32, obj_ship.rot_speed * 1000);
 buffer_write(l_buf, buffer_u32, obj_ship.direction * 1000);
 buffer_write_size(l_buf);

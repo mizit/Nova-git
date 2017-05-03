@@ -486,6 +486,7 @@ if (docked)
     {
         dock_cnt = max(0, dock_cnt - 1);
     }
+    speed = round(speed * 1000) / 1000;
 }
 else
 {
