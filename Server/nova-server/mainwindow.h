@@ -53,6 +53,7 @@ private slots:
     void DevourerTimeout();
     void SendMessage();
     void BlindSend();
+    void SetDevourTime();
 
 public:
     Ui::MainWindow *ui;
@@ -68,6 +69,7 @@ public:
     QList <CAsteroid*> asteroids;
     CHyperMind *hyper_mind;
     QTimer *timer_blind_send;
+    qint32 devour_time;
 };
 
 

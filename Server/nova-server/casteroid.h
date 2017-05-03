@@ -35,6 +35,7 @@ public:
     CDevourerTimer *timer;
     CAsteroid *nearest_asteroid;
     CItem *base;
+    qint32 devour_time;
 };
 
 class CDevourerTimer : public QTimer

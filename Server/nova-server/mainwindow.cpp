@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     idgen = new CIdGen();
+    devour_time = 10000;
 
     log_model = new QStandardItemModel();
     ui->log->setModel(log_model);
@@ -232,6 +233,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lview_items->addItem(ENGINE_T);
 
     connect(ui->button_add_item, SIGNAL(clicked()), this, SLOT(ItemAdd()));
+    connect(ui->btn_devour, SIGNAL(clicked()), this, SLOT(SetDevourTime()));
+
+}
+
+void MainWindow::SetDevourTime()
+{
+    devour_time = ui->edit_devour->text().toInt() * 1000;
 }
 
 void MainWindow::BlindSend()
@@ -1418,7 +1426,7 @@ CDevourer* MainWindow::DevourerCreate(CItem* base)
     dev->nearest_asteroid = dev->FindNearestAsteroid(asteroids);
     if (dev->CanDig())
     {
-        dev->timer->start(10000);
+        dev->timer->start(devour_time);
     }
     else
     {

@@ -25,6 +25,7 @@ void CAsteroid::setType(qint32 tp)
 
 CDevourer::CDevourer()
 {
+    devour_time = 10;
     timer = new CDevourerTimer();
     timer->owner = this;
 }

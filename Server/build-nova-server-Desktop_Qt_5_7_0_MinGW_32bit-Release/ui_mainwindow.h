@@ -49,6 +49,8 @@ public:
     QPushButton *buttonUsrCrt;
     QComboBox *cbox_shelltype;
     QLabel *label_3;
+    QLineEdit *edit_devour;
+    QPushButton *btn_devour;
     QWidget *tab_3;
     QComboBox *combo_userpos;
     QGroupBox *groupBox_2;
@@ -207,6 +209,12 @@ public:
         label_3 = new QLabel(groupBox);
         label_3->setObjectName(QStringLiteral("label_3"));
         label_3->setGeometry(QRect(20, 130, 47, 13));
+        edit_devour = new QLineEdit(tab_2);
+        edit_devour->setObjectName(QStringLiteral("edit_devour"));
+        edit_devour->setGeometry(QRect(200, 60, 113, 20));
+        btn_devour = new QPushButton(tab_2);
+        btn_devour->setObjectName(QStringLiteral("btn_devour"));
+        btn_devour->setGeometry(QRect(200, 90, 101, 23));
         tabWidget->addTab(tab_2, QString());
         tab_3 = new QWidget();
         tab_3->setObjectName(QStringLiteral("tab_3"));
@@ -550,7 +558,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(4);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -565,6 +573,7 @@ public:
         label_2->setText(QApplication::translate("MainWindow", "Password", 0));
         buttonUsrCrt->setText(QApplication::translate("MainWindow", "Create", 0));
         label_3->setText(QApplication::translate("MainWindow", "Shell type", 0));
+        btn_devour->setText(QApplication::translate("MainWindow", "\320\222\321\200\320\265\320\274\321\217 \321\200\320\260\320\267\320\261\320\276\321\200\320\260", 0));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("MainWindow", "\320\241\320\276\320\267\320\264\320\260\320\275\320\270\320\265", 0));
         groupBox_2->setTitle(QApplication::translate("MainWindow", "GroupBox", 0));
         label_x->setText(QApplication::translate("MainWindow", "x", 0));
