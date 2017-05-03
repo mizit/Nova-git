@@ -103,6 +103,8 @@
       <script>scripts\note_corrupt.gml</script>
     </scripts>
     <script>scripts\LogAddString.gml</script>
+    <script>scripts\createLetter.gml</script>
+    <script>scripts\createRadiation.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\f_menu</font>

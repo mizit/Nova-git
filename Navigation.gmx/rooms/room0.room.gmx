@@ -10,7 +10,34 @@
   <persistent>0</persistent>
   <colour>0</colour>
   <showcolour>-1</showcolour>
-  <code></code>
+  <code>createRadiation(4, 0, 0, 25000);
+createRadiation(2, 0, 0, 40000);
+createRadiation(2, 100000, 0, 20000);
+createRadiation(3, 200000, 5000, 15000);
+createRadiation(2, 180000, 25000, 15000);
+createRadiation(3, 210000, 45000, 15000);
+createRadiation(3, 230000, 40000, 10000);
+createRadiation(4, 100000, 35000, 8000);
+createRadiation(3, 130000, 50000, 10000);
+createRadiation(5, 175000, 60000, 5000);
+createRadiation(5, 175000, 85000, 5000);
+createRadiation(5, 210000, 75000, 15000);
+createRadiation(3, 225000, 100000, 25000);
+createRadiation(3, 165000, 112000, 20000);
+createRadiation(4, 190000, 125000, 12000);
+createRadiation(1, 100000, 100000, 25000);
+createRadiation(3, 237500, 162500, 12500);
+
+createRadiation(3, 35000, 125000, 18000);
+createRadiation(2, 55000, 150000, 12000);
+createRadiation(3, 50000, 165000, 8000);
+createRadiation(4, 65000, 170000, 8000);
+createRadiation(3, 0, 250000, 35000);
+
+createRadiation(1, 110000, 185000, 37000);
+createRadiation(3, 105000, 225000, 10000);
+createRadiation(4, 67000, 235000, 8000);
+createRadiation(1, 235000, 210000, 15000);</code>
   <enableViews>-1</enableViews>
   <clearViewBackground>-1</clearViewBackground>
   <clearDisplayBuffer>-1</clearDisplayBuffer>
@@ -78,13 +105,6 @@
     <instance objName="obj_globnav" x="64" y="32" name="inst_52A2C727" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_ship" x="192" y="160" name="inst_D74A9037" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_smoke" x="224" y="320" name="inst_F5E0B2A3" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_radiation" x="159904" y="89952" name="inst_B2F153CF" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_radiation" x="47744" y="198656" name="inst_67F8C9A7" locked="0" code="radius = 20000;&#xA;level = 5;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_radiation" x="114688" y="202368" name="inst_37DE2EF4" locked="0" code="radius = 30000;&#xA;level = 3;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_radiation" x="148032" y="70848" name="inst_6D3DAF0F" locked="0" code="radius = 20000;&#xA;level = 5;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_radiation" x="40384" y="96288" name="inst_5713F0D4" locked="0" code="radius = 40000;&#xA;level = 1;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_radiation" x="103680" y="52256" name="inst_B89EAFE8" locked="0" code="radius = 30000;&#xA;level = 4;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_radiation" x="223520" y="26432" name="inst_03F7C018" locked="0" code="radius = 30000;&#xA;level = 4;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

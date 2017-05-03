@@ -328,7 +328,8 @@ switch (system_level)
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_self();
+            <string>event_inherited();
+draw_self();
 /*if (object_exists(sonar_point))
 {
     draw_sprite_ext(s_sonar, -1, x, y, 1, 1, point_direction(x, y, sonar_point.x, sonar_point.y), c_white, sonar_alpha);
