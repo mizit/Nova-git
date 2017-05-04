@@ -50,11 +50,11 @@
       <sprite>sprites\s_box</sprite>
       <sprite>sprites\s_money_case</sprite>
       <sprite>sprites\s_scrap</sprite>
+      <sprite>sprites\s_devourer</sprite>
+      <sprite>sprites\s_devourer_2</sprite>
       <sprite>sprites\s_emerald</sprite>
       <sprite>sprites\s_gold</sprite>
       <sprite>sprites\s_ruby</sprite>
-      <sprite>sprites\s_devourer</sprite>
-      <sprite>sprites\s_devourer_2</sprite>
     </sprites>
     <sprites name="asteroids">
       <sprite>sprites\s_asteroids</sprite>
