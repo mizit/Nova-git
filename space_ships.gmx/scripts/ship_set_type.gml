@@ -29,6 +29,30 @@ switch (l_type)
         tmp_dock.owner = l_ship;
         tmp_dock.angle_off = 75;
         ds_list_add(l_ship.my_docks, tmp_dock);
+        var tmp_dock = instance_create(x, y, obj_dock);
+        tmp_dock.xoff = -127;
+        tmp_dock.yoff = 134;
+        tmp_dock.owner = l_ship;
+        tmp_dock.angle_off = 225;
+        ds_list_add(l_ship.my_docks, tmp_dock);
+        var tmp_dock = instance_create(x, y, obj_dock);
+        tmp_dock.xoff = 83;
+        tmp_dock.yoff = 155;
+        tmp_dock.owner = l_ship;
+        tmp_dock.angle_off = 270;
+        ds_list_add(l_ship.my_docks, tmp_dock);
+        var tmp_dock = instance_create(x, y, obj_dock);
+        tmp_dock.xoff = -106;
+        tmp_dock.yoff = -154;
+        tmp_dock.owner = l_ship;
+        tmp_dock.angle_off = 140;
+        ds_list_add(l_ship.my_docks, tmp_dock);
+        var tmp_dock = instance_create(x, y, obj_dock);
+        tmp_dock.xoff = -171;
+        tmp_dock.yoff = -96;
+        tmp_dock.owner = l_ship;
+        tmp_dock.angle_off = 160;
+        ds_list_add(l_ship.my_docks, tmp_dock);
         break;
     }
     default:
