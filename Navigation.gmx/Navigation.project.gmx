@@ -53,6 +53,8 @@
       <sprite>sprites\s_emerald</sprite>
       <sprite>sprites\s_gold</sprite>
       <sprite>sprites\s_ruby</sprite>
+      <sprite>sprites\s_devourer</sprite>
+      <sprite>sprites\s_devourer_2</sprite>
     </sprites>
     <sprites name="asteroids">
       <sprite>sprites\s_asteroids</sprite>
@@ -159,6 +161,8 @@
       <object>objects\obj_gold</object>
       <object>objects\obj_ruby</object>
       <object>objects\obj_emerald</object>
+      <object>objects\obj_devourer</object>
+      <object>objects\obj_devourer_2</object>
     </objects>
     <object>objects\obj_asteroid_profit</object>
     <objects name="bots">

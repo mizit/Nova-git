@@ -58,6 +58,7 @@
       <sprite>sprites\s_gold</sprite>
       <sprite>sprites\s_ruby</sprite>
       <sprite>sprites\s_emerald</sprite>
+      <sprite>sprites\s_devourer_2</sprite>
     </sprites>
     <sprite>sprites\s_numpad</sprite>
     <sprite>sprites\s_string</sprite>
@@ -203,6 +204,7 @@
       <object>objects\obj_ruby</object>
       <object>objects\obj_emerald</object>
       <object>objects\obj_devourer</object>
+      <object>objects\obj_devourer_2</object>
       <object>objects\obj_item</object>
     </objects>
     <object>objects\obj_global_item</object>

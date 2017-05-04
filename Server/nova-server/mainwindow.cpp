@@ -178,7 +178,7 @@ MainWindow::MainWindow(QWidget *parent) :
         tmp_item->power = settInv.value("x").toFloat();
         tmp_item->image_angle = settInv.value("image_angle").toFloat();
         settInv.endGroup();
-        if (tmp_item->type == DEVOURER)
+        if ((tmp_item->type == DEVOURER) || (tmp_item->type == DEVOURER_2))
         {
             DevourerCreate(tmp_item);
         }
@@ -212,7 +212,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->lview_items->addItem(TUBE_TEE);
     ui->lview_items->addItem(TUBE_SPLITTER);
     ui->lview_items->addItem(MONEY_CASE);
+    ui->lview_items->addItem(GOLD);
+    ui->lview_items->addItem(RUBY);
+    ui->lview_items->addItem(EMERALD);
     ui->lview_items->addItem(DEVOURER);
+    ui->lview_items->addItem(DEVOURER_2);
     ui->lview_items->addItem(POWER_BLOCK);
     ui->lview_items->addItem(POWER_BLOCK_S);
     ui->lview_items->addItem(POWER_BLOCK_T);
@@ -486,7 +490,7 @@ void MainWindow::ItemAdd()
         {
             CItem *item;
             item = idgen->createItem(type);
-            if (item->type == DEVOURER)
+            if ((item->type == DEVOURER) || (item->type == DEVOURER_2))
             {
                 DevourerCreate(item);
             }
@@ -1094,7 +1098,7 @@ void MainWindow::slotReadClient()
                                         break;
                                     }
                                 }
-                                if (tmp_item->type == DEVOURER)
+                                if ((tmp_item->type == DEVOURER) || (tmp_item->type == DEVOURER_2))
                                 {
                                     DevourerCreate(tmp_item);
                                 }

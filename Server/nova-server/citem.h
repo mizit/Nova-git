@@ -34,6 +34,7 @@
 
 #define MONEY_CASE      "obj_money_case"
 #define DEVOURER        "obj_devourer"
+#define DEVOURER_2      "obj_devourer_2"
 #define GOLD            "obj_gold"
 #define RUBY            "obj_ruby"
 #define EMERALD         "obj_emerald"

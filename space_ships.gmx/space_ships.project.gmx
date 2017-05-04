@@ -62,6 +62,7 @@
     <sprite>sprites\s_scrap</sprite>
     <sprite>sprites\s_shot</sprite>
     <sprite>sprites\s_devourer</sprite>
+    <sprite>sprites\s_devourer_2</sprite>
     <sprites name="bots">
       <sprite>sprites\s_hive_mind</sprite>
       <sprite>sprites\s_miner</sprite>
@@ -138,6 +139,7 @@
       <object>objects\obj_money_case</object>
       <object>objects\obj_box</object>
       <object>objects\obj_devourer</object>
+      <object>objects\obj_devourer_2</object>
     </objects>
     <object>objects\obj_dock</object>
     <object>objects\obj_ship_parent</object>
