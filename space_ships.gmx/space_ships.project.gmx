@@ -49,7 +49,12 @@
       <sprite>sprites\s_solar_queen</sprite>
       <sprite>sprites\s_bazar</sprite>
       <sprite>sprites\s_nova</sprite>
-      <sprite>sprites\s_cargo_ship</sprite>
+      <sprite>sprites\s_cargo</sprite>
+      <sprite>sprites\s_ghostship</sprite>
+      <sprite>sprites\s_fighter</sprite>
+      <sprite>sprites\s_pirate</sprite>
+      <sprite>sprites\s_yacht</sprite>
+      <sprite>sprites\s_eavil_fighter</sprite>
     </sprites>
     <sprite>sprites\s_undock</sprite>
     <sprite>sprites\s_docked</sprite>
@@ -66,7 +71,6 @@
     </sprites>
     <sprites name="wreck">
       <sprite>sprites\s_desert_rose</sprite>
-      <sprite>sprites\s_ghost_ship</sprite>
       <sprite>sprites\s_momotaro</sprite>
       <sprite>sprites\s_wreck1</sprite>
       <sprite>sprites\s_wreck2</sprite>
