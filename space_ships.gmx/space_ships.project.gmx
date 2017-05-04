@@ -82,6 +82,7 @@
       <sprite>sprites\s_hearsteroid</sprite>
       <sprite>sprites\s_bluesteroid</sprite>
       <sprite>sprites\s_moonsteroid</sprite>
+      <sprite>sprites\s_nakasteroid</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background">
@@ -111,6 +112,9 @@
       <script>scripts\net_data_command_parsing.gml</script>
     </scripts>
     <script>scripts\ship_set_type.gml</script>
+    <script>scripts\coord_to_x.gml</script>
+    <script>scripts\coord_to_y.gml</script>
+    <script>scripts\createWreck.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\f_menu</font>

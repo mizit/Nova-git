@@ -8,6 +8,38 @@
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
+    <event eventtype="0" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>sign_arr[0] = "YS";
+sign_arr[1] = "YT";
+sign_arr[2] = "YU";
+sign_arr[3] = "YV";
+sign_arr[4] = "YW";
+sign_arr[5] = "YX";
+sign_arr[6] = "YY";
+sign_arr[7] = "YZ";
+sign_arr[8] = "ZA";
+sign_arr[9] = "ZB";
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="8" enumb="64">
       <action>
         <libid>1</libid>
@@ -26,13 +58,13 @@
           <argument>
             <kind>1</kind>
             <string>draw_set_color(c_white);
-draw_text(25, 25, "x = " + string(obj_ship.x) + ", y = " + string(obj_ship.y));
-draw_text(25, 50, "speed = " + string(obj_ship.speed)); 
+//draw_text(25, 25, "x = " + string(obj_ship.x) + ", y = " + string(obj_ship.y));
+draw_text(25, 25, "speed = " + string(obj_ship.speed)); 
 if (object_exists(obj_ship.sonar_point))
 {
-    draw_text(25, 75, "Distance to goal = " + string(point_distance(obj_ship.x, obj_ship.y, obj_ship.sonar_point.x, obj_ship.sonar_point.y)));
+    draw_text(25, 50, "Distance to goal = " + string(point_distance(obj_ship.x, obj_ship.y, obj_ship.sonar_point.x, obj_ship.sonar_point.y)));
 }
-draw_text(25, 100, "bots = " + string(instance_number(obj_bot_parent))); 
+//draw_text(25, 100, "bots = " + string(instance_number(obj_bot_parent))); 
 </string>
           </argument>
         </arguments>

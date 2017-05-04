@@ -10,7 +10,14 @@
   <persistent>-1</persistent>
   <colour>12632256</colour>
   <showcolour>-1</showcolour>
-  <code></code>
+  <code>createWreck(38, "YS", 6, s_astr_demetra);
+createWreck(39, "YS", 4, s_demetra);
+createWreck(32, "YW", 6, s_momotaro);
+createWreck(31, "YY", 3, s_desert_rose);
+createWreck(32, "YZ", 7, s_nakasteroid);
+createWreck(39, "YU", 3, s_hearsteroid);
+createWreck(30, "YW", 7, s_bluesteroid);
+createWreck(30, "YS", 5, s_moonsteroid);</code>
   <enableViews>-1</enableViews>
   <clearViewBackground>-1</clearViewBackground>
   <clearDisplayBuffer>-1</clearDisplayBuffer>
