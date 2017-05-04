@@ -85,18 +85,24 @@ draw_set_valign(fa_middle);
     surface_reset_target();
 }*/
 
-sign_arr[0] = "YT";
-sign_arr[1] = "YU";
-sign_arr[2] = "YV";
-sign_arr[3] = "YW";
-sign_arr[4] = "YX";
-sign_arr[5] = "YY";
-sign_arr[6] = "YZ";
-sign_arr[7] = "ZA";
-sign_arr[8] = "ZB";
-sign_arr[9] = "ZC";
+sign_arr[0] = "YS";
+sign_arr[1] = "YT";
+sign_arr[2] = "YU";
+sign_arr[3] = "YV";
+sign_arr[4] = "YW";
+sign_arr[5] = "YX";
+sign_arr[6] = "YY";
+sign_arr[7] = "YZ";
+sign_arr[8] = "ZA";
+sign_arr[9] = "ZB";
 
-surface_letter[0] = createLetter("YT");
+for (var i = 0; i &lt; 10; i++)
+{
+   surface_letter[i] = noone; 
+   surface_number[i] = noone; 
+}
+
+/*surface_letter[0] = createLetter("YT");
 surface_letter[1] = createLetter("YU");
 surface_letter[2] = createLetter("YV");
 surface_letter[3] = createLetter("YW");
@@ -105,16 +111,16 @@ surface_letter[5] = createLetter("YY");
 surface_letter[6] = createLetter("YZ");
 surface_letter[7] = createLetter("ZA");
 surface_letter[8] = createLetter("ZB");
-surface_letter[9] = createLetter("ZC");
+surface_letter[9] = createLetter("ZC");*/
 
-
+/*
 for (var i = 0; i &lt; coord_size; i++)
 {
     surface_number[i] = surface_create(surf_width, surf_height);
     surface_set_target(surface_number[i]);
     draw_text(surf_width / 2, surf_height / 2, string(i + 30));
     surface_reset_target();
-}
+}*/
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
 

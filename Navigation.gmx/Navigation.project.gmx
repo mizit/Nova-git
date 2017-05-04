@@ -55,11 +55,11 @@
       <sprite>sprites\s_ruby</sprite>
     </sprites>
     <sprites name="asteroids">
+      <sprite>sprites\s_asteroids</sprite>
+      <sprite>sprites\s_asterod</sprite>
       <sprite>sprites\s_astr_emerald</sprite>
       <sprite>sprites\s_astr_gold</sprite>
       <sprite>sprites\s_astr_ruby</sprite>
-      <sprite>sprites\s_asterod</sprite>
-      <sprite>sprites\s_asteroids</sprite>
     </sprites>
     <sprites name="bots">
       <sprite>sprites\s_anomaly</sprite>
@@ -73,6 +73,26 @@
       <sprite>sprites\s_double_key</sprite>
       <sprite>sprites\s_space</sprite>
       <sprite>sprites\s_keyboard</sprite>
+    </sprites>
+    <sprites name="wreck">
+      <sprite>sprites\s_astr_demetra</sprite>
+      <sprite>sprites\s_astr_wreck</sprite>
+      <sprite>sprites\s_bluesteroid</sprite>
+      <sprite>sprites\s_demetra</sprite>
+      <sprite>sprites\s_desert_rose</sprite>
+      <sprite>sprites\s_eavil_fighter</sprite>
+      <sprite>sprites\s_fighter</sprite>
+      <sprite>sprites\s_ghostship</sprite>
+      <sprite>sprites\s_hearsteroid</sprite>
+      <sprite>sprites\s_momotaro</sprite>
+      <sprite>sprites\s_moonsteroid</sprite>
+      <sprite>sprites\s_pirate</sprite>
+      <sprite>sprites\s_wreck1</sprite>
+      <sprite>sprites\s_wreck2</sprite>
+      <sprite>sprites\s_wreck3</sprite>
+      <sprite>sprites\s_wreck4</sprite>
+      <sprite>sprites\s_yacht</sprite>
+      <sprite>sprites\s_nakasteroid</sprite>
     </sprites>
   </sprites>
   <backgrounds name="background">
@@ -105,6 +125,9 @@
     <script>scripts\LogAddString.gml</script>
     <script>scripts\createLetter.gml</script>
     <script>scripts\createRadiation.gml</script>
+    <script>scripts\coord_to_x.gml</script>
+    <script>scripts\coord_to_y.gml</script>
+    <script>scripts\createWreck.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\f_menu</font>
@@ -148,6 +171,7 @@
     </objects>
     <object>objects\obj_keyboard</object>
     <object>objects\obj_key</object>
+    <object>objects\obj_wreck</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\r_authorization</room>
