@@ -196,7 +196,7 @@ switch (l_command)
                     {
                        
                         l_ship.sprite_index = l_type;
-                        l_ship.my_docks = ds_list_create();
+                        //l_ship.my_docks = ds_list_create();
                         switch (l_type)
                         {
                             case s_bazar:

@@ -131,7 +131,7 @@ em[1] = part_emitter_create(ps);
 em[2] = part_emitter_create(ps);
 em[3] = part_emitter_create(ps);
 
-my_docks = ds_list_create();
+//my_docks = ds_list_create();
 dock_show_distance = 700;
 docked = 0;
 dock_time = 1800;
