@@ -294,6 +294,8 @@ draw_sprite(label_sprite, -1, x + label_x, y + label_y);
 draw_set_halign(fa_center);
 draw_set_valign(fa_middle);
 draw_text(x + label_text_x, y + label_text_y, label_text);
+
+draw_text(x, y, ds_list_size(items_list));
 </string>
           </argument>
         </arguments>

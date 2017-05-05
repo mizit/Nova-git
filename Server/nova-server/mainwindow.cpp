@@ -1060,16 +1060,14 @@ void MainWindow::slotReadClient()
                             clientSocket->parentShip->item_list.append(tmp_item);
                             tmp_item->owner = clientSocket->parentShip->login;
                             net_send_item(clientSocket, tmp_item, ITEM_SET | ITEM_ID);
-                        }
-                        if (tmp_item->owner == SPACE)
+                        } else if (tmp_item->owner == SPACE)
                         {
                             if ((clientSocket->parentShip->pilotSocket == clientSocket->descriptor) ||
                                 (clientSocket->parentShip->navSocket == clientSocket->descriptor))
                             {
                                 net_send_item(clientSocket, tmp_item, ITEM_SET | ITEM_ID);
                             }
-                        }
-                        if (tmp_item->owner == clientSocket->parentShip->login)
+                        } else if (tmp_item->owner == clientSocket->parentShip->login)
                         {
                             net_send_item(clientSocket, tmp_item, ITEM_SET | ITEM_ID);
                         }

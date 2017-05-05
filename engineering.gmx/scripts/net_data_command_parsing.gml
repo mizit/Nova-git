@@ -111,8 +111,7 @@ switch (l_command)
                                 dragging = 0;
                             }
                         }
-                    }
-                    if (object_is_ancestor(l_obj.object_index, obj_gridded_part))
+                    } else if (object_is_ancestor(l_obj.object_index, obj_gridded_part))
                     {
                         with(l_obj)
                         {
@@ -123,8 +122,7 @@ switch (l_command)
                                 dragging = 0;
                             }
                         }
-                    }
-                    if (object_is_ancestor(l_obj.object_index, obj_element_parent))
+                    }else if (object_is_ancestor(l_obj.object_index, obj_element_parent))
                     {
                         with(l_obj)
                         {

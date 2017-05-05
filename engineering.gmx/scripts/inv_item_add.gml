@@ -37,6 +37,10 @@ if (l_perm)
         if (l_perm == permission)
             l_inv = id;
     }
+    if (ds_list_find_index(l_inv.items_list, l_obj) != -1)
+    {
+        return 0;
+    }
     if (point_in_rectangle(l_obj.x, l_obj.y, l_inv.x, l_inv.y, l_inv.x + l_inv.sprite_width,
     l_inv.y + l_inv.sprite_height))
     {

@@ -84,7 +84,7 @@ depth = -5;
     {
         if (obj_out.selected == 0)
         {
-            obj_string.my_text = net_id;
+            obj_string.my_text = string(net_id);
         }
         net_send_trade(obj_net.net_buf, obj_net.socket, id);
         instance_destroy();
